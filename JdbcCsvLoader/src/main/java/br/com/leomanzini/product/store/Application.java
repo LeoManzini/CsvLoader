@@ -10,5 +10,7 @@ public class Application {
 	public static void main(String[] args) {
 		
 		log.info("Hello World!!");
+		
+		log.info("Leo, agora vai");
 	}
 }
