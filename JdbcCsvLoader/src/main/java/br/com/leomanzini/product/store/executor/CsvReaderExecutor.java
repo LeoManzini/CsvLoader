@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.leomanzini.product.store.dtos.ProductDto;
+import br.com.leomanzini.product.store.dtos.StoreDto;
 
 public class CsvReaderExecutor implements Executor {
 	
-	private List<ProductDto> csvItens;
+	private List<StoreDto> csvItens;
 
 	@Override
 	public void execute(String csvPath) throws IOException {
@@ -27,7 +27,7 @@ public class CsvReaderExecutor implements Executor {
 //		}
 	}
 	
-	public List<ProductDto> getCsvItens() {
+	public List<StoreDto> getCsvItens() {
 		return csvItens;
 	}
 }
