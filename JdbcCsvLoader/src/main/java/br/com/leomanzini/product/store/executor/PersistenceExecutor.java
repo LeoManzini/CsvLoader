@@ -2,11 +2,13 @@ package br.com.leomanzini.product.store.executor;
 
 import java.util.List;
 
+import br.com.leomanzini.product.store.dtos.ProductDto;
+
 public class PersistenceExecutor implements Executor {
 	
-	private List<Object> csvItens;
+	private List<ProductDto> csvItens;
 
-	public PersistenceExecutor(List<Object> csvItens) {
+	public PersistenceExecutor(List<ProductDto> csvItens) {
 		this.csvItens = csvItens;
 	}
 	
