@@ -1,12 +1,9 @@
 package br.com.leomanzini.product.store;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import br.com.leomanzini.product.store.connector.PostgresConnector;
 
 public class Application {
 
@@ -14,14 +11,13 @@ public class Application {
 	
 	public static void main(String[] args) throws SQLException {
 		
-		try(PostgresConnector postgres = new PostgresConnector(); 
-				Connection connection = postgres.startDatabaseConnection(args[0])) {
-			log.info("Conectou na base suave");
-		} catch (Exception e) {
-			log.error("Não conectou na base");
-			System.exit(-2);
+		if(args.length != 2) {
+			log.error("Invalid arguments number!");
+			
+			log.info("Expected: ");
+			log.info("java -jar CsvLoader <propertiesPath> <csvPath>");
+			log.info("<propertiesPath> where the properties of your project are;");
+			log.info("<csvPath> where the project will find your csv file to load.");
 		}
-		
-		log.info("Final feliz");
 	}
 }

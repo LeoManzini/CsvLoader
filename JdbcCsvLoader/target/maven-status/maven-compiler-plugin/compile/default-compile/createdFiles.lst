@@ -1,0 +1,4 @@
+br\com\leomanzini\product\store\Application.class
+br\com\leomanzini\product\store\utils\PropertiesLoader.class
+br\com\leomanzini\product\store\connector\PostgresConnector.class
+br\com\leomanzini\product\store\connector\DatabaseConnector.class
