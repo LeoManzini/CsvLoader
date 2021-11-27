@@ -1,10 +1,18 @@
 package br.com.leomanzini.product.store.executor;
 
-public class PersistenceExecutor implements Executor {
+import java.util.List;
 
+public class PersistenceExecutor implements Executor {
+	
+	private List<Object> csvItens;
+
+	public PersistenceExecutor(List<Object> csvItens) {
+		this.csvItens = csvItens;
+	}
+	
 	@Override
-	public void execute(String propertiesPath, String csvPath) {
-		
+	public void execute(String propertiesPath) {
+		csvItens.get(0);
 		
 	}
 }
