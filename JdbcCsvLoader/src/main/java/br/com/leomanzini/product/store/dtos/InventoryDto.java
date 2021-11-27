@@ -10,7 +10,6 @@ public class InventoryDto {
 	}
 
 	public InventoryDto(Integer id, Integer productId, Integer amount) {
-		super();
 		this.id = id;
 		this.productId = productId;
 		this.amount = amount;

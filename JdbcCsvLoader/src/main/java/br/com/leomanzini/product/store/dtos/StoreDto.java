@@ -3,15 +3,15 @@ package br.com.leomanzini.product.store.dtos;
 import java.util.List;
 
 public class StoreDto {
-	
+
 	private Integer id;
 	private String name;
 	private Integer document;
 	private List<ProductDto> products;
-	
+
 	public StoreDto() {
 	}
-	
+
 	public StoreDto(Integer id, String name, Integer document, List<ProductDto> products) {
 		this.id = id;
 		this.name = name;

@@ -88,7 +88,7 @@ public class ProductDto {
 
 	@Override
 	public String toString() {
-		return "Product id: " + id + ", name: " + name + ", price: " + price + ", storeId: " + storeId
-				+ ", inventory: " + inventory.getAmount();
+		return "Product id: " + id + ", name: " + name + ", price: " + price + ", storeId: " + storeId + ", inventory: "
+				+ inventory.getAmount();
 	}
 }
