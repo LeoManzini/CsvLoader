@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.enums.ErrorMessages;
+import br.com.leomanzini.product.store.exceptions.CsvReaderException;
 import br.com.leomanzini.product.store.exceptions.ParametersException;
 import br.com.leomanzini.product.store.executor.CsvReaderExecutor;
 import br.com.leomanzini.product.store.executor.Executor;
@@ -35,8 +36,9 @@ public class Application {
 			
 			Executor persistenceExecutor = new PersistenceExecutor(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
 			persistenceExecutor.execute(propertiesPath);
-		} catch (Exception e) {
-
+		} catch (CsvReaderException e) {
+			log.error(e.getMessage(), e);
+			System.exit(-1);
 		}
 	}
 }

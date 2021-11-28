@@ -7,22 +7,23 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.dtos.InventoryDto;
 import br.com.leomanzini.product.store.dtos.ProductDto;
 import br.com.leomanzini.product.store.dtos.StoreDto;
+import br.com.leomanzini.product.store.enums.ErrorMessages;
+import br.com.leomanzini.product.store.exceptions.CsvReaderException;
 
 public class CsvReaderExecutor implements Executor {
 
-	// private static final Logger log =
-	// LogManager.getLogger(CsvReaderExecutor.class);
+	private static final Logger log = LogManager.getLogger(CsvReaderExecutor.class);
 
 	private StoreDto storeItens = null;
 
 	@Override
-	public void execute(String csvPath) throws IOException {
+	public void execute(String csvPath) throws CsvReaderException {
 
 		String row;
 		List<ProductDto> products = new ArrayList<>();
@@ -45,10 +46,10 @@ public class CsvReaderExecutor implements Executor {
 
 			storeItens.setProducts(products);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+			throw new CsvReaderException(ErrorMessages.CSV_READER_ERROR);
+		} 
 	}
 
 	private void instanciateStore(String[] data) {
@@ -68,7 +69,7 @@ public class CsvReaderExecutor implements Executor {
 
 		return inventory;
 	}
-	
+
 	private ProductDto instanciateProduct(String[] data, InventoryDto inventory) {
 		ProductDto product = new ProductDto();
 		product.setId(Integer.parseInt(data[3]));
@@ -76,7 +77,7 @@ public class CsvReaderExecutor implements Executor {
 		product.setPrice(new BigDecimal(data[5]));
 		product.setStoreId(Integer.parseInt(data[0]));
 		product.setInventory(inventory);
-		
+
 		return product;
 	}
 

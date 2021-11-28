@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.leomanzini.product.store.exceptions.PropertiesLoaderException;
 import br.com.leomanzini.product.store.utils.PropertiesLoader;
 
 public class PostgresConnector implements DatabaseConnector, Closeable {
@@ -18,17 +19,19 @@ public class PostgresConnector implements DatabaseConnector, Closeable {
 
 	@Override
 	public Connection startDatabaseConnection(String propertiesPath) {
-		
-		PropertiesLoader.load(propertiesPath);
-		
 		if(databaseConnection == null) {
 			try {
+				PropertiesLoader.load(propertiesPath);
+				
 				databaseConnection = DriverManager.getConnection(
 						PropertiesLoader.getDatabaseUrl(), 
 						PropertiesLoader.getDatabaseUser(),
 						PropertiesLoader.getDatabasePassword());
 			} 
-			catch (SQLException e) {
+			catch (PropertiesLoaderException e) {
+				log.error(e.getMessage(), e);
+				System.exit(-1);
+			} catch (SQLException e) {
 				log.error(e.getMessage(), e);
 				System.exit(-1);
 			}

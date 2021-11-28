@@ -6,6 +6,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.leomanzini.product.store.enums.ErrorMessages;
+import br.com.leomanzini.product.store.exceptions.PropertiesLoaderException;
+
 public abstract class PropertiesLoader {
 	
 	private static final Logger log = LogManager.getLogger(PropertiesLoader.class);
@@ -21,7 +24,7 @@ public abstract class PropertiesLoader {
 	private PropertiesLoader() {
 	}
 	
-	public static void load(String path) {
+	public static void load(String path) throws PropertiesLoaderException {
 		
 		Properties properties = new Properties();
 		
@@ -34,7 +37,7 @@ public abstract class PropertiesLoader {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			System.exit(-1);
+			throw new PropertiesLoaderException(ErrorMessages.PROPERTIES_LOADER_ERROR);
 		}
 	}
 	
