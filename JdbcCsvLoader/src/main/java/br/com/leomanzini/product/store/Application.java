@@ -32,7 +32,7 @@ public class Application {
 		try {
 			Executor csvReaderExecutor = new CsvReaderExecutor();
 			csvReaderExecutor.execute(csvPath);
-						
+			
 			Executor persistenceExecutor = new PersistenceExecutor(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
 			persistenceExecutor.execute(propertiesPath);
 		} catch (Exception e) {
