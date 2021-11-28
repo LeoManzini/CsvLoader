@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.leomanzini.product.store.dtos.InventoryDto;
+import br.com.leomanzini.product.store.dtos.ProductDto;
 import br.com.leomanzini.product.store.dtos.StoreDto;
 
 public class CsvReaderExecutor implements Executor {
@@ -28,23 +31,37 @@ public class CsvReaderExecutor implements Executor {
 			String row;
 			
 			while ((row = csvReader.readLine()) != null) {
+				
+				InventoryDto inventory = new InventoryDto();
+				ProductDto product = new ProductDto();
+				StoreDto store = new StoreDto();
+				
 				String[] data = row.split(",");
 
 				if (data[0].equals("STORE_ID")) {
 					continue;
 				}
 				
-				log.info(data[0]);
-				log.info(data[1]);
-				log.info(data[2]);
-				log.info(data[3]);
-				log.info(data[4]);
-				log.info(data[5]);
-				log.info(data[6]);
-				log.info(data[7]);
+				inventory.setId(Integer.parseInt(data[6]));
+				inventory.setProductId(Integer.parseInt(data[3]));
+				inventory.setAmount(Integer.parseInt(data[7]));
+				
+				product.setId(Integer.parseInt(data[3]));
+				product.setName(data[4]);
+				product.setPrice(new BigDecimal(data[5]));
+				product.setStoreId(Integer.parseInt(data[0]));
+				product.setInventory(inventory);
+				
+				store.setId(Integer.parseInt(data[0]));
+				store.setName(data[1]);
+				store.setDocument(data[2]);
+				store.getProducts().add(product);
+				
+				csvItens.add(store);
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
+			System.exit(-1);
 		}
 	}
 

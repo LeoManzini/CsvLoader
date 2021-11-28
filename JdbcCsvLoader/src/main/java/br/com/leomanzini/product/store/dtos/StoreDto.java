@@ -6,13 +6,13 @@ public class StoreDto {
 
 	private Integer id;
 	private String name;
-	private Integer document;
+	private String document;
 	private List<ProductDto> products;
 
 	public StoreDto() {
 	}
 
-	public StoreDto(Integer id, String name, Integer document, List<ProductDto> products) {
+	public StoreDto(Integer id, String name, String document, List<ProductDto> products) {
 		this.id = id;
 		this.name = name;
 		this.document = document;
@@ -35,12 +35,12 @@ public class StoreDto {
 		this.name = name;
 	}
 
-	public Integer getDocument() {
+	public String getDocument() {
 		return document;
 	}
 
-	public void setDocument(Integer document) {
-		this.document = document;
+	public void setDocument(String data) {
+		this.document = data;
 	}
 
 	public List<ProductDto> getProducts() {
