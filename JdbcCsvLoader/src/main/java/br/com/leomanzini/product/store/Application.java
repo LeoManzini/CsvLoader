@@ -34,6 +34,8 @@ public class Application {
 			Executor csvReaderExecutor = new CsvReaderExecutor();
 			csvReaderExecutor.execute(csvPath);
 			
+			log.info(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
+					
 			Executor persistenceExecutor = new PersistenceExecutor(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
 			persistenceExecutor.execute(propertiesPath);
 		} catch (CsvReaderException e) {

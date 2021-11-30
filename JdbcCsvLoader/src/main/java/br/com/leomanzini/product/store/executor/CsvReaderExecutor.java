@@ -41,15 +41,14 @@ public class CsvReaderExecutor implements Executor {
 				InventoryDto inventory = instanciateInventory(data);
 				ProductDto product = instanciateProduct(data, inventory);
 
-				products.add(product);
+				verifyProductsAndInsert(products, product);
 			}
-
 			storeItens.setProducts(products);
 
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new CsvReaderException(ErrorMessages.CSV_READER_ERROR);
-		} 
+		}
 	}
 
 	private void instanciateStore(String[] data) {
@@ -79,6 +78,12 @@ public class CsvReaderExecutor implements Executor {
 		product.setInventory(inventory);
 
 		return product;
+	}
+
+	private void verifyProductsAndInsert(List<ProductDto> products, ProductDto product) {
+		if (!products.contains(product)) {
+			products.add(product);
+		}
 	}
 
 	public StoreDto getCsvItens() {
