@@ -1,6 +1,8 @@
 package br.com.leomanzini.product.store.connector;
 
-public class DataBaseConnector {
+import java.sql.Connection;
 
-	
+public interface DataBaseConnector {
+
+	public Connection startDataBaseConnection(String propriedadesPath);
 }
