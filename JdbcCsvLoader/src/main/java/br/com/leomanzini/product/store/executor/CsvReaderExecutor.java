@@ -64,7 +64,7 @@ public class CsvReaderExecutor implements Executor {
 
 	private ProductDto instanciateProduct(String[] data, InventoryDto inventory) {
 		ProductDto product = new ProductDto(Integer.parseInt(data[3]), data[4], new BigDecimal(data[5]),
-				Integer.parseInt(data[0]), inventory);
+				storeItens.getId(), inventory);
 
 		return product;
 	}
