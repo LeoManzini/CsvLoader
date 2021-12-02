@@ -26,13 +26,12 @@ public class CsvReaderExecutor implements Executor {
 	public void execute(String csvPath) throws CsvReaderException {
 
 		String row;
-		List<ProductDto> products = new ArrayList<>();
 
 		try (BufferedReader csvReader = new BufferedReader(new FileReader(csvPath))) {
 			while ((row = csvReader.readLine()) != null) {
 
 				String[] data = row.split(",");
-
+				
 				if (data[0].equals("STORE_ID")) {
 					continue;
 				}
@@ -41,9 +40,8 @@ public class CsvReaderExecutor implements Executor {
 				InventoryDto inventory = instanciateInventory(data);
 				ProductDto product = instanciateProduct(data, inventory);
 
-				verifyProductsAndInsert(products, product);
+				verifyProductsAndInsert(storeItens.getProducts(), product);
 			}
-			storeItens.setProducts(products);
 
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
@@ -53,29 +51,20 @@ public class CsvReaderExecutor implements Executor {
 
 	private void instanciateStore(String[] data) {
 		if (storeItens == null) {
-			storeItens = new StoreDto();
-			storeItens.setId(Integer.parseInt(data[0]));
-			storeItens.setName(data[1]);
-			storeItens.setDocument(data[2]);
+			storeItens = new StoreDto(Integer.parseInt(data[0]), data[1], data[2], new ArrayList<>());
 		}
 	}
 
 	private InventoryDto instanciateInventory(String[] data) {
-		InventoryDto inventory = new InventoryDto();
-		inventory.setId(Integer.parseInt(data[6]));
-		inventory.setProductId(Integer.parseInt(data[3]));
-		inventory.setAmount(Integer.parseInt(data[7]));
+		InventoryDto inventory = new InventoryDto(Integer.parseInt(data[6]), Integer.parseInt(data[3]),
+				Integer.parseInt(data[7]));
 
 		return inventory;
 	}
 
 	private ProductDto instanciateProduct(String[] data, InventoryDto inventory) {
-		ProductDto product = new ProductDto();
-		product.setId(Integer.parseInt(data[3]));
-		product.setName(data[4]);
-		product.setPrice(new BigDecimal(data[5]));
-		product.setStoreId(Integer.parseInt(data[0]));
-		product.setInventory(inventory);
+		ProductDto product = new ProductDto(Integer.parseInt(data[3]), data[4], new BigDecimal(data[5]),
+				Integer.parseInt(data[0]), inventory);
 
 		return product;
 	}
