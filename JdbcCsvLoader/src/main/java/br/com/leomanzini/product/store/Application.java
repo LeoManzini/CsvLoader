@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.connector.PostgresConnector;
+import br.com.leomanzini.product.store.executor.Executor;
+import br.com.leomanzini.product.store.executor.ReaderCsvExecutor;
 
 public class Application {
 
@@ -17,13 +19,18 @@ public class Application {
 		
 		log.info("Leo, agora vai");
 		
-		try {
-			PostgresConnector conector = new PostgresConnector();
-			Connection con = conector.startDataBaseConnection(args[0]);
-			log.info("Leo deu certo ");
-			
-		}catch(Exception e) { 
-			log.info("Leo deu errado!! ");
-		}
+		if(args.length != 2) { 
+			log.error("Wrong arguments Number ");
+			System.exit(-1);
+		} 
+		String argProper = args[0]; 
+		String argCsv = args[1]; 
+		
+		Executor csvExecutor = new ReaderCsvExecutor();
+		
+		csvExecutor.executar(argCsv);
+	
+		log.info(((ReaderCsvExecutor) csvExecutor).getStore());
+		
 	}
 }
