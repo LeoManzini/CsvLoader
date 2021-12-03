@@ -16,9 +16,11 @@ import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.CsvReaderException;
 
-public class CsvReaderExecutor implements Executor {
+public class CsvExecutor implements Executor {
 
-	private static final Logger log = LogManager.getLogger(CsvReaderExecutor.class);
+	// TODO colocar a execução da classe de leitura de CVS aqui, igual a classe DAO e a execução de persistencia 
+	
+	private static final Logger log = LogManager.getLogger(CsvExecutor.class);
 
 	private StoreDto storeItens = null;
 

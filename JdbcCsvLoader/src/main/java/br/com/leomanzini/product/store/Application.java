@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.CsvReaderException;
 import br.com.leomanzini.product.store.exceptions.ParametersException;
-import br.com.leomanzini.product.store.executor.CsvReaderExecutor;
+import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
+import br.com.leomanzini.product.store.executor.CsvExecutor;
 import br.com.leomanzini.product.store.executor.Executor;
 import br.com.leomanzini.product.store.executor.PersistenceExecutor;
 
@@ -31,14 +32,15 @@ public class Application {
 		String csvPath = args[1];
 
 		try {
-			Executor csvReaderExecutor = new CsvReaderExecutor();
+			Executor csvReaderExecutor = new CsvExecutor();
 			csvReaderExecutor.execute(csvPath);
 			
-			log.info(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
-					
-			Executor persistenceExecutor = new PersistenceExecutor(((CsvReaderExecutor) csvReaderExecutor).getCsvItens());
+			Executor persistenceExecutor = new PersistenceExecutor(((CsvExecutor) csvReaderExecutor).getCsvItens());
 			persistenceExecutor.execute(propertiesPath);
 		} catch (CsvReaderException e) {
+			log.error(e.getMessage(), e);
+			System.exit(-1);
+		} catch (PersistenceExecutorException e) {
 			log.error(e.getMessage(), e);
 			System.exit(-1);
 		}
