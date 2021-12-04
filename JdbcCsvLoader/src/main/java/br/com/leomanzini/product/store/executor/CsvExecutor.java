@@ -19,7 +19,13 @@ public class CsvExecutor implements Executor {
 	public void execute(String csvPath) throws CsvExecutorException {
 		try {
 			StoreCsvReader csvReader = new StoreCsvReader();
+			
+			log.info("Starting csv execution");
+			
 			storeItens = csvReader.readCsv(csvPath);
+			
+			log.info("Csv execution successfully");
+			
 		} catch (CsvReaderException e) {
 			log.error(e.getMessage(), e);
 			throw new CsvExecutorException(ErrorMessages.CSV_READER_ERROR);

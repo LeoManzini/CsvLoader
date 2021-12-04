@@ -26,6 +26,9 @@ public class StoreCsvReader {
 		String row;
 
 		try (BufferedReader csvReader = new BufferedReader(new FileReader(csvPath))) {
+			
+			log.info("Reading csv file");
+			
 			while ((row = csvReader.readLine()) != null) {
 
 				String[] data = row.split(",");
@@ -40,6 +43,9 @@ public class StoreCsvReader {
 
 				verifyProductsAndInsert(storeItens.getProducts(), product);
 			}
+			
+			log.info("Csv read successfully");
+			
 			return storeItens;
 
 		} catch (IOException e) {

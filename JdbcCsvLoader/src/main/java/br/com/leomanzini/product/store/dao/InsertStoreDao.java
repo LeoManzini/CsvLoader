@@ -24,10 +24,12 @@ public class InsertStoreDao implements StoreDao {
 		try (PostgresConnector postgresConnector = new PostgresConnector();
 				Connection postgresConnection = postgresConnector.startDatabaseConnection(propertiesPath);
 				PreparedStatement preparedStatement = postgresConnection.prepareStatement(insertQuery)) {
-
+			
+			log.info("Connecting to database");
+			
 			switch (preparedStatement.executeUpdate()) {
 				case 1:
-					log.info("Insertion successful");
+					log.info("Insertion completed successfully");
 					break;
 				case 2:
 					log.error("Insertion failed");

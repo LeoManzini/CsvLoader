@@ -32,10 +32,17 @@ public class Application {
 		String csvPath = args[1];
 
 		try {
+			log.info("Properties file: " + propertiesPath);
+			log.info("Csv file: " + csvPath);
+			
+			log.info("Starting application");
+			
 			Executor csvReaderExecutor = new CsvExecutor();
 			csvReaderExecutor.execute(csvPath);
 			Executor persistenceExecutor = new PersistenceExecutor(((CsvExecutor) csvReaderExecutor).getCsvItens());
 			persistenceExecutor.execute(propertiesPath);
+			
+			log.info("Application run successfully");
 			
 		} catch (CsvReaderException e) {
 			log.error(e.getMessage(), e);

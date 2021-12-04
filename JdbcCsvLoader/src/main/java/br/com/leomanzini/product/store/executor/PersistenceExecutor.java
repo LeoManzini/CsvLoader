@@ -24,7 +24,13 @@ public class PersistenceExecutor implements Executor {
 	public void execute(String propertiesPath) throws PersistenceExecutorException {
 		try {
 			StoreDao insertStore = new InsertStoreDao();
+			
+			log.info("Starting persistence execution");
+			
 			insertStore.persist(propertiesPath, storeItens);
+			
+			log.info("Persistence execution successfully");
+			
 		} catch (StoreDaoException e) {
 			log.error(e.getMessage(), e);
 			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_ERROR);
