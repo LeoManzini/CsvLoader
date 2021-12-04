@@ -1,6 +1,8 @@
 package br.com.leomanzini.product.store.dao;
 
+import br.com.leomanzini.product.store.dtos.StoreDto;
+
 public interface StoreDao {
 	
-	// TODO fazer uma herança para lidar com os DAO do crud
+	public void persist(String path, StoreDto store) throws Exception;
 }

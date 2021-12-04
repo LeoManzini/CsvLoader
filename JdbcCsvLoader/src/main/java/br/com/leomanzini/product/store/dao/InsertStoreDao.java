@@ -12,13 +12,14 @@ import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
 
-public class InsertStoreDao {
+public class InsertStoreDao implements StoreDao {
 
 	private static final Logger log = LogManager.getLogger(InsertStoreDao.class);
 
 	private static final String insertQuery = "";
 
-	public void insertStore(String propertiesPath, StoreDto storeToPersist) throws StoreDaoException {
+	@Override
+	public void persist(String propertiesPath, StoreDto storeToPersist) throws StoreDaoException {
 
 		try (PostgresConnector postgresConnector = new PostgresConnector();
 				Connection postgresConnection = postgresConnector.startDatabaseConnection(propertiesPath);
