@@ -1,10 +1,13 @@
+DROP TABLE STORE CASCADE;
+DROP TABLE PRODUCT CASCADE;
+DROP TABLE INVENTORY CASCADE;
+
 CREATE TABLE IF NOT EXISTS store (
 	id INTEGER NOT NULL,
 	nome VARCHAR(255) NOT NULL,
 	document VARCHAR(80) NOT NULL,
 	store_product INTEGER NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (store_product) REFERENCES product (id)
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS product (
@@ -14,8 +17,7 @@ CREATE TABLE IF NOT EXISTS product (
     store_id INTEGER NOT NULL,
     inventory_id INTEGER NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (store_id) REFERENCES store (id),
-    FOREIGN KEY (inventory_id) REFERENCES inventory (id)
+    FOREIGN KEY (store_id) REFERENCES store (id)
 );
 
 CREATE TABLE IF NOT EXISTS inventory (
@@ -24,3 +26,11 @@ CREATE TABLE IF NOT EXISTS inventory (
     product_id INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
+
+ALTER TABLE store
+ADD Constraint store_product_id_fkey
+FOREIGN KEY (store_product) REFERENCES product (id);
+
+ALTER TABLE product
+ADD Constraint product_inventory_id_fkey
+FOREIGN KEY (inventory_id) REFERENCES inventory (id);
