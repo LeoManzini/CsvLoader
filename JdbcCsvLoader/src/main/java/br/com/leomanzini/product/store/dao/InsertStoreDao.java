@@ -99,6 +99,8 @@ public class InsertStoreDao implements StoreDao {
 					}
 				});
 			} else {
+				
+				// TODO criar chave primaria composta para o indice dos produtos
 
 				log.info("Starting new store persistence");
 
