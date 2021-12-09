@@ -11,17 +11,15 @@ public enum Queries {
 						 + " WHERE id = ?     "
 						 + " AND store_id = ? "),
 	
-	SELECT_INVENTORY(" SELECT i.amount      "
-				   + " FROM inventory i     "
-				   + " WHERE i.id = ?       "
-				   + " AND i.product_id = ? "
-				   + " AND i.store_id = ?   "),
+	SELECT_INVENTORY(" SELECT *             "
+				   + " FROM inventory       "
+				   + " WHERE product_id = ? "
+				   + " AND store_id = ?     "),
 	
-	UPDATE_INVENTORY(" UPDATE inventory   "
-				   + " SET amount = ?     "
-				   + " WHERE id = ?       "
-				   + " AND product_id = ? "
-				   + " AND store_id = ?   "),
+	UPDATE_INVENTORY(" UPDATE inventory     "
+				   + " SET amount = ?       "
+				   + " WHERE product_id = ? "
+				   + " AND store_id = ?     "),
 	
 	PERSIST_STORE(" INSERT INTO store    "
 				+ " (id, nome, document) "

@@ -49,18 +49,25 @@ public class InsertStoreDao implements StoreDao {
 
 							log.info("Product found at database");
 
-							try (PreparedStatement preparedStatementInventory = postgresConnection
-									.prepareStatement(Queries.UPDATE_INVENTORY.getQuery())) {
+							try (PreparedStatement preparedStatementFoundInventory = postgresConnection
+									.prepareStatement(Queries.SELECT_INVENTORY.getQuery());
+									PreparedStatement preparedStatementInventory = postgresConnection
+											.prepareStatement(Queries.UPDATE_INVENTORY.getQuery())) {
 
-								// TODO antes de dar o update, fazer select e pegar quantia no inventário para somar com o valor do update
-								
-								preparedStatementInventory.setInt(1, product.getInventory().getAmount());
-								preparedStatementInventory.setInt(2, product.getInventory().getId());
-								preparedStatementInventory.setInt(3, product.getId());
-								preparedStatementInventory.setInt(4, storeToPersist.getId());
+								preparedStatementFoundInventory.setInt(1, product.getId());
+								preparedStatementFoundInventory.setInt(2, storeToPersist.getId());
 
-								if (preparedStatementInventory.executeUpdate() == 1) {
-									log.info("Inventory updated");
+								ResultSet existingInventory = preparedStatementFoundInventory.executeQuery();
+
+								if (existingInventory.next()) {
+									preparedStatementInventory.setInt(1,
+											existingInventory.getInt("amount") + product.getInventory().getAmount());
+									preparedStatementInventory.setInt(2, product.getId());
+									preparedStatementInventory.setInt(3, storeToPersist.getId());
+
+									if (preparedStatementInventory.executeUpdate() == 1) {
+										log.info("Inventory updated");
+									}
 								}
 							}
 						} else {
