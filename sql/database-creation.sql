@@ -14,16 +14,14 @@ CREATE TABLE IF NOT EXISTS product (
     nome VARCHAR(255) NOT NULL,
     price NUMERIC(15,2) NOT NULL,
     store_id INTEGER NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (store_id) REFERENCES store (id)
+    PRIMARY KEY (id, store_id)
 );
 
 CREATE TABLE IF NOT EXISTS inventory (
-    id INTEGER NOT NULL,
+    id SERIAL,
     product_id INTEGER NOT NULL,
     store_id INTEGER NOT NULL,
     amount INTEGER NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (product_id) REFERENCES product (id),
-    FOREIGN KEY (store_id) REFERENCES store (id)
+    FOREIGN KEY (product_id, store_id) REFERENCES product (id, store_id)
 );

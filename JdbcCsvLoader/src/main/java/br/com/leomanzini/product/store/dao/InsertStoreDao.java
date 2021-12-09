@@ -99,9 +99,6 @@ public class InsertStoreDao implements StoreDao {
 					}
 				});
 			} else {
-				
-				// TODO criar chave primaria composta para o indice dos produtos
-
 				log.info("Starting new store persistence");
 
 				try (PreparedStatement preparedStatementInsertStore = postgresConnection
@@ -133,10 +130,9 @@ public class InsertStoreDao implements StoreDao {
 										try (PreparedStatement preparedStatementInventory = postgresConnection
 												.prepareStatement(Queries.PERSIST_INVENTORY.getQuery())) {
 
-											preparedStatementInventory.setInt(1, product.getInventory().getId());
-											preparedStatementInventory.setInt(2, product.getId());
-											preparedStatementInventory.setInt(3, storeToPersist.getId());
-											preparedStatementInventory.setInt(4, product.getInventory().getAmount());
+											preparedStatementInventory.setInt(1, product.getId());
+											preparedStatementInventory.setInt(2, storeToPersist.getId());
+											preparedStatementInventory.setInt(3, product.getInventory().getAmount());
 
 											if (preparedStatementInventory.executeUpdate() == 1) {
 												log.info("Inventory created for new product");

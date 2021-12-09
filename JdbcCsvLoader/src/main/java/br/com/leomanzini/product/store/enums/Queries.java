@@ -31,9 +31,9 @@ public enum Queries {
 				  + " (id, nome, price, store_id) "
 				  + " VALUES (?, ?, ?, ?)         "),
 	
-	PERSIST_INVENTORY(" INSERT INTO inventory              "
-					+ " (id, product_id, store_id, amount) "
-					+ " VALUES (?, ?, ?, ?)                ");
+	PERSIST_INVENTORY(" INSERT INTO inventory          "
+					+ " (product_id, store_id, amount) "
+					+ " VALUES (?, ?, ?)               ");
 	
 	private String query;
 	
