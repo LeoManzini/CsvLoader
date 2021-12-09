@@ -1,17 +1,10 @@
 package br.com.leomanzini.product.store.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.com.leomanzini.product.store.connector.PostgresConnector;
 import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
-import br.com.leomanzini.product.store.enums.Queries;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
 
 public class InsertStoreDao implements StoreDao {
@@ -19,6 +12,18 @@ public class InsertStoreDao implements StoreDao {
 	private static final Logger log = LogManager.getLogger(InsertStoreDao.class);
 
 	@Override
+	public void persist(String path, StoreDto store) throws StoreDaoException {
+		// TODO rodar o mesmo codigo abaixo, mas com procedure
+		
+		try {
+			
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.SQL_INSERT_STORE_DAO_ERROR);
+		}
+	}
+
+/**	@Override
 	public void persist(String propertiesPath, StoreDto storeToPersist) throws StoreDaoException {
 
 		log.info("Connecting to database");
@@ -166,5 +171,6 @@ public class InsertStoreDao implements StoreDao {
 			log.error(e.getMessage(), e);
 			throw new StoreDaoException(ErrorMessages.INSERT_STORE_DAO_ERROR);
 		}
-	}
+	} 
+*/
 }
