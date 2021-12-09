@@ -116,46 +116,46 @@ public class InsertStoreDao implements StoreDao {
 					preparedStatementInsertStore.setString(3, storeToPersist.getDocument());
 
 					switch (preparedStatementInsertStore.executeUpdate()) {
-					case 1:
-						log.info("Store persisted successfully");
-
-						try (PreparedStatement preparedStatementInsertProducts = postgresConnection
-								.prepareStatement(Queries.PERSIST_PRODUCT.getQuery())) {
-
-							storeToPersist.getProducts().forEach(product -> {
-								try {
-									preparedStatementInsertProducts.setInt(1, product.getId());
-									preparedStatementInsertProducts.setString(2, product.getName());
-									preparedStatementInsertProducts.setBigDecimal(3, product.getPrice());
-									preparedStatementInsertProducts.setInt(4, product.getStoreId());
-
-									if (preparedStatementInsertProducts.executeUpdate() == 1) {
-
-										log.info("New product registered: " + product.getName() + ", for store: "
-												+ storeToPersist.getName());
-
-										try (PreparedStatement preparedStatementInventory = postgresConnection
-												.prepareStatement(Queries.PERSIST_INVENTORY.getQuery())) {
-
-											preparedStatementInventory.setInt(1, product.getId());
-											preparedStatementInventory.setInt(2, storeToPersist.getId());
-											preparedStatementInventory.setInt(3, product.getInventory().getAmount());
-
-											if (preparedStatementInventory.executeUpdate() == 1) {
-												log.info("Inventory created for new product");
+						case 1:
+							log.info("Store persisted successfully");
+	
+							try (PreparedStatement preparedStatementInsertProducts = postgresConnection
+									.prepareStatement(Queries.PERSIST_PRODUCT.getQuery())) {
+	
+								storeToPersist.getProducts().forEach(product -> {
+									try {
+										preparedStatementInsertProducts.setInt(1, product.getId());
+										preparedStatementInsertProducts.setString(2, product.getName());
+										preparedStatementInsertProducts.setBigDecimal(3, product.getPrice());
+										preparedStatementInsertProducts.setInt(4, product.getStoreId());
+	
+										if (preparedStatementInsertProducts.executeUpdate() == 1) {
+	
+											log.info("New product registered: " + product.getName() + ", for store: "
+													+ storeToPersist.getName());
+	
+											try (PreparedStatement preparedStatementInventory = postgresConnection
+													.prepareStatement(Queries.PERSIST_INVENTORY.getQuery())) {
+	
+												preparedStatementInventory.setInt(1, product.getId());
+												preparedStatementInventory.setInt(2, storeToPersist.getId());
+												preparedStatementInventory.setInt(3, product.getInventory().getAmount());
+	
+												if (preparedStatementInventory.executeUpdate() == 1) {
+													log.info("Inventory created for new product");
+												}
 											}
 										}
+									} catch (SQLException e) {
+										e.printStackTrace();
 									}
-								} catch (SQLException e) {
-									e.printStackTrace();
-								}
-							});
+								});
+							}
+							break;
+						case 2:
+							log.info("Could not persist this store");
+							throw new Exception();
 						}
-						break;
-					case 2:
-						log.info("Could not persist this store");
-						throw new Exception();
-					}
 				}
 			}
 
