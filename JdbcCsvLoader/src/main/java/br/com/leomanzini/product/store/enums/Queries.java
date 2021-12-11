@@ -6,32 +6,30 @@ public enum Queries {
 					   + " FROM store   "
 					   + " WHERE id = ? "),
 	
-	CHECK_EXISTING_PRODUCT(" SELECT *         "
-						 + " FROM product     "
-						 + " WHERE id = ?     "
-						 + " AND store_id = ? "),
+	CHECK_EXISTING_PRODUCT_STORE(" SELECT *             "
+						          + " FROM inventory       "
+						          + " WHERE product_id = ? "
+						          + " AND store_id = ?     "),
 	
-	SELECT_INVENTORY(" SELECT *             "
-				   + " FROM inventory       "
-				   + " WHERE product_id = ? "
-				   + " AND store_id = ?     "),
+	UPDATE_INVENTORY(" UPDATE inventory "
+				   + " SET amount = ?   "
+				   + " WHERE id = ?     "),
 	
-	UPDATE_INVENTORY(" UPDATE inventory     "
-				   + " SET amount = ?       "
-				   + " WHERE product_id = ? "
-				   + " AND store_id = ?     "),
+	CHECK_EXISTING_PRODUCT_DATABASE(" SELECT *     "
+								  + " FROM product "
+								  + " WHERE id = ? "),
 	
-	PERSIST_STORE(" INSERT INTO store    "
-				+ " (id, nome, document) "
-				+ " VALUES (?, ?, ?)     "),
+	PERSIST_STORE(" INSERT INTO store "
+				+ " (nome, document)  "
+				+ " VALUES (?, ?)     "),
 	
-	PERSIST_PRODUCT(" INSERT INTO product         "
-				  + " (id, nome, price, store_id) "
-				  + " VALUES (?, ?, ?, ?)         "),
+	PERSIST_PRODUCT(" INSERT INTO product "
+				  + " (nome)              "
+				  + " VALUES (?)          "),
 	
-	PERSIST_INVENTORY(" INSERT INTO inventory          "
-					+ " (product_id, store_id, amount) "
-					+ " VALUES (?, ?, ?)               ");
+	PERSIST_INVENTORY(" INSERT INTO inventory                 "
+					+ " (product_id, store_id, amount, price) "
+					+ " VALUES (?, ?, ?, ?)                   ");
 	
 	private String query;
 	

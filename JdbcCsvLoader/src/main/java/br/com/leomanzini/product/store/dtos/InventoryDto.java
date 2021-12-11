@@ -1,18 +1,23 @@
 package br.com.leomanzini.product.store.dtos;
 
+import java.math.BigDecimal;
+
 public class InventoryDto {
 
 	private Integer id;
 	private Integer productId;
+	private Integer storeId;
 	private Integer amount;
+	private BigDecimal price;
 
 	public InventoryDto() {
 	}
 
-	public InventoryDto(Integer id, Integer productId, Integer amount) {
-		this.id = id;
+	public InventoryDto(Integer productId, Integer storeId, Integer amount, BigDecimal price) {
 		this.productId = productId;
+		this.storeId = storeId;
 		this.amount = amount;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -30,6 +35,14 @@ public class InventoryDto {
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
+	
+	public Integer getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
+	}
 
 	public Integer getAmount() {
 		return amount;
@@ -37,6 +50,14 @@ public class InventoryDto {
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+	
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	@Override
@@ -66,6 +87,6 @@ public class InventoryDto {
 
 	@Override
 	public String toString() {
-		return "Inventory id: " + id + ", productId: " + productId + ", amount: " + amount;
+		return "product id: " + productId + ", store id: " + storeId + ", product amount: " + amount + ", product price: " + price;
 	}
 }

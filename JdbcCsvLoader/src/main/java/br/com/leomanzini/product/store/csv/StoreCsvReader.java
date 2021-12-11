@@ -17,22 +17,22 @@ import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.CsvReaderException;
 
 public class StoreCsvReader {
-	
+
 	private static final Logger log = LogManager.getLogger(StoreCsvReader.class);
 
 	private StoreDto storeItens = null;
-	
+
 	public StoreDto readCsv(String csvPath) throws CsvReaderException {
 		String row;
 
 		try (BufferedReader csvReader = new BufferedReader(new FileReader(csvPath))) {
-			
+
 			log.info("Reading csv file");
-			
+
 			while ((row = csvReader.readLine()) != null) {
 
 				String[] data = row.split(",");
-				
+
 				if (data[0].equals("STORE_ID")) {
 					continue;
 				}
@@ -43,9 +43,9 @@ public class StoreCsvReader {
 
 				verifyProductsAndInsert(storeItens.getProducts(), product);
 			}
-			
+
 			log.info("Csv read successfully");
-			
+
 			return storeItens;
 
 		} catch (IOException e) {
@@ -53,7 +53,7 @@ public class StoreCsvReader {
 			throw new CsvReaderException(ErrorMessages.CSV_READER_ERROR);
 		}
 	}
-	
+
 	private void instanciateStore(String[] data) {
 		if (storeItens == null) {
 			storeItens = new StoreDto(Integer.parseInt(data[0]), data[1], data[2], new ArrayList<>());
@@ -61,15 +61,14 @@ public class StoreCsvReader {
 	}
 
 	private InventoryDto instanciateInventory(String[] data) {
-		InventoryDto inventory = new InventoryDto(Integer.parseInt(data[6]), Integer.parseInt(data[3]),
-				Integer.parseInt(data[7]));
+		InventoryDto inventory = new InventoryDto(Integer.parseInt(data[3]), Integer.parseInt(data[0]),
+				Integer.parseInt(data[6]), new BigDecimal(data[5]));
 
 		return inventory;
 	}
 
 	private ProductDto instanciateProduct(String[] data, InventoryDto inventory) {
-		ProductDto product = new ProductDto(Integer.parseInt(data[3]), data[4], new BigDecimal(data[5]),
-				storeItens.getId(), inventory);
+		ProductDto product = new ProductDto(Integer.parseInt(data[3]), data[4], inventory);
 
 		return product;
 	}
