@@ -18,28 +18,13 @@ CREATE TYPE products AS (
 	inventory INVENTORIES
 );
 
-CREATE OR REPLACE FUNCTION products_test(store IN stores, producto IN products[])
+CREATE OR REPLACE FUNCTION products_test(IN store stores, IN producto products[])
 RETURNS products[] AS $$
 BEGIN
 	RETURN producto;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT products_test(ARRAY[
-	'(1,"tv", {1, 1, 1, 20, 20.00}::inventories)',
-	'(2,"PC", INVENTORIES(1, 1, 1, 20, 20.00))'
-]::products[]);
-
-SELECT ARRAY[
-	'(1,"tv", inventories(1, 1, 1, 20, 20.00))',
-	'(2,"PC", INVENTORIES(1, 1, 1, 20, 20.00))'
-]::products[];
-
-SELECT c.product_id, c.store_id, c.price FROM inventories c;
-
-SELECT p FROM products p;
-
-SELECT s FROM stores s;
-
-DROP FUNCTION products_test(products[]);
-DROP TYPE products CASCADE;
+SELECT products_test(
+	(1,'Thomas Store','0001')::stores, 
+	ARRAY[(1,'tv', (1, 1, 1, 20, 20.00)), (2,'PC', (1, 1, 1, 20, 20.00))]::products[]);
