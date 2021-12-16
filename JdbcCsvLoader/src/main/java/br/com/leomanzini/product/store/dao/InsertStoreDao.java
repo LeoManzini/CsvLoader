@@ -28,6 +28,7 @@ public class InsertStoreDao implements StoreDao {
 
 			callableStatement.setInt(1, store.getId());
 			callableStatement.setArray(2, postgresConnection.createArrayOf("products", store.getProducts().toArray()));
+			// TODO arrumar chamada com o array pela procedure
 			
 			ResultSet procedureReturn = callableStatement.executeQuery();
 

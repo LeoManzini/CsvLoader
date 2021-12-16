@@ -42,8 +42,8 @@ LANGUAGE SQL;
 
 SELECT products_test(
 	(1), 
-	ARRAY[(1,'tv', (1, 1, 1, 20, 20.00)), (2,'PC', (1, 1, 1, 20, 20.00))]::products[]);
+	ARRAY[(1,'Wristwatch', (null,1,2,20,90.00))]::products[]);
 
 SELECT products_test(
 	(1,'Thomas Store','0001')::stores, 
-	ARRAY[(1,'tv', (1, 1, 1, 20, 20.00)), (2,'PC', (1, 1, 1, 20, 20.00))]::products[]);
+	ARRAY[(1,'Wristwatch', (null,1,2,20,90.00)), (2,'Smarth Watch', (null,2,2,8,150.00))]::products[]);
