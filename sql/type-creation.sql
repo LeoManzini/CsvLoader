@@ -18,12 +18,31 @@ CREATE TYPE products AS (
 	inventory INVENTORIES
 );
 
-CREATE OR REPLACE FUNCTION products_test(IN store stores, IN producto products[])
-RETURNS products[] AS $$
+DROP FUNCTION products_test(stores,products[])
+
+CREATE OR REPLACE FUNCTION products_test(IN var_store_id INTEGER, IN var_producto products[])
+RETURNS INTEGER AS $$
 BEGIN
-	RETURN producto;
+	SELECT * FROM store WHERE id = var_store_id;
+
+	IF NOT FOUND 
+	THEN
+		RETURN 1;
+	ELSE
+		RETURN 2;
+	END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION products_test(IN var_store stores, IN var_producto products[])
+RETURNS integer AS '
+    SELECT 1 FROM store WHERE id = var_store.id;
+ '
+LANGUAGE SQL;
+
+SELECT products_test(
+	(1), 
+	ARRAY[(1,'tv', (1, 1, 1, 20, 20.00)), (2,'PC', (1, 1, 1, 20, 20.00))]::products[]);
 
 SELECT products_test(
 	(1,'Thomas Store','0001')::stores, 
