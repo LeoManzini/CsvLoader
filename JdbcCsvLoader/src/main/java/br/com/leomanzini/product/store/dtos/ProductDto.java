@@ -66,8 +66,7 @@ public class ProductDto {
 
 	@Override
 	public String toString() {
-		return "ARRAY[(" + id + "," + name + ", (" + inventory.getId() + "," + id + ","
-				+ inventory.getStoreId() + "," + inventory.getAmount() + "," + inventory.getPrice()
-				+ "))]::products[]";
+		return "(" + id + "," + name + ",(" + id + "," + inventory.getStoreId() + "," + inventory.getAmount() + ","
+				+ inventory.getPrice() + "))";
 	}
 }

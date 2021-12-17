@@ -5,12 +5,13 @@ CREATE TYPE stores AS (
 );
 
 CREATE TYPE inventories AS (
-    id INTEGER,
     product_id INTEGER,
     store_id INTEGER,
     amount INTEGER,
     price NUMERIC(15,2)
 );
+
+DROP TYPE products CASCADE;
 
 CREATE TYPE products AS (
 	id INTEGER,
@@ -42,8 +43,10 @@ LANGUAGE SQL;
 
 SELECT products_test(
 	(1), 
-	ARRAY[(1,'Wristwatch', (null,1,2,20,90.00))]::products[]);
+	ARRAY[(1,'Wristwatch', (1,2,20,90.00))]::products[]);
 
 SELECT products_test(
 	(1,'Thomas Store','0001')::stores, 
-	ARRAY[(1,'Wristwatch', (null,1,2,20,90.00)), (2,'Smarth Watch', (null,2,2,8,150.00))]::products[]);
+	ARRAY[(1,'Wristwatch', (1,2,20,90.00)), (2,'Smarth Watch', (2,2,8,150.00))]::products[]);
+	
+SELECT (ARRAY[(1,'Wristwatch',(1,2,20,90.00)),(2,'Smarth Watch',(2,2,8,150.00))]::products[]);

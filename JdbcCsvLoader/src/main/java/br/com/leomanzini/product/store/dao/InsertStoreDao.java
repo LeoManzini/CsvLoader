@@ -1,5 +1,6 @@
 package br.com.leomanzini.product.store.dao;
 
+import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.connector.PostgresConnector;
+import br.com.leomanzini.product.store.dtos.ProductDto;
 import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
@@ -20,16 +22,17 @@ public class InsertStoreDao implements StoreDao {
 
 	@Override
 	public void persist(String propertiesPath, StoreDto store) throws StoreDaoException {
-		// TODO rodar o mesmo codigo abaixo, mas com procedure
-
 		try (PostgresConnector postgresConnector = new PostgresConnector();
 				Connection postgresConnection = postgresConnector.startDatabaseConnection(propertiesPath);
 				CallableStatement callableStatement = postgresConnection.prepareCall(callableSql)) {
 
 			callableStatement.setInt(1, store.getId());
-			callableStatement.setArray(2, postgresConnection.createArrayOf("products", store.getProducts().toArray()));
-			// TODO arrumar chamada com o array pela procedure
-			
+
+			Array productsArray = postgresConnection.createArrayOf("products",
+					store.getProducts().toArray((new ProductDto[store.getProducts().size()])));
+
+			callableStatement.setArray(2, productsArray);
+
 			ResultSet procedureReturn = callableStatement.executeQuery();
 
 			if (procedureReturn.next()) {

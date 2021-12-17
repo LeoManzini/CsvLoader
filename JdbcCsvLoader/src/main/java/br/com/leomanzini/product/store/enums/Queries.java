@@ -7,9 +7,9 @@ public enum Queries {
 					   + " WHERE id = ? "),
 	
 	CHECK_EXISTING_PRODUCT_STORE(" SELECT *             "
-						          + " FROM inventory       "
-						          + " WHERE product_id = ? "
-						          + " AND store_id = ?     "),
+						       + " FROM inventory       "
+						       + " WHERE product_id = ? "
+						       + " AND store_id = ?     "),
 	
 	UPDATE_INVENTORY(" UPDATE inventory "
 				   + " SET amount = ?   "
