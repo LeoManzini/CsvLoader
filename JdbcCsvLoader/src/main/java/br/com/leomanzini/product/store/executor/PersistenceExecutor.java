@@ -3,20 +3,20 @@ package br.com.leomanzini.product.store.executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.com.leomanzini.product.store.dao.InsertStoreDao;
-import br.com.leomanzini.product.store.dao.StoreDao;
-import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
+import br.com.leomanzini.product.store.model.dao.InsertStoreDao;
+import br.com.leomanzini.product.store.model.dao.StoreDao;
+import br.com.leomanzini.product.store.model.entities.Store;
 
 public class PersistenceExecutor implements Executor {
 	
 	private static final Logger log = LogManager.getLogger(PersistenceExecutor.class);
 	
-	private StoreDto storeItens;
+	private Store storeItens;
 
-	public PersistenceExecutor(StoreDto storeItens) {
+	public PersistenceExecutor(Store storeItens) {
 		this.storeItens = storeItens;
 	}
 	

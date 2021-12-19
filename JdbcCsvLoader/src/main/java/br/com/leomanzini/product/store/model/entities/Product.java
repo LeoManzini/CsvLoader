@@ -1,22 +1,18 @@
-package br.com.leomanzini.product.store.dtos;
+package br.com.leomanzini.product.store.model.entities;
 
-import java.util.List;
-
-public class StoreDto {
+public class Product {
 
 	private Integer id;
 	private String name;
-	private String document;
-	private List<ProductDto> products;
+	private Inventory inventory;
 
-	public StoreDto() {
+	public Product() {
 	}
 
-	public StoreDto(Integer id, String name, String document, List<ProductDto> products) {
+	public Product(Integer id, String name, Inventory inventory) {
 		this.id = id;
 		this.name = name;
-		this.document = document;
-		this.products = products;
+		this.inventory = inventory;
 	}
 
 	public Integer getId() {
@@ -35,20 +31,12 @@ public class StoreDto {
 		this.name = name;
 	}
 
-	public String getDocument() {
-		return document;
+	public Inventory getInventory() {
+		return inventory;
 	}
 
-	public void setDocument(String data) {
-		this.document = data;
-	}
-
-	public List<ProductDto> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<ProductDto> products) {
-		this.products = products;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	@Override
@@ -67,7 +55,7 @@ public class StoreDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StoreDto other = (StoreDto) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -78,6 +66,7 @@ public class StoreDto {
 
 	@Override
 	public String toString() {
-		return "Store id: " + id + ", name: " + name + ", document: " + document + ", products: " + products;
+		return "(" + id + "," + name + ",(" + id + "," + inventory.getStoreId() + "," + inventory.getAmount() + ","
+				+ inventory.getPrice() + "))";
 	}
 }

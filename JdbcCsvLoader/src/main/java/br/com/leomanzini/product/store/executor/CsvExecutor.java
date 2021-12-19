@@ -4,16 +4,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.csv.StoreCsvReader;
-import br.com.leomanzini.product.store.dtos.StoreDto;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.CsvExecutorException;
 import br.com.leomanzini.product.store.exceptions.CsvReaderException;
+import br.com.leomanzini.product.store.model.entities.Store;
 
 public class CsvExecutor implements Executor {
 	
 	private static final Logger log = LogManager.getLogger(CsvExecutor.class);
 
-	private StoreDto storeItens = null;
+	private Store storeItens = null;
 
 	@Override
 	public void execute(String csvPath) throws CsvExecutorException {
@@ -32,7 +32,7 @@ public class CsvExecutor implements Executor {
 		}
 	}
 
-	public StoreDto getCsvItens() {
+	public Store getCsvItens() {
 		return storeItens;
 	}
 }

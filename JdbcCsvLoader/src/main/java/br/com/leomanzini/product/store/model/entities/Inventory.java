@@ -1,8 +1,8 @@
-package br.com.leomanzini.product.store.dtos;
+package br.com.leomanzini.product.store.model.entities;
 
 import java.math.BigDecimal;
 
-public class InventoryDto {
+public class Inventory {
 
 	private Integer id;
 	private Integer productId;
@@ -10,10 +10,10 @@ public class InventoryDto {
 	private Integer amount;
 	private BigDecimal price;
 
-	public InventoryDto() {
+	public Inventory() {
 	}
 
-	public InventoryDto(Integer productId, Integer storeId, Integer amount, BigDecimal price) {
+	public Inventory(Integer productId, Integer storeId, Integer amount, BigDecimal price) {
 		this.productId = productId;
 		this.storeId = storeId;
 		this.amount = amount;
@@ -76,7 +76,7 @@ public class InventoryDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InventoryDto other = (InventoryDto) obj;
+		Inventory other = (Inventory) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
