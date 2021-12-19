@@ -17,9 +17,9 @@ import br.com.leomanzini.product.store.model.entities.Store;
 public class StoreDaoImplJdbc implements StoreDao {
 
 	private static final Logger log = LogManager.getLogger(StoreDaoImplJdbc.class);
-	
+
 	private Connection conn;
-	
+
 	public StoreDaoImplJdbc(Connection conn) {
 		this.conn = conn;
 	}
@@ -27,10 +27,10 @@ public class StoreDaoImplJdbc implements StoreDao {
 	@Override
 	public void insert(Store store) throws StoreDaoException {
 		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
-			
+
 			insertStore.setString(1, store.getName());
 			insertStore.setString(2, store.getDocument());
-			
+
 			if (!(insertStore.executeUpdate() == 1)) {
 				throw new Exception("Store insert operation failed");
 			}
@@ -44,15 +44,41 @@ public class StoreDaoImplJdbc implements StoreDao {
 	}
 
 	@Override
-	public void update(Store store) {
-		// TODO Auto-generated method stub
-		
+	public void update(Store store) throws StoreDaoException {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
+
+			insertStore.setString(1, store.getName());
+			insertStore.setString(2, store.getDocument());
+			insertStore.setInt(3, store.getId());
+
+			if (!(insertStore.executeUpdate() == 1)) {
+				throw new Exception("Store update operation failed");
+			}
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_INSERT_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_INSERT_ERROR);
+		}
 	}
 
 	@Override
-	public void deleteById(Integer storeId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteById(Integer storeId) throws StoreDaoException {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
+
+			insertStore.setInt(1, storeId);
+
+			if (!(insertStore.executeUpdate() == 1)) {
+				throw new Exception("Store delete operation failed");
+			}
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_INSERT_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_INSERT_ERROR);
+		}
 	}
 
 	@Override
@@ -68,7 +94,8 @@ public class StoreDaoImplJdbc implements StoreDao {
 	}
 
 	/**
-	 * Old versions, using procedures and other using a routine at java and doing all the database flow at this class
+	 * Old versions, using procedures and other using a routine at java and doing
+	 * all the database flow at this class
 	 */
 //	String callableSql = "{call products_test(?, ?)}";
 //
