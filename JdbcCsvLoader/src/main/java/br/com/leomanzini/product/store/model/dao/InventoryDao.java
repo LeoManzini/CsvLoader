@@ -7,9 +7,9 @@ import br.com.leomanzini.product.store.model.entities.Inventory;
 public interface InventoryDao {
 
 	void insert(Inventory inventory) throws Exception;
-	void update (Inventory Inventory) throws Exception;
-	void deleteById(Integer InventoryId) throws Exception;
-	Inventory findById(Integer InventoryId) throws Exception;
+	void update (Inventory inventory) throws Exception;
+	void deleteById(Integer productId, Integer storeId) throws Exception;
+	Inventory findById(Integer productId, Integer storeId) throws Exception;
 	List<Inventory> findAll() throws Exception;
 	
 	boolean findStoreProduct(Integer productId, Integer storeId) throws Exception;

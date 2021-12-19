@@ -69,13 +69,27 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	}
 
 	@Override
-	public void deleteById(Integer inventoryId) {
-		// TODO Auto-generated method stub
-
+	public void deleteById(Integer productId, Integer storeId) throws InventoryDaoException {
+		try (PreparedStatement deleteInventory = conn.prepareStatement(Queries.DELETE_INVENTORY.getQuery())) {
+			
+			deleteInventory.setInt(1, productId);
+			deleteInventory.setInt(2, storeId);
+			
+			if(!(deleteInventory.executeUpdate() == 1)) {
+				throw new Exception("Inventory delete operation failed");
+			}
+			
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_DELETE_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_DELETE_ERROR);
+		}
 	}
 
 	@Override
-	public Inventory findById(Integer inventoryId) {
+	public Inventory findById(Integer productId, Integer storeId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

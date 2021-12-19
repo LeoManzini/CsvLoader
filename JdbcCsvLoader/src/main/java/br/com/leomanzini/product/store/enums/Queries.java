@@ -51,9 +51,10 @@ public enum Queries {
 			       + " WHERE product_id = ? "
 			       + " AND store_id = ?     "),
 	
-	DELETE_INVENTORY(" DELETE         "
-			       + " FROM inventory "
-	     	       + " WHERE id = ?   "),
+	DELETE_INVENTORY(" DELETE               "
+			       + " FROM inventory       "
+			       + " WHERE product_id = ? "
+			       + " AND store_id = ?     "),
 	
 	FIND_INVENTORY(" SELECT *             "
 		         + " FROM inventory       "
