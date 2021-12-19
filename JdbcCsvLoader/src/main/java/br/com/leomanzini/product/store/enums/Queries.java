@@ -1,6 +1,25 @@
 package br.com.leomanzini.product.store.enums;
 
 public enum Queries {
+
+	INSERT_PRODUCT(" INSERT INTO product "
+	       		 + " (nome)              "
+	       		 + " VALUES (?)          "),
+	
+	UPDATE_PRODUCT(" UPDATE product "
+		     	 + " SET nome = ?   "
+		     	 + " WHERE id = ?   "),
+	
+	DELETE_PRODUCT(" DELETE       "
+				 + " FROM product "
+		     	 + " WHERE id = ? "),
+	
+	FIND_PRODUCT(" SELECT *     "
+			   + " FROM product "
+			   + " WHERE id = ? "),
+	
+	FIND_ALL_PRODUCTS(" SELECT *     "
+					+ " FROM product "),
 	
 	CHECK_EXISTING_STORE(" SELECT *     "
 					   + " FROM store   "
@@ -15,17 +34,11 @@ public enum Queries {
 				   + " SET amount = ?   "
 				   + " WHERE id = ?     "),
 	
-	CHECK_EXISTING_PRODUCT_DATABASE(" SELECT *     "
-								  + " FROM product "
-								  + " WHERE id = ? "),
 	
 	PERSIST_STORE(" INSERT INTO store "
 				+ " (nome, document)  "
 				+ " VALUES (?, ?)     "),
 	
-	PERSIST_PRODUCT(" INSERT INTO product "
-				  + " (nome)              "
-				  + " VALUES (?)          "),
 	
 	PERSIST_INVENTORY(" INSERT INTO inventory                 "
 					+ " (product_id, store_id, amount, price) "

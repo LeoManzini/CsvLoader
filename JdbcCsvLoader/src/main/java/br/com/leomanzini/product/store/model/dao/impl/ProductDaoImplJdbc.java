@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.leomanzini.product.store.enums.Queries;
@@ -20,40 +21,104 @@ public class ProductDaoImplJdbc implements ProductDao {
 
 	@Override
 	public void insert(Product product) {
-		// TODO Auto-generated method stub
+		try (PreparedStatement insertProduct = con.prepareStatement(Queries.INSERT_PRODUCT.getQuery())) {
 
+			insertProduct.setString(1, product.getName());
+
+			if (!(insertProduct.executeUpdate() == 1)) {
+
+			}
+
+		} catch (SQLException e) {
+
+		}
 	}
 
 	@Override
 	public void update(Product product) {
-		// TODO Auto-generated method stub
+		try (PreparedStatement insertProduct = con.prepareStatement(Queries.UPDATE_PRODUCT.getQuery())) {
 
+			insertProduct.setString(1, product.getName());
+			insertProduct.setInt(2, product.getId());
+
+			if (!(insertProduct.executeUpdate() == 1)) {
+
+			}
+
+		} catch (SQLException e) {
+
+		}
 	}
 
 	@Override
 	public void deleteById(Integer productId) {
-		// TODO Auto-generated method stub
+		try (PreparedStatement insertProduct = con.prepareStatement(Queries.DELETE_PRODUCT.getQuery())) {
 
+			insertProduct.setInt(1, productId);
+
+			if (!(insertProduct.executeUpdate() == 1)) {
+
+			}
+
+		} catch (SQLException e) {
+
+		}
 	}
 
 	@Override
-	public Product findById(Integer productId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product findById(Integer productId) throws Exception {
+		ResultSet productResultSet = null;
+
+		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
+
+			preparedStatementFindProductId.setInt(1, productId);
+
+			productResultSet = preparedStatementFindProductId.executeQuery();
+
+			if (productResultSet.next()) {
+				Product product = new Product();
+				product.setId(productResultSet.getInt("id"));
+				product.setName(productResultSet.getString("name"));
+
+				return product;
+			}
+			return null;
+		} catch (SQLException e) {
+			throw new Exception();
+		} finally {
+			productResultSet.close();
+		}
 	}
 
 	@Override
-	public List<Product> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> findAll() throws Exception {
+		ResultSet productResultSet = null;
+		List<Product> resultList = new ArrayList<>();
+		
+		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_ALL_PRODUCTS.getQuery())) {
+
+			productResultSet = preparedStatementFindProductId.executeQuery();
+
+			while (productResultSet.next()) {
+				Product product = new Product();
+				product.setId(productResultSet.getInt("id"));
+				product.setName(productResultSet.getString("name"));
+				
+				resultList.add(product);
+			}
+			return resultList;
+		} catch (SQLException e) {
+			throw new Exception();
+		} finally {
+			productResultSet.close();
+		}
 	}
 
 	@Override
 	public boolean findAtDatabase(Integer productId) throws Exception {
-		ResultSet productResultSet;
+		ResultSet productResultSet = null;
 
-		try (PreparedStatement preparedStatementFindProductId = con
-				.prepareStatement(Queries.CHECK_EXISTING_PRODUCT_DATABASE.getQuery())) {
+		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
 
 			preparedStatementFindProductId.setInt(1, productId);
 
@@ -65,6 +130,8 @@ public class ProductDaoImplJdbc implements ProductDao {
 			return false;
 		} catch (SQLException e) {
 			throw new Exception();
+		} finally {
+			productResultSet.close();
 		}
 	}
 }
