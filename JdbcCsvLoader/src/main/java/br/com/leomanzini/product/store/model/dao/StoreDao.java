@@ -6,9 +6,9 @@ import br.com.leomanzini.product.store.model.entities.Store;
 
 public interface StoreDao {
 	
-	void insert(Store store);
-	void update (Store store);
-	void deleteById(Integer storeId);
-	Store findById(Integer storeId);
-	List<Store> findAll();
+	void insert(Store store) throws Exception;
+	void update (Store store) throws Exception;
+	void deleteById(Integer storeId) throws Exception;
+	Store findById(Integer storeId) throws Exception;
+	List<Store> findAll() throws Exception;
 }
