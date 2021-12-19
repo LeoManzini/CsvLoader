@@ -15,7 +15,8 @@ public abstract class DaoFactory {
 		return new ProductDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
 	}
 
-	public static InventoryDao createInventoryDao() {
-		return new InventoryDaoImplJdbc();
+	@SuppressWarnings("resource")
+	public static InventoryDao createInventoryDao(String propertiesPath) {
+		return new InventoryDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
 	}
 }

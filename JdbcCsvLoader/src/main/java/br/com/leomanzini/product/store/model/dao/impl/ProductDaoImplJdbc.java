@@ -33,7 +33,7 @@ public class ProductDaoImplJdbc implements ProductDao {
 			insertProduct.setString(1, product.getName());
 
 			if (!(insertProduct.executeUpdate() == 1)) {
-				throw new Exception("Insert operation failed");
+				throw new Exception("Product insert operation failed");
 			}
 
 		} catch (SQLException e) {
@@ -47,13 +47,13 @@ public class ProductDaoImplJdbc implements ProductDao {
 
 	@Override
 	public void update(Product product) throws ProductDaoException {
-		try (PreparedStatement insertProduct = con.prepareStatement(Queries.UPDATE_PRODUCT.getQuery())) {
+		try (PreparedStatement updateProduct = con.prepareStatement(Queries.UPDATE_PRODUCT.getQuery())) {
 
-			insertProduct.setString(1, product.getName());
-			insertProduct.setInt(2, product.getId());
+			updateProduct.setString(1, product.getName());
+			updateProduct.setInt(2, product.getId());
 
-			if (!(insertProduct.executeUpdate() == 1)) {
-				throw new Exception("Update operation failed");
+			if (!(updateProduct.executeUpdate() == 1)) {
+				throw new Exception("Product update operation failed");
 			}
 
 		} catch (SQLException e) {
@@ -67,12 +67,12 @@ public class ProductDaoImplJdbc implements ProductDao {
 
 	@Override
 	public void deleteById(Integer productId) throws ProductDaoException {
-		try (PreparedStatement insertProduct = con.prepareStatement(Queries.DELETE_PRODUCT.getQuery())) {
+		try (PreparedStatement deleteProduct = con.prepareStatement(Queries.DELETE_PRODUCT.getQuery())) {
 
-			insertProduct.setInt(1, productId);
+			deleteProduct.setInt(1, productId);
 
-			if (!(insertProduct.executeUpdate() == 1)) {
-				throw new Exception("Delete operation failed");
+			if (!(deleteProduct.executeUpdate() == 1)) {
+				throw new Exception("Product delete operation failed");
 			}
 
 		} catch (SQLException e) {
@@ -85,14 +85,14 @@ public class ProductDaoImplJdbc implements ProductDao {
 	}
 
 	@Override
-	public Product findById(Integer productId) throws Exception {
+	public Product findById(Integer productId) throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 
-		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
+		try (PreparedStatement findProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
 
-			preparedStatementFindProductId.setInt(1, productId);
+			findProductId.setInt(1, productId);
 
-			productResultSet = preparedStatementFindProductId.executeQuery();
+			productResultSet = findProductId.executeQuery();
 
 			if (productResultSet.next()) {
 				Product product = new Product();
@@ -100,8 +100,9 @@ public class ProductDaoImplJdbc implements ProductDao {
 				product.setName(productResultSet.getString("name"));
 
 				return product;
+			} else {
+				throw new Exception("Product findById operation failed");
 			}
-			return null;
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new ProductDaoException(ErrorMessages.PRODUCT_FIND_ERROR);
@@ -114,13 +115,13 @@ public class ProductDaoImplJdbc implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findAll() throws Exception {
+	public List<Product> findAll() throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 		List<Product> resultList = new ArrayList<>();
 		
-		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_ALL_PRODUCTS.getQuery())) {
+		try (PreparedStatement findProducts = con.prepareStatement(Queries.FIND_ALL_PRODUCTS.getQuery())) {
 
-			productResultSet = preparedStatementFindProductId.executeQuery();
+			productResultSet = findProducts.executeQuery();
 
 			while (productResultSet.next()) {
 				Product product = new Product();
