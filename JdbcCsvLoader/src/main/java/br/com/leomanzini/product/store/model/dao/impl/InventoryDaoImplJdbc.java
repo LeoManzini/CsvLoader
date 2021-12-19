@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.enums.Queries;
 import br.com.leomanzini.product.store.exceptions.InventoryDaoException;
-import br.com.leomanzini.product.store.exceptions.ProductDaoException;
 import br.com.leomanzini.product.store.model.dao.InventoryDao;
 import br.com.leomanzini.product.store.model.entities.Inventory;
 
@@ -54,7 +53,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 			updateInventory.setInt(1, inventory.getAmount());
 			updateInventory.setBigDecimal(2, inventory.getPrice());
 			updateInventory.setInt(3, inventory.getProductId());
-			updateInventory.setInt(3, inventory.getStoreId());
+			updateInventory.setInt(4, inventory.getStoreId());
 
 			if (!(updateInventory.executeUpdate() == 1)) {
 				throw new Exception("Inventory update operation failed");
