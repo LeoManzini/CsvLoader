@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -123,9 +124,34 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	}
 
 	@Override
-	public List<Inventory> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Inventory> findAll() throws InventoryDaoException {
+		ResultSet inventoryResultSet = null;
+		List<Inventory> inventoryResultList = new ArrayList<>();
+		
+		try (PreparedStatement findInventories = conn.prepareStatement(Queries.FIND_ALL_INVENTORY.getQuery())) {
+			
+			inventoryResultSet = findInventories.executeQuery();
+			
+			while (inventoryResultSet.next()) {
+				Inventory inventory = new Inventory();
+				inventory.setId(inventoryResultSet.getInt("id"));
+				inventory.setProductId(inventoryResultSet.getInt("product_id"));
+				inventory.setStoreId(inventoryResultSet.getInt("store_id"));
+				inventory.setAmount(inventoryResultSet.getInt("amount"));
+				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
+				
+				inventoryResultList.add(inventory);
+			}
+			
+			return inventoryResultList;
+			
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_FIND_ALL_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_DELETE_ERROR);
+		}
 	}
 
 	@Override
