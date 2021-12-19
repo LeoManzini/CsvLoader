@@ -1,6 +1,26 @@
 package br.com.leomanzini.product.store.enums;
 
 public enum Queries {
+	
+	INSERT_STORE(" INSERT INTO store "
+			   + " (nome, document)  "
+			   + " VALUES (?, ?)     "),
+	
+	UPDATE_STORE(" UPDATE store   "
+	     	   + " SET nome = ? , "
+	     	   + " document = ?   "
+	     	   + " WHERE id = ?   "),
+
+	DELETE_STORE(" DELETE       "
+			   + " FROM store   "
+	     	   + " WHERE id = ? "),
+	
+	FIND_STORE(" SELECT *     "
+			 + " FROM store   "
+			 + " WHERE id = ? "),
+	
+	FIND_ALL_STORE(" SELECT * "
+				 + " FROM store "),
 
 	INSERT_PRODUCT(" INSERT INTO product "
 	       		 + " (nome)              "
@@ -21,28 +41,25 @@ public enum Queries {
 	FIND_ALL_PRODUCTS(" SELECT *     "
 					+ " FROM product "),
 	
-	CHECK_EXISTING_STORE(" SELECT *     "
-					   + " FROM store   "
-					   + " WHERE id = ? "),
-	
-	CHECK_EXISTING_PRODUCT_STORE(" SELECT *             "
-						       + " FROM inventory       "
-						       + " WHERE product_id = ? "
-						       + " AND store_id = ?     "),
-	
+	INSERT_INVENTORY(" INSERT INTO inventory                 "
+			       + " (product_id, store_id, amount, price) "
+			       + " VALUES (?, ?, ?, ?)                   "),
+
 	UPDATE_INVENTORY(" UPDATE inventory "
-				   + " SET amount = ?   "
-				   + " WHERE id = ?     "),
+			       + " SET amount = ?   "
+			       + " WHERE id = ?     "),
 	
+	DELETE_INVENTORY(" DELETE         "
+			       + " FROM inventory "
+	     	       + " WHERE id = ?   "),
 	
-	PERSIST_STORE(" INSERT INTO store "
-				+ " (nome, document)  "
-				+ " VALUES (?, ?)     "),
+	FIND_INVENTORY(" SELECT *             "
+		         + " FROM inventory       "
+		         + " WHERE product_id = ? "
+		         + " AND store_id = ?     "),
 	
-	
-	PERSIST_INVENTORY(" INSERT INTO inventory                 "
-					+ " (product_id, store_id, amount, price) "
-					+ " VALUES (?, ?, ?, ?)                   ");
+	FIND_ALL_INVENTORY(" SELECT *       "
+		             + " FROM inventory ");
 	
 	private String query;
 	
