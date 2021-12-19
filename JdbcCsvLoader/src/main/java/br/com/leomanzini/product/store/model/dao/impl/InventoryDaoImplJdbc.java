@@ -36,4 +36,10 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean findStoreProduct(Integer productId, Integer storeId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
