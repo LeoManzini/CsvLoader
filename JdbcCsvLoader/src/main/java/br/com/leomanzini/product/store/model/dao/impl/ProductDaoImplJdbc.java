@@ -143,7 +143,7 @@ public class ProductDaoImplJdbc implements ProductDao {
 	}
 
 	@Override
-	public boolean findAtDatabase(Integer productId) throws Exception {
+	public boolean findAtDatabase(Integer productId) throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 
 		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
@@ -157,7 +157,11 @@ public class ProductDaoImplJdbc implements ProductDao {
 			}
 			return false;
 		} catch (SQLException e) {
-			throw new Exception();
+			log.error(e.getMessage(), e);
+			throw new ProductDaoException(ErrorMessages.PRODUCT_FIND_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new ProductDaoException(ErrorMessages.PRODUCT_FIND_ALL_ERROR);
 		} finally {
 			productResultSet.close();
 		}
