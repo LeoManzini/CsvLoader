@@ -157,7 +157,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	}
 
 	@Override
-	public boolean findStoreProduct(Integer productId, Integer storeId) throws InventoryDaoException, SQLException {
+	public boolean findAtDatabase(Integer productId, Integer storeId) throws InventoryDaoException, SQLException {
 		ResultSet inventoryResultSet = null;
 		
 		try (PreparedStatement findStoreProduct = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {

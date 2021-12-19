@@ -12,5 +12,5 @@ public interface InventoryDao {
 	Inventory findById(Integer productId, Integer storeId) throws Exception;
 	List<Inventory> findAll() throws Exception;
 	
-	boolean findStoreProduct(Integer productId, Integer storeId) throws Exception;
+	boolean findAtDatabase(Integer productId, Integer storeId) throws Exception;
 }
