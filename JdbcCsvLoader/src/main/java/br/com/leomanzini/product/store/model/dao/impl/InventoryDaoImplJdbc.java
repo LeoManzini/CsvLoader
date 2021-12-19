@@ -124,7 +124,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	}
 
 	@Override
-	public List<Inventory> findAll() throws InventoryDaoException {
+	public List<Inventory> findAll() throws InventoryDaoException, SQLException {
 		ResultSet inventoryResultSet = null;
 		List<Inventory> inventoryResultList = new ArrayList<>();
 		
@@ -151,12 +151,34 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw new InventoryDaoException(ErrorMessages.INVENTORY_DELETE_ERROR);
+		} finally {
+			inventoryResultSet.close();
 		}
 	}
 
 	@Override
-	public boolean findStoreProduct(Integer productId, Integer storeId) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean findStoreProduct(Integer productId, Integer storeId) throws InventoryDaoException, SQLException {
+		ResultSet inventoryResultSet = null;
+		
+		try (PreparedStatement findStoreProduct = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {
+			
+			findStoreProduct.setInt(1, productId);
+			findStoreProduct.setInt(2, storeId);
+			
+			inventoryResultSet = findStoreProduct.executeQuery();
+			
+			if (inventoryResultSet.next()) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_FIND_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_FIND_ERROR);
+		} finally {
+			inventoryResultSet.close();
+		}
 	}
 }
