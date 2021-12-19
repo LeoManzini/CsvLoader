@@ -1,4 +1,4 @@
-package br.com.leomanzini.product.store.model.dao;
+package br.com.leomanzini.product.store.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,11 +12,12 @@ import br.com.leomanzini.product.store.connector.PostgresConnector;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.enums.Queries;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
+import br.com.leomanzini.product.store.model.dao.StoreDao;
 import br.com.leomanzini.product.store.model.entities.Store;
 
-public class InsertStoreDao implements StoreDao {
+public class StoreDaoImplJdbc implements StoreDao {
 
-	private static final Logger log = LogManager.getLogger(InsertStoreDao.class);
+	private static final Logger log = LogManager.getLogger(StoreDaoImplJdbc.class);
 
 //	String callableSql = "{call products_test(?, ?)}";
 //

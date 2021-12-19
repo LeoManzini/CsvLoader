@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
-import br.com.leomanzini.product.store.model.dao.InsertStoreDao;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
+import br.com.leomanzini.product.store.model.dao.impl.StoreDaoImplJdbc;
 import br.com.leomanzini.product.store.model.entities.Store;
 
 public class PersistenceExecutor implements Executor {
@@ -23,7 +23,7 @@ public class PersistenceExecutor implements Executor {
 	@Override
 	public void execute(String propertiesPath) throws PersistenceExecutorException {
 		try {
-			StoreDao insertStore = new InsertStoreDao();
+			StoreDao insertStore = new StoreDaoImplJdbc();
 			
 			log.info("Starting persistence execution");
 			
