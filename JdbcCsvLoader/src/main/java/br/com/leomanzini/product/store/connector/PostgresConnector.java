@@ -15,7 +15,7 @@ public class PostgresConnector implements DatabaseConnector, Closeable {
 	
 	private static final Logger log = LogManager.getLogger(PostgresConnector.class); 
 	
-	private Connection databaseConnection;
+	private static Connection databaseConnection;
 
 	@Override
 	public Connection startDatabaseConnection(String propertiesPath) {

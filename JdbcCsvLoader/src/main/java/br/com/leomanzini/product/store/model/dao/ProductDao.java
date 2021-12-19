@@ -11,4 +11,6 @@ public interface ProductDao {
 	void deleteById(Integer productId);
 	Product findById(Integer productId);
 	List<Product> findAll();
+	
+	boolean findAtDatabase(Integer productId) throws Exception;
 }
