@@ -2,6 +2,7 @@ package br.com.leomanzini.product.store.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -89,9 +90,36 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	}
 
 	@Override
-	public Inventory findById(Integer productId, Integer storeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Inventory findById(Integer productId, Integer storeId) throws InventoryDaoException {
+		ResultSet inventoryResultSet = null;
+		
+		try (PreparedStatement findInventoryById = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {
+			
+			findInventoryById.setInt(1, productId);
+			findInventoryById.setInt(2, storeId);
+			
+			inventoryResultSet = findInventoryById.executeQuery();
+			
+			if (inventoryResultSet.next()) {
+				Inventory inventory = new Inventory();
+				inventory.setId(inventoryResultSet.getInt("id"));
+				inventory.setProductId(inventoryResultSet.getInt("product_id"));
+				inventory.setStoreId(inventoryResultSet.getInt("store_id"));
+				inventory.setAmount(inventoryResultSet.getInt("amount"));
+				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
+				
+				return inventory;
+			} else {
+				throw new Exception("Inventory consult operation failed");
+			}
+			
+		}  catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_INSERT_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new InventoryDaoException(ErrorMessages.INVENTORY_INSERT_ERROR);
+		}
 	}
 
 	@Override
