@@ -3,11 +3,13 @@ package br.com.leomanzini.product.store.model.dao;
 import br.com.leomanzini.product.store.connector.PostgresConnector;
 import br.com.leomanzini.product.store.model.dao.impl.InventoryDaoImplJdbc;
 import br.com.leomanzini.product.store.model.dao.impl.ProductDaoImplJdbc;
+import br.com.leomanzini.product.store.model.dao.impl.StoreDaoImplJdbc;
 
 public abstract class DaoFactory {
 
-	public static StoreDao createStoreDao() {
-		return null;
+	@SuppressWarnings("resource")
+	public static StoreDao createStoreDao(String propertiesPath) {
+		return new StoreDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
 	}
 
 	@SuppressWarnings("resource")
