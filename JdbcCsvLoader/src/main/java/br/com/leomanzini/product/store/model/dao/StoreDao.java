@@ -11,4 +11,6 @@ public interface StoreDao {
 	void deleteById(Integer storeId) throws Exception;
 	Store findById(Integer storeId) throws Exception;
 	List<Store> findAll() throws Exception;
+	
+	boolean findAtDatabase(Integer storeId) throws Exception;
 }

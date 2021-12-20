@@ -2,7 +2,9 @@ package br.com.leomanzini.product.store.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -82,15 +84,90 @@ public class StoreDaoImplJdbc implements StoreDao {
 	}
 
 	@Override
-	public Store findById(Integer storeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Store findById(Integer storeId) throws StoreDaoException, SQLException {
+		ResultSet storeResultSet = null;
+
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE.getQuery())) {
+
+			findStoreById.setInt(1, storeId);
+
+			storeResultSet = findStoreById.executeQuery();
+
+			if (storeResultSet.next()) {
+				Store store = new Store();
+				store.setId(storeResultSet.getInt("id"));
+				store.setName(storeResultSet.getString("nome"));
+				store.setDocument(storeResultSet.getString("document"));
+
+				return store;
+			} else {
+				throw new Exception("Find store operation failed");
+			}
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} finally {
+			storeResultSet.close();
+		}
+	}
+	
+	// TODO adicionar instância dos produtos de cada loja, mudar query e consulta
+
+	@Override
+	public List<Store> findAll() throws StoreDaoException, SQLException {
+		ResultSet storeResultSet = null;
+		List<Store> storeResultList = new ArrayList<>();
+
+		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_ALL_STORE.getQuery())) {
+
+			storeResultSet = findAllStore.executeQuery();
+
+			while (storeResultSet.next()) {
+				Store store = new Store();
+				store.setId(storeResultSet.getInt("id"));
+				store.setName(storeResultSet.getString("nome"));
+				store.setDocument(storeResultSet.getString("document"));
+				
+				storeResultList.add(store);
+			}
+			return storeResultList;
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ALL_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ALL_ERROR);
+		} finally {
+			storeResultSet.close();
+		}
 	}
 
 	@Override
-	public List<Store> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean findAtDatabase(Integer storeId) throws Exception {
+		ResultSet storeResultSet = null;
+
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE.getQuery())) {
+
+			findStoreById.setInt(1, storeId);
+
+			storeResultSet = findStoreById.executeQuery();
+
+			if (storeResultSet.next()) {
+				return true;
+			} 
+			return false;
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} finally {
+			storeResultSet.close();
+		}
 	}
 
 	/**
