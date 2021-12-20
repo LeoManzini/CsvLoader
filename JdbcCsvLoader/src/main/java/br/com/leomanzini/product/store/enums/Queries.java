@@ -45,11 +45,11 @@ public enum Queries {
 			       + " (product_id, store_id, amount, price) "
 			       + " VALUES (?, ?, ?, ?)                   "),
 
-	UPDATE_INVENTORY(" UPDATE inventory     "
-			       + " SET amount = ? ,     "
-			       + " price = ?            "
-			       + " WHERE product_id = ? "
-			       + " AND store_id = ?     "),
+	UPDATE_INVENTORY(" UPDATE inventory          "
+			       + " SET amount = amount + ? , "
+			       + " price = ?                 "
+			       + " WHERE product_id = ?      "
+			       + " AND store_id = ?          "),
 	
 	DELETE_INVENTORY(" DELETE               "
 			       + " FROM inventory       "
