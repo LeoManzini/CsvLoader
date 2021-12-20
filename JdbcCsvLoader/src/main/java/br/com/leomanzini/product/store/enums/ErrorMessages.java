@@ -27,7 +27,9 @@ public enum ErrorMessages {
 	INVENTORY_FIND_ERROR("Error while searching inventory, exit -17"),
 	INVENTORY_FIND_ALL_ERROR("Error while searching for inventories, exit -18"),
 	
-	PERSISTENCE_EXECUTOR_ERROR("Something went wrong while executing the database operation, exit -19");
+	PERSISTENCE_EXECUTOR_STORE_ERROR("Something went wrong while executing the stores operation, exit -19"),
+	PERSISTENCE_EXECUTOR_PRODUCT_ERROR("Something went wrong while executing the product operation, exit -20"),
+	PERSISTENCE_EXECUTOR_INVENTORY_ERROR("Something went wrong while executing the inventory operation, exit -21");
 	
 	private String message;
 	
