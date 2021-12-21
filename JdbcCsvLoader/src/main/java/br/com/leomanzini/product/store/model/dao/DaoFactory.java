@@ -3,9 +3,9 @@ package br.com.leomanzini.product.store.model.dao;
 import java.sql.Connection;
 
 import br.com.leomanzini.product.store.connector.PostgresConnector;
-import br.com.leomanzini.product.store.model.dao.impl.InventoryDaoImplJdbc;
-import br.com.leomanzini.product.store.model.dao.impl.ProductDaoImplJdbc;
-import br.com.leomanzini.product.store.model.dao.impl.StoreDaoImplJdbc;
+import br.com.leomanzini.product.store.model.dao.impl.InventoryDaoJdbc;
+import br.com.leomanzini.product.store.model.dao.impl.ProductDaoJdbc;
+import br.com.leomanzini.product.store.model.dao.impl.StoreDaoJdbc;
 
 public class DaoFactory {
 	
@@ -17,14 +17,14 @@ public class DaoFactory {
 	}
 
 	public StoreDao createStoreDao() {
-		return new StoreDaoImplJdbc(databaseConnection);
+		return new StoreDaoJdbc(databaseConnection);
 	}
 
 	public ProductDao createProductDao() {
-		return new ProductDaoImplJdbc(databaseConnection);
+		return new ProductDaoJdbc(databaseConnection);
 	}
 
 	public InventoryDao createInventoryDao() {
-		return new InventoryDaoImplJdbc(databaseConnection);
+		return new InventoryDaoJdbc(databaseConnection);
 	}
 }

@@ -16,13 +16,13 @@ import br.com.leomanzini.product.store.exceptions.StoreDaoException;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
 import br.com.leomanzini.product.store.model.entities.Store;
 
-public class StoreDaoImplJdbc implements StoreDao {
+public class StoreDaoJdbc implements StoreDao {
 
-	private static final Logger log = LogManager.getLogger(StoreDaoImplJdbc.class);
+	private static final Logger log = LogManager.getLogger(StoreDaoJdbc.class);
 
 	private Connection conn;
 
-	public StoreDaoImplJdbc(Connection conn) {
+	public StoreDaoJdbc(Connection conn) {
 		this.conn = conn;
 	}
 

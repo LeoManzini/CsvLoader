@@ -16,13 +16,13 @@ import br.com.leomanzini.product.store.exceptions.InventoryDaoException;
 import br.com.leomanzini.product.store.model.dao.InventoryDao;
 import br.com.leomanzini.product.store.model.entities.Inventory;
 
-public class InventoryDaoImplJdbc implements InventoryDao {
+public class InventoryDaoJdbc implements InventoryDao {
 
-	private static final Logger log = LogManager.getLogger(InventoryDaoImplJdbc.class);
+	private static final Logger log = LogManager.getLogger(InventoryDaoJdbc.class);
 
 	private Connection conn;
 
-	public InventoryDaoImplJdbc(Connection conn) {
+	public InventoryDaoJdbc(Connection conn) {
 		this.conn = conn;
 	}
 
@@ -107,13 +107,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 			inventoryResultSet = findInventoryById.executeQuery();
 			
 			if (inventoryResultSet.next()) {
-				Inventory inventory = new Inventory();
-				inventory.setId(inventoryResultSet.getInt("id"));
-				inventory.setProductId(inventoryResultSet.getInt("product_id"));
-				inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
-				inventory.setAmount(inventoryResultSet.getInt("amount"));
-				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
-				
+				Inventory inventory = instanciateInventory(inventoryResultSet);
 				return inventory;
 			} else {
 				throw new Exception("Inventory consult operation failed");
@@ -138,13 +132,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 			inventoryResultSet = findInventories.executeQuery();
 			
 			while (inventoryResultSet.next()) {
-				Inventory inventory = new Inventory();
-				inventory.setId(inventoryResultSet.getInt("id"));
-				inventory.setProductId(inventoryResultSet.getInt("product_id"));
-				inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
-				inventory.setAmount(inventoryResultSet.getInt("amount"));
-				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
-				
+				Inventory inventory = instanciateInventory(inventoryResultSet);
 				inventoryResultList.add(inventory);
 			}
 			
@@ -185,5 +173,16 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 		} finally {
 			inventoryResultSet.close();
 		}
+	}
+	
+	private Inventory instanciateInventory(ResultSet inventoryResultSet) throws SQLException {
+		Inventory inventory = new Inventory();
+		inventory.setId(inventoryResultSet.getInt("id"));
+		inventory.setProductId(inventoryResultSet.getInt("product_id"));
+		inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
+		inventory.setAmount(inventoryResultSet.getInt("amount"));
+		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
+		
+		return inventory;
 	}
 }

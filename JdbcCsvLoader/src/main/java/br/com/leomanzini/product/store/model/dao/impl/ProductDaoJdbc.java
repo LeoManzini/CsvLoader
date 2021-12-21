@@ -16,13 +16,13 @@ import br.com.leomanzini.product.store.exceptions.ProductDaoException;
 import br.com.leomanzini.product.store.model.dao.ProductDao;
 import br.com.leomanzini.product.store.model.entities.Product;
 
-public class ProductDaoImplJdbc implements ProductDao {
+public class ProductDaoJdbc implements ProductDao {
 	
-	private static final Logger log = LogManager.getLogger(ProductDaoImplJdbc.class);
+	private static final Logger log = LogManager.getLogger(ProductDaoJdbc.class);
 
 	private Connection con;
 
-	public ProductDaoImplJdbc(Connection con) {
+	public ProductDaoJdbc(Connection con) {
 		this.con = con;
 	}
 
@@ -103,10 +103,7 @@ public class ProductDaoImplJdbc implements ProductDao {
 			productResultSet = findProductId.executeQuery();
 
 			if (productResultSet.next()) {
-				Product product = new Product();
-				product.setId(productResultSet.getInt("id"));
-				product.setName(productResultSet.getString("name"));
-
+				Product product = instanciateProduct(productResultSet);
 				return product;
 			} else {
 				throw new Exception("Product findById operation failed");
@@ -132,10 +129,7 @@ public class ProductDaoImplJdbc implements ProductDao {
 			productResultSet = findProducts.executeQuery();
 
 			while (productResultSet.next()) {
-				Product product = new Product();
-				product.setId(productResultSet.getInt("id"));
-				product.setName(productResultSet.getString("name"));
-				
+				Product product = instanciateProduct(productResultSet);
 				resultList.add(product);
 			}
 			return resultList;
@@ -178,5 +172,12 @@ public class ProductDaoImplJdbc implements ProductDao {
 		} finally {
 			productResultSet.close();
 		}
+	}
+	
+	private Product instanciateProduct(ResultSet productResultSet) throws SQLException {
+		Product product = new Product();
+		product.setId(productResultSet.getInt("id"));
+		product.setName(productResultSet.getString("name"));
+		return product;
 	}
 }
