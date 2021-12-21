@@ -18,6 +18,12 @@ public class Store {
 		this.document = document;
 		this.products = products;
 	}
+	
+	public Store(String name, Integer document, List<Product> products) {
+		this.name = name;
+		this.document = document;
+		this.products = products;
+	}
 
 	public Integer getId() {
 		return id;

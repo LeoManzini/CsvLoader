@@ -33,7 +33,7 @@ public class StoreCsvReader {
 
 				String[] data = row.split(",");
 
-				if (data[0].equals("STORE_ID")) {
+				if (data[0].equals("STORE_NAME")) {
 					continue;
 				}
 
@@ -56,7 +56,7 @@ public class StoreCsvReader {
 
 	private void instanciateStore(String[] data) {
 		if (storeItens == null) {
-			storeItens = new Store(Integer.parseInt(data[0]), data[1], data[2], new ArrayList<>());
+			storeItens = new Store(data[1], Integer.parseInt(data[2]), new ArrayList<>());
 		}
 	}
 
