@@ -66,7 +66,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "(" + id + "," + name + ",(" + id + "," + inventory.getStoreId() + "," + inventory.getAmount() + ","
+		return "(" + id + "," + name + ",(" + id + "," + inventory.getStoreDocument() + "," + inventory.getAmount() + ","
 				+ inventory.getPrice() + "))";
 	}
 }

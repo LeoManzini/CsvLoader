@@ -56,19 +56,19 @@ public class StoreCsvReader {
 
 	private void instanciateStore(String[] data) {
 		if (storeItens == null) {
-			storeItens = new Store(data[1], Integer.parseInt(data[2]), new ArrayList<>());
+			storeItens = new Store(data[0], Integer.parseInt(data[1]), new ArrayList<>());
 		}
 	}
 
 	private Inventory instanciateInventory(String[] data) {
-		Inventory inventory = new Inventory(Integer.parseInt(data[3]), Integer.parseInt(data[0]),
-				Integer.parseInt(data[6]), new BigDecimal(data[5]));
+		Inventory inventory = new Inventory(Integer.parseInt(data[2]), Integer.parseInt(data[1]),
+				Integer.parseInt(data[5]), new BigDecimal(data[4]));
 
 		return inventory;
 	}
 
 	private Product instanciateProduct(String[] data, Inventory inventory) {
-		Product product = new Product(Integer.parseInt(data[3]), data[4], inventory);
+		Product product = new Product(Integer.parseInt(data[2]), data[3], inventory);
 
 		return product;
 	}

@@ -33,7 +33,7 @@ public class PersistenceExecutor implements Executor {
 		StoreDao store = jdbcFactory.createStoreDao();
 		
 		try {
-			if (store.findAtDatabase(storeItens.getId())) {
+			if (store.findAtDatabase(storeItens.getDocument())) {
 				log.info("Store found at database, checking the products list for " + storeItens.getName());
 				storeItens.getProducts().forEach(products -> {
 					try {

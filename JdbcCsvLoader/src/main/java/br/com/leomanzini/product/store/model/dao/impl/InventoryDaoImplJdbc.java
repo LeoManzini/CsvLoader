@@ -31,7 +31,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 		try (PreparedStatement insertInventory = conn.prepareStatement(Queries.INSERT_INVENTORY.getQuery())) {
  
 			insertInventory.setInt(1, inventory.getProductId());
-			insertInventory.setInt(2, inventory.getStoreId());
+			insertInventory.setInt(2, inventory.getStoreDocument());
 			insertInventory.setInt(3, inventory.getAmount());
 			insertInventory.setBigDecimal(4, inventory.getPrice());
 			
@@ -55,7 +55,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 			updateInventory.setInt(1, inventory.getAmount());
 			updateInventory.setBigDecimal(2, inventory.getPrice());
 			updateInventory.setInt(3, inventory.getProductId());
-			updateInventory.setInt(4, inventory.getStoreId());
+			updateInventory.setInt(4, inventory.getStoreDocument());
 
 			if (!(updateInventory.executeUpdate() == 1)) {
 				throw new Exception("Inventory update operation failed");
@@ -105,7 +105,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 				Inventory inventory = new Inventory();
 				inventory.setId(inventoryResultSet.getInt("id"));
 				inventory.setProductId(inventoryResultSet.getInt("product_id"));
-				inventory.setStoreId(inventoryResultSet.getInt("store_id"));
+				inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
 				inventory.setAmount(inventoryResultSet.getInt("amount"));
 				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
 				
@@ -136,7 +136,7 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 				Inventory inventory = new Inventory();
 				inventory.setId(inventoryResultSet.getInt("id"));
 				inventory.setProductId(inventoryResultSet.getInt("product_id"));
-				inventory.setStoreId(inventoryResultSet.getInt("store_id"));
+				inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
 				inventory.setAmount(inventoryResultSet.getInt("amount"));
 				inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
 				

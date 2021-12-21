@@ -6,7 +6,7 @@ public class Inventory {
 
 	private Integer id;
 	private Integer productId;
-	private Integer storeId;
+	private Integer storeDocument;
 	private Integer amount;
 	private BigDecimal price;
 
@@ -15,7 +15,7 @@ public class Inventory {
 
 	public Inventory(Integer productId, Integer storeId, Integer amount, BigDecimal price) {
 		this.productId = productId;
-		this.storeId = storeId;
+		this.storeDocument = storeId;
 		this.amount = amount;
 		this.price = price;
 	}
@@ -36,12 +36,12 @@ public class Inventory {
 		this.productId = productId;
 	}
 	
-	public Integer getStoreId() {
-		return storeId;
+	public Integer getStoreDocument() {
+		return storeDocument;
 	}
 
-	public void setStoreId(Integer storeId) {
-		this.storeId = storeId;
+	public void setStoreDocument(Integer storeId) {
+		this.storeDocument = storeId;
 	}
 
 	public Integer getAmount() {
@@ -87,6 +87,6 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "product id: " + productId + ", store id: " + storeId + ", product amount: " + amount + ", product price: " + price;
+		return "product id: " + productId + ", store id: " + storeDocument + ", product amount: " + amount + ", product price: " + price;
 	}
 }

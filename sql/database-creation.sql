@@ -1,8 +1,8 @@
-DROP TABLE STORE CASCADE;
-DROP TABLE PRODUCT CASCADE;
+DROP TABLE STORES CASCADE;
+DROP TABLE PRODUCTS CASCADE;
 DROP TABLE INVENTORY CASCADE;
 
-CREATE TABLE IF NOT EXISTS store (
+CREATE TABLE IF NOT EXISTS stores (
 	id SERIAL,
 	nome VARCHAR(255) NOT NULL,
 	document INTEGER NOT NULL,
@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS store (
 );
 
 CREATE UNIQUE INDEX CONCURRENTLY store_document 
-ON store (document);
+ON stores (document);
 
-CREATE TABLE IF NOT EXISTS product (
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL,
     nome VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS product (
 CREATE TABLE IF NOT EXISTS inventory (
     id SERIAL,
     product_id INTEGER NOT NULL,
-    store_id INTEGER NOT NULL,
+    store_document INTEGER NOT NULL,
     amount INTEGER NOT NULL,
     price NUMERIC(15,2) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (product_id) REFERENCES product (id),
-    FOREIGN KEY (store_id) REFERENCES store (id)
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (store_document) REFERENCES stores (document)
 );
