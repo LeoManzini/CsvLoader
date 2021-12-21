@@ -18,6 +18,9 @@ CREATE TABLE IF NOT EXISTS products (
     PRIMARY KEY (id)
 );
 
+CREATE UNIQUE INDEX CONCURRENTLY nome 
+ON products (nome);
+
 CREATE TABLE IF NOT EXISTS inventory (
     id SERIAL,
     product_id INTEGER NOT NULL,
@@ -28,3 +31,6 @@ CREATE TABLE IF NOT EXISTS inventory (
     FOREIGN KEY (product_id) REFERENCES products (id),
     FOREIGN KEY (store_document) REFERENCES stores (document)
 );
+
+CREATE UNIQUE INDEX CONCURRENTLY product_id 
+ON inventory (product_id);

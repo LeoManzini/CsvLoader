@@ -27,15 +27,22 @@ public class StoreDaoImplJdbc implements StoreDao {
 	}
 
 	// TODO adicionar instância dos produtos de cada loja, mudar query e consulta
-	
+
 	@Override
 	public void insert(Store store) throws StoreDaoException {
-		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery(),
+				new String[] { "id" })) {
 
 			insertStore.setString(1, store.getName());
 			insertStore.setInt(2, store.getDocument());
 
-			if (!(insertStore.executeUpdate() == 1)) {
+			if (insertStore.executeUpdate() > 0) {
+				ResultSet storeIndex = insertStore.getGeneratedKeys();
+
+				if (storeIndex.next()) {
+					store.setId(storeIndex.getInt(1));
+				}
+			} else {
 				throw new Exception("Store insert operation failed");
 			}
 		} catch (SQLException e) {
@@ -148,7 +155,7 @@ public class StoreDaoImplJdbc implements StoreDao {
 
 			if (storeResultSet.next()) {
 				return true;
-			} 
+			}
 			return false;
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
@@ -160,13 +167,13 @@ public class StoreDaoImplJdbc implements StoreDao {
 			storeResultSet.close();
 		}
 	}
-	
+
 	private Store instanciateStore(ResultSet storeResultSet) throws SQLException {
 		Store store = new Store();
 		store.setId(storeResultSet.getInt("id"));
 		store.setName(storeResultSet.getString("nome"));
 		store.setDocument(storeResultSet.getInt("document"));
-		
+
 		return store;
 	}
 

@@ -28,11 +28,19 @@ public class ProductDaoImplJdbc implements ProductDao {
 
 	@Override
 	public void insert(Product product) throws ProductDaoException {
-		try (PreparedStatement insertProduct = con.prepareStatement(Queries.INSERT_PRODUCT.getQuery())) {
+		try (PreparedStatement insertProduct = con.prepareStatement(Queries.INSERT_PRODUCT.getQuery(),
+				new String[] { "id" })) {
 
 			insertProduct.setString(1, product.getName());
 
-			if (!(insertProduct.executeUpdate() == 1)) {
+			if (insertProduct.executeUpdate() > 0) {
+				ResultSet productIndex = insertProduct.getGeneratedKeys();
+
+				if (productIndex.next()) {
+					product.setId(productIndex.getInt(1));
+					product.getInventory().setProductId(product.getId());
+				}
+			} else {
 				throw new Exception("Product insert operation failed");
 			}
 
@@ -143,16 +151,21 @@ public class ProductDaoImplJdbc implements ProductDao {
 	}
 
 	@Override
-	public boolean findAtDatabase(Integer productId) throws ProductDaoException, SQLException {
+	public boolean findAtDatabase(Product product) throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 
-		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
+		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery(),
+				new String[] { "id" })) {
 
-			preparedStatementFindProductId.setInt(1, productId);
+			preparedStatementFindProductId.setInt(1, product.getId());
+			preparedStatementFindProductId.setString(2, product.getName());
 
 			productResultSet = preparedStatementFindProductId.executeQuery();
 
 			if (productResultSet.next()) {
+				product.setId(productResultSet.getInt(1));
+				product.getInventory().setProductId(product.getId());
+
 				return true;
 			}
 			return false;

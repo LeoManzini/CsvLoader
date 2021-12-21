@@ -30,15 +30,20 @@ public class InventoryDaoImplJdbc implements InventoryDao {
 	public void insert(Inventory inventory) throws InventoryDaoException {
 		try (PreparedStatement insertInventory = conn.prepareStatement(Queries.INSERT_INVENTORY.getQuery())) {
  
-			insertInventory.setInt(1, inventory.getProductId());
-			insertInventory.setInt(2, inventory.getStoreDocument());
-			insertInventory.setInt(3, inventory.getAmount());
-			insertInventory.setBigDecimal(4, inventory.getPrice());
-			
-			if (!(insertInventory.executeUpdate() == 1)) {
-				throw new Exception("Inventory insert operation error");
+			if (findAtDatabase(inventory.getProductId(), inventory.getStoreDocument())) {
+				log.info("The above product was found registered at this store, with id " + inventory.getProductId() + ", please fix the current document");
+				log.info("Fixing document error and updating inventory for this product");
+				update(inventory);
+			} else {
+				insertInventory.setInt(1, inventory.getProductId());
+				insertInventory.setInt(2, inventory.getStoreDocument());
+				insertInventory.setInt(3, inventory.getAmount());
+				insertInventory.setBigDecimal(4, inventory.getPrice());
+				
+				if (!(insertInventory.executeUpdate() == 1)) {
+					throw new Exception("Inventory insert operation error");
+				}
 			}
-			
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new InventoryDaoException(ErrorMessages.INVENTORY_INSERT_ERROR);

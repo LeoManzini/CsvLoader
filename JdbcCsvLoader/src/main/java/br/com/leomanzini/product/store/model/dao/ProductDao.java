@@ -12,5 +12,5 @@ public interface ProductDao {
 	Product findById(Integer productId) throws Exception;
 	List<Product> findAll() throws Exception;
 	
-	boolean findAtDatabase(Integer productId) throws Exception;
+	boolean findAtDatabase(Product product) throws Exception;
 }

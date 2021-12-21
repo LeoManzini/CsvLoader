@@ -37,13 +37,13 @@ public class PersistenceExecutor implements Executor {
 				log.info("Store found at database, checking the products list for " + storeItens.getName());
 				storeItens.getProducts().forEach(products -> {
 					try {
-						if (inventory.findAtDatabase(products.getId(), storeItens.getId())) {
+						if (inventory.findAtDatabase(products.getId(), storeItens.getDocument())) {
 							log.info("Product " + products.getName() + " found at this store, increasing inventory");
 							inventory.update(products.getInventory());
 							log.info("Inventory increased");
 						} else {
 							log.info("Product not found at this store, registering new product " + products.getName());
-							if (product.findAtDatabase(products.getId())) {
+							if (product.findAtDatabase(products)) {
 								inventory.insert(products.getInventory());
 							} else {
 								product.insert(products);
@@ -61,7 +61,7 @@ public class PersistenceExecutor implements Executor {
 				storeItens.getProducts().forEach(products -> {
 					try {
 						log.info("Registering new product for this store");
-						if (product.findAtDatabase(products.getId())) {
+						if (product.findAtDatabase(products)) {
 							inventory.insert(products.getInventory());
 						} else {
 							product.insert(products);

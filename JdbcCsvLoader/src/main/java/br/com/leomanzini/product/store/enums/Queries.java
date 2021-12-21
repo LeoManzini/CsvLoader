@@ -39,7 +39,8 @@ public enum Queries {
 	
 	FIND_PRODUCT(" SELECT *      "
 			   + " FROM products "
-			   + " WHERE id = ?  "),
+			   + " WHERE id = ?  "
+			   + " OR nome = ?   "),
 	
 	FIND_ALL_PRODUCTS(" SELECT *      "
 					+ " FROM products "),
