@@ -6,20 +6,20 @@ public enum Queries {
 			   + " (nome, document)  "
 			   + " VALUES (?, ?)     "),
 	
-	UPDATE_STORE(" UPDATE store   "
-	     	   + " SET nome = ? , "
-	     	   + " document = ?   "
-	     	   + " WHERE id = ?   "),
+	UPDATE_STORE(" UPDATE store       "
+	     	   + " SET nome = ?       "
+	     	   + " WHERE document = ? "),
 
-	DELETE_STORE(" DELETE       "
-			   + " FROM store   "
-	     	   + " WHERE id = ? "),
+	DELETE_STORE(" DELETE             "
+			   + " FROM store         "
+	     	   + " WHERE document = ? "
+	     	   + " AND id = ?         "),
 	
-	FIND_STORE(" SELECT *     "
-			 + " FROM store   "
-			 + " WHERE id = ? "),
+	FIND_STORE(" SELECT *           "
+			 + " FROM store         "
+			 + " WHERE document = ? "),
 	
-	FIND_ALL_STORE(" SELECT * "
+	FIND_ALL_STORE(" SELECT *   "
 				 + " FROM store "),
 
 	INSERT_PRODUCT(" INSERT INTO product "
