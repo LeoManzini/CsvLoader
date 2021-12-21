@@ -1,24 +1,30 @@
 package br.com.leomanzini.product.store.model.dao;
 
+import java.sql.Connection;
+
 import br.com.leomanzini.product.store.connector.PostgresConnector;
 import br.com.leomanzini.product.store.model.dao.impl.InventoryDaoImplJdbc;
 import br.com.leomanzini.product.store.model.dao.impl.ProductDaoImplJdbc;
 import br.com.leomanzini.product.store.model.dao.impl.StoreDaoImplJdbc;
 
-public abstract class DaoFactory {
-
+public class DaoFactory {
+	
+	private Connection databaseConnection;
+	
 	@SuppressWarnings("resource")
-	public static StoreDao createStoreDao(String propertiesPath) {
-		return new StoreDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
+	public DaoFactory (String propertiesPath) {
+		databaseConnection = new PostgresConnector().startDatabaseConnection(propertiesPath);
 	}
 
-	@SuppressWarnings("resource")
-	public static ProductDao createProductDao(String propertiesPath) {
-		return new ProductDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
+	public StoreDao createStoreDao() {
+		return new StoreDaoImplJdbc(databaseConnection);
 	}
 
-	@SuppressWarnings("resource")
-	public static InventoryDao createInventoryDao(String propertiesPath) {
-		return new InventoryDaoImplJdbc(new PostgresConnector().startDatabaseConnection(propertiesPath));
+	public ProductDao createProductDao() {
+		return new ProductDaoImplJdbc(databaseConnection);
+	}
+
+	public InventoryDao createInventoryDao() {
+		return new InventoryDaoImplJdbc(databaseConnection);
 	}
 }

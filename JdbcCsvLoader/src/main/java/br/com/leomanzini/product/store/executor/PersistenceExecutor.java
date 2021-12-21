@@ -26,10 +26,11 @@ public class PersistenceExecutor implements Executor {
 
 	@Override
 	public void execute(String propertiesPath) throws Exception {
+		DaoFactory jdbcFactory = new DaoFactory(propertiesPath);
 		
-		InventoryDao inventory = DaoFactory.createInventoryDao(propertiesPath);
-		ProductDao product = DaoFactory.createProductDao(propertiesPath);
-		StoreDao store = DaoFactory.createStoreDao(propertiesPath);
+		InventoryDao inventory = jdbcFactory.createInventoryDao();
+		ProductDao product = jdbcFactory.createProductDao();
+		StoreDao store = jdbcFactory.createStoreDao();
 		
 		try {
 			if (store.findAtDatabase(storeItens.getId())) {
