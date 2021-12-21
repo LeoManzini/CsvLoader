@@ -26,12 +26,14 @@ public class StoreDaoImplJdbc implements StoreDao {
 		this.conn = conn;
 	}
 
+	// TODO adicionar instância dos produtos de cada loja, mudar query e consulta
+	
 	@Override
 	public void insert(Store store) throws StoreDaoException {
 		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
 
 			insertStore.setString(1, store.getName());
-			insertStore.setString(2, store.getDocument());
+			insertStore.setInt(2, store.getDocument());
 
 			if (!(insertStore.executeUpdate() == 1)) {
 				throw new Exception("Store insert operation failed");
@@ -47,11 +49,10 @@ public class StoreDaoImplJdbc implements StoreDao {
 
 	@Override
 	public void update(Store store) throws StoreDaoException {
-		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.UPDATE_STORE.getQuery())) {
 
 			insertStore.setString(1, store.getName());
-			insertStore.setString(2, store.getDocument());
-			insertStore.setInt(3, store.getId());
+			insertStore.setInt(2, store.getDocument());
 
 			if (!(insertStore.executeUpdate() == 1)) {
 				throw new Exception("Store update operation failed");
@@ -67,7 +68,7 @@ public class StoreDaoImplJdbc implements StoreDao {
 
 	@Override
 	public void deleteById(Integer storeId) throws StoreDaoException {
-		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.DELETE_STORE.getQuery())) {
 
 			insertStore.setInt(1, storeId);
 
@@ -87,18 +88,14 @@ public class StoreDaoImplJdbc implements StoreDao {
 	public Store findById(Integer storeId) throws StoreDaoException, SQLException {
 		ResultSet storeResultSet = null;
 
-		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE.getQuery())) {
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE_BY_ID.getQuery())) {
 
 			findStoreById.setInt(1, storeId);
 
 			storeResultSet = findStoreById.executeQuery();
 
 			if (storeResultSet.next()) {
-				Store store = new Store();
-				store.setId(storeResultSet.getInt("id"));
-				store.setName(storeResultSet.getString("nome"));
-				store.setDocument(storeResultSet.getString("document"));
-
+				Store store = instanciateStore(storeResultSet);
 				return store;
 			} else {
 				throw new Exception("Find store operation failed");
@@ -113,8 +110,6 @@ public class StoreDaoImplJdbc implements StoreDao {
 			storeResultSet.close();
 		}
 	}
-	
-	// TODO adicionar instância dos produtos de cada loja, mudar query e consulta
 
 	@Override
 	public List<Store> findAll() throws StoreDaoException, SQLException {
@@ -126,11 +121,7 @@ public class StoreDaoImplJdbc implements StoreDao {
 			storeResultSet = findAllStore.executeQuery();
 
 			while (storeResultSet.next()) {
-				Store store = new Store();
-				store.setId(storeResultSet.getInt("id"));
-				store.setName(storeResultSet.getString("nome"));
-				store.setDocument(storeResultSet.getString("document"));
-				
+				Store store = instanciateStore(storeResultSet);
 				storeResultList.add(store);
 			}
 			return storeResultList;
@@ -146,12 +137,12 @@ public class StoreDaoImplJdbc implements StoreDao {
 	}
 
 	@Override
-	public boolean findAtDatabase(Integer storeId) throws Exception {
+	public boolean findAtDatabase(Integer storeDocument) throws Exception {
 		ResultSet storeResultSet = null;
 
-		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE.getQuery())) {
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE_BY_DOCUMENT.getQuery())) {
 
-			findStoreById.setInt(1, storeId);
+			findStoreById.setInt(1, storeDocument);
 
 			storeResultSet = findStoreById.executeQuery();
 
@@ -168,6 +159,15 @@ public class StoreDaoImplJdbc implements StoreDao {
 		} finally {
 			storeResultSet.close();
 		}
+	}
+	
+	private Store instanciateStore(ResultSet storeResultSet) throws SQLException {
+		Store store = new Store();
+		store.setId(storeResultSet.getInt("id"));
+		store.setName(storeResultSet.getString("nome"));
+		store.setDocument(storeResultSet.getInt("document"));
+		
+		return store;
 	}
 
 	/**

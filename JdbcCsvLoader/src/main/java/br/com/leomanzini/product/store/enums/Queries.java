@@ -10,17 +10,20 @@ public enum Queries {
 	     	   + " SET nome = ?       "
 	     	   + " WHERE document = ? "),
 
-	DELETE_STORE(" DELETE             "
-			   + " FROM store         "
-	     	   + " WHERE document = ? "
-	     	   + " AND id = ?         "),
+	DELETE_STORE(" DELETE       "
+			   + " FROM store   "
+	     	   + " WHERE id = ? "),
 	
-	FIND_STORE(" SELECT *           "
-			 + " FROM store         "
-			 + " WHERE document = ? "),
+	FIND_STORE_BY_ID(" SELECT *     "
+			 	   + " FROM store   "
+			 	   + " WHERE id = ? "),
 	
 	FIND_ALL_STORE(" SELECT *   "
 				 + " FROM store "),
+	
+	FIND_STORE_BY_DOCUMENT(" SELECT *           "
+	   					 + " FROM store         "
+	   					 + " WHERE document = ? "),
 
 	INSERT_PRODUCT(" INSERT INTO product "
 	       		 + " (nome)              "

@@ -6,13 +6,13 @@ public class Store {
 
 	private Integer id;
 	private String name;
-	private String document;
+	private Integer document;
 	private List<Product> products;
 
 	public Store() {
 	}
 
-	public Store(Integer id, String name, String document, List<Product> products) {
+	public Store(Integer id, String name, Integer document, List<Product> products) {
 		this.id = id;
 		this.name = name;
 		this.document = document;
@@ -35,11 +35,11 @@ public class Store {
 		this.name = name;
 	}
 
-	public String getDocument() {
+	public Integer getDocument() {
 		return document;
 	}
 
-	public void setDocument(String data) {
+	public void setDocument(Integer data) {
 		this.document = data;
 	}
 
