@@ -26,7 +26,6 @@ public class PersistenceExecutor implements Executor {
 	
 	// TODO ajeitar a classe storeDao para trazer a lista preenchida de produtos da loja
 	// TODO testar todos os métodos das classes DAO
-	// TODO quebrar codigo que mexe com csv para um codigo externo e usar o mesmo como biblioteca no maven
 
 	@Override
 	public void execute(String propertiesPath) throws Exception {
