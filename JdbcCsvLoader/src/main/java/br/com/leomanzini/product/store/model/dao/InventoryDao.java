@@ -6,11 +6,11 @@ import br.com.leomanzini.product.store.model.entities.Inventory;
 
 public interface InventoryDao {
 
-	void insert(Inventory inventory) throws Exception;
+	void insert(Inventory inventory, String productName) throws Exception;
 	void update (Inventory inventory) throws Exception;
-	void deleteById(Integer productId, Integer storeId) throws Exception;
-	Inventory findById(Integer productId, Integer storeId) throws Exception;
+	void deleteById(Integer productId, Integer storeDocument) throws Exception;
+	Inventory findById(Integer productId, Integer storeDocument) throws Exception;
 	List<Inventory> findAll() throws Exception;
 	
-	boolean findAtDatabase(Integer productId, Integer storeId) throws Exception;
+	boolean findAtDatabase(Integer productId, Integer storeDocument, String productName) throws Exception;
 }

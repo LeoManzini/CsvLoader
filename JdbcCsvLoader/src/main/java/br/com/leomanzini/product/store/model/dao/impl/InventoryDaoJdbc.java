@@ -27,11 +27,11 @@ public class InventoryDaoJdbc implements InventoryDao {
 	}
 
 	@Override
-	public void insert(Inventory inventory) throws InventoryDaoException {
+	public void insert(Inventory inventory, String productName) throws InventoryDaoException {
 		try (PreparedStatement insertInventory = conn.prepareStatement(Queries.INSERT_INVENTORY.getQuery())) {
  
-			if (findAtDatabase(inventory.getProductId(), inventory.getStoreDocument())) {
-				log.info("The above product was found registered at this store, with id " + inventory.getProductId() + ", please fix the current document");
+			if (findAtDatabase(inventory.getProductId(), inventory.getStoreDocument(), productName)) {
+				log.info("The above product was found with id " + inventory.getProductId() + ", please fix the current document");
 				log.info("Fixing document error and updating inventory for this product");
 				update(inventory);
 			} else {
@@ -62,7 +62,7 @@ public class InventoryDaoJdbc implements InventoryDao {
 			updateInventory.setInt(3, inventory.getProductId());
 			updateInventory.setInt(4, inventory.getStoreDocument());
 
-			if (!(updateInventory.executeUpdate() == 1)) {
+			if (!(updateInventory.executeUpdate() > 0)) {
 				throw new Exception("Inventory update operation failed");
 			}
 
@@ -150,13 +150,14 @@ public class InventoryDaoJdbc implements InventoryDao {
 	}
 
 	@Override
-	public boolean findAtDatabase(Integer productId, Integer storeId) throws InventoryDaoException, SQLException {
+	public boolean findAtDatabase(Integer productId, Integer storeId, String productName) throws InventoryDaoException, SQLException {
 		ResultSet inventoryResultSet = null;
 		
 		try (PreparedStatement findStoreProduct = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {
 			
 			findStoreProduct.setInt(1, productId);
 			findStoreProduct.setInt(2, storeId);
+			findStoreProduct.setString(3, productName);
 			
 			inventoryResultSet = findStoreProduct.executeQuery();
 			

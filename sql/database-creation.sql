@@ -31,6 +31,3 @@ CREATE TABLE IF NOT EXISTS inventory (
     FOREIGN KEY (product_id) REFERENCES products (id),
     FOREIGN KEY (store_document) REFERENCES stores (document)
 );
-
-CREATE UNIQUE INDEX CONCURRENTLY product_id 
-ON inventory (product_id);

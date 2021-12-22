@@ -151,8 +151,7 @@ public class ProductDaoJdbc implements ProductDao {
 		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery(),
 				new String[] { "id" })) {
 
-			preparedStatementFindProductId.setInt(1, product.getId());
-			preparedStatementFindProductId.setString(2, product.getName());
+			preparedStatementFindProductId.setString(1, product.getName());
 
 			productResultSet = preparedStatementFindProductId.executeQuery();
 

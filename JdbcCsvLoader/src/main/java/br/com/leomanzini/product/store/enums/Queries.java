@@ -37,10 +37,9 @@ public enum Queries {
 				 + " FROM products "
 		     	 + " WHERE id = ?  "),
 	
-	FIND_PRODUCT(" SELECT *      "
-			   + " FROM products "
-			   + " WHERE id = ?  "
-			   + " OR nome = ?   "),
+	FIND_PRODUCT(" SELECT *       "
+			   + " FROM products  "
+			   + " WHERE nome = ? "),
 	
 	FIND_ALL_PRODUCTS(" SELECT *      "
 					+ " FROM products "),
@@ -61,9 +60,11 @@ public enum Queries {
 			       + " AND store_document = ? "),
 	
 	FIND_INVENTORY(" SELECT *               "
-		         + " FROM inventory         "
-		         + " WHERE product_id = ?   "
-		         + " AND store_document = ? "),
+		         + " FROM inventory i ,     "
+		         + " products prod "
+		         + " WHERE i.product_id = ?   "
+		         + " AND i.store_document = ? "
+		         + " AND prod.nome = ? "),
 	
 	FIND_ALL_INVENTORY(" SELECT *       "
 		             + " FROM inventory ");
