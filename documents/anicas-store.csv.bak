@@ -1,21 +1,21 @@
-STORE_NAME,STORE_DOCUMENT,PRODUCT_ID,PRODUCT_NAME,PRODUCT_PRICE,INVENTORY_AMOUNT
-Anicas,00000001,1,Wristwatch,90.00,20
-Anicas,00000001,2,Smarth Watch,150.00,8
-Anicas,00000001,3,Smarth TV,1200.00,50
-Anicas,00000001,4,Samsung notebook,3500.00,12
-Anicas,00000001,5,Dell notebook,3200.00,17
-Anicas,00000001,6,Bluetooth Speaker,500.00,10
-Anicas,00000001,7,Bluetooth Headphones,80.00,90
-Anicas,00000001,8,Xiaomi smartphone,1000.00,70
-Anicas,00000001,9,Apple smartphone,13000.00,30
-Anicas,00000001,10,Samsung smartphone,8000.00,2
-Anicas,00000001,11,144hz monitor,1100.00,15
-Anicas,00000001,12,Game Computer,5000.00,14
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,13,Mouse Redragon,180.00,9
-Anicas,00000001,14,Mouse Multilaser,37.00,10
-Anicas,00000001,14,Mouse Logitech,50.00,5
+STORE_NAME,STORE_DOCUMENT,PRODUCT_SERIAL,PRODUCT_NAME,PRODUCT_PRICE,INVENTORY_AMOUNT
+Anicas,00000001,11010,Wristwatch,90.00,20
+Anicas,00000001,11020,Smarth Watch,150.00,8
+Anicas,00000001,10010,Smarth TV,1200.00,50
+Anicas,00000001,09010,Samsung notebook,3500.00,12
+Anicas,00000001,09020,Dell notebook,3200.00,17
+Anicas,00000001,01010,Bluetooth Speaker,500.00,10
+Anicas,00000001,01020,Bluetooth Headphones,80.00,90
+Anicas,00000001,02010,Xiaomi smartphone,1000.00,70
+Anicas,00000001,02020,Apple smartphone,13000.00,30
+Anicas,00000001,02030,Samsung smartphone,8000.00,2
+Anicas,00000001,12010,144hz monitor,1100.00,15
+Anicas,00000001,13010,Game Computer,5000.00,14
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03010,Mouse Redragon,180.00,9
+Anicas,00000001,03020,Mouse Multilaser,37.00,10
+Anicas,00000001,03030,Mouse Logitech,50.00,5

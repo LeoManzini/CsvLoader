@@ -25,9 +25,9 @@ public enum Queries {
 	   					 + " FROM stores         "
 	   					 + " WHERE document = ?  "),
 
-	INSERT_PRODUCT(" INSERT INTO products "
-	       		 + " (nome)               "
-	       		 + " VALUES (?)           "),
+	INSERT_PRODUCT(" INSERT INTO     "
+	       		 + " products (nome) "
+	       		 + " VALUES (?)      "),
 	
 	UPDATE_PRODUCT(" UPDATE products "
 		     	 + " SET nome = ?    "
@@ -37,37 +37,45 @@ public enum Queries {
 				 + " FROM products "
 		     	 + " WHERE id = ?  "),
 	
-	FIND_PRODUCT(" SELECT *       "
-			   + " FROM products  "
-			   + " WHERE nome = ? "),
+	FIND_PRODUCT_BY_ID(" SELECT *      "
+			   		 + " FROM products "
+			         + " WHERE id = ?  "),
 	
 	FIND_ALL_PRODUCTS(" SELECT *      "
 					+ " FROM products "),
 	
-	INSERT_INVENTORY(" INSERT INTO inventory                       "
-			       + " (product_id, store_document, amount, price) "
-			       + " VALUES (?, ?, ?, ?)                         "),
+	FIND_PRODUCT_BY_NAME(" SELECT *       "
+					   + " FROM products  "
+					   + " WHERE nome = ? "),
+	
+	INSERT_INVENTORY(" INSERT INTO inventory          "
+			       + " (product_serie, product_id,    "
+			       + " store_document, amount, price) "
+			       + " VALUES (?, ?, ?, ?, ?)         "),
 
 	UPDATE_INVENTORY(" UPDATE inventory          "
 			       + " SET amount = amount + ? , "
 			       + " price = ?                 "
-			       + " WHERE product_id = ?      "
+			       + " WHERE product_serie = ?   "
 			       + " AND store_document = ?    "),
 	
-	DELETE_INVENTORY(" DELETE                 "
-			       + " FROM inventory         "
-			       + " WHERE product_id = ?   "
-			       + " AND store_document = ? "),
+	DELETE_INVENTORY(" DELETE                  " 
+			       + " FROM inventory          "
+			       + " WHERE product_serie = ? "
+			       + " AND store_document = ?  "),
 	
-	FIND_INVENTORY(" SELECT *               "
-		         + " FROM inventory i ,     "
-		         + " products prod "
-		         + " WHERE i.product_id = ?   "
-		         + " AND i.store_document = ? "
-		         + " AND prod.nome = ? "),
+	FIND_INVENTORY_BY_ID(" SELECT *               "
+			           + " FROM inventory         "
+			           + " WHERE product_id = ?   "
+			           + " AND store_document = ? "),
 	
 	FIND_ALL_INVENTORY(" SELECT *       "
-		             + " FROM inventory ");
+		             + " FROM inventory "),
+	
+	FIND_INVENTORY_BY_SERIE(" SELECT *                "
+						  + " FROM inventory          "
+						  + " WHERE product_serie = ? "
+						  + " AND store_document = ?  ");
 	
 	private String query;
 	

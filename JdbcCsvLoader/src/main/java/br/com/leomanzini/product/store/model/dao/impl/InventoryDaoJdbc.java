@@ -27,20 +27,22 @@ public class InventoryDaoJdbc implements InventoryDao {
 	}
 
 	@Override
-	public void insert(Inventory inventory, String productName) throws InventoryDaoException {
+	public void insert(Inventory inventory) throws InventoryDaoException {
 		try (PreparedStatement insertInventory = conn.prepareStatement(Queries.INSERT_INVENTORY.getQuery())) {
- 
-			if (findAtDatabase(inventory.getProductId(), inventory.getStoreDocument(), productName)) {
-				log.info("The above product was found with id " + inventory.getProductId() + ", please fix the current document");
+
+			if (findAtDatabase(inventory.getProductSerie(), inventory.getStoreDocument())) {
+				log.info("The above product was found with serie " + inventory.getProductSerie()
+						+ ", please fix the current document");
 				log.info("Fixing document error and updating inventory for this product");
 				update(inventory);
 			} else {
-				insertInventory.setInt(1, inventory.getProductId());
-				insertInventory.setInt(2, inventory.getStoreDocument());
-				insertInventory.setInt(3, inventory.getAmount());
-				insertInventory.setBigDecimal(4, inventory.getPrice());
-				
-				if (!(insertInventory.executeUpdate() == 1)) {
+				insertInventory.setInt(1, inventory.getProductSerie());
+				insertInventory.setInt(2, inventory.getProductId());
+				insertInventory.setInt(3, inventory.getStoreDocument());
+				insertInventory.setInt(4, inventory.getAmount());
+				insertInventory.setBigDecimal(5, inventory.getPrice());
+
+				if (!(insertInventory.executeUpdate() > 0)) {
 					throw new Exception("Inventory insert operation error");
 				}
 			}
@@ -59,7 +61,7 @@ public class InventoryDaoJdbc implements InventoryDao {
 
 			updateInventory.setInt(1, inventory.getAmount());
 			updateInventory.setBigDecimal(2, inventory.getPrice());
-			updateInventory.setInt(3, inventory.getProductId());
+			updateInventory.setInt(3, inventory.getProductSerie());
 			updateInventory.setInt(4, inventory.getStoreDocument());
 
 			if (!(updateInventory.executeUpdate() > 0)) {
@@ -76,16 +78,16 @@ public class InventoryDaoJdbc implements InventoryDao {
 	}
 
 	@Override
-	public void deleteById(Integer productId, Integer storeId) throws InventoryDaoException {
+	public void deleteBySerie(Integer productSerie, Integer storeId) throws InventoryDaoException {
 		try (PreparedStatement deleteInventory = conn.prepareStatement(Queries.DELETE_INVENTORY.getQuery())) {
-			
-			deleteInventory.setInt(1, productId);
+
+			deleteInventory.setInt(1, productSerie);
 			deleteInventory.setInt(2, storeId);
-			
-			if(!(deleteInventory.executeUpdate() == 1)) {
+
+			if (!(deleteInventory.executeUpdate() == 1)) {
 				throw new Exception("Inventory delete operation failed");
 			}
-			
+
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new InventoryDaoException(ErrorMessages.INVENTORY_DELETE_ERROR);
@@ -98,22 +100,22 @@ public class InventoryDaoJdbc implements InventoryDao {
 	@Override
 	public Inventory findById(Integer productId, Integer storeId) throws InventoryDaoException {
 		ResultSet inventoryResultSet = null;
-		
-		try (PreparedStatement findInventoryById = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {
-			
+
+		try (PreparedStatement findInventoryById = conn.prepareStatement(Queries.FIND_INVENTORY_BY_ID.getQuery())) {
+
 			findInventoryById.setInt(1, productId);
 			findInventoryById.setInt(2, storeId);
-			
+
 			inventoryResultSet = findInventoryById.executeQuery();
-			
+
 			if (inventoryResultSet.next()) {
 				Inventory inventory = instanciateInventory(inventoryResultSet);
 				return inventory;
 			} else {
 				throw new Exception("Inventory consult operation failed");
 			}
-			
-		}  catch (SQLException e) {
+
+		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new InventoryDaoException(ErrorMessages.INVENTORY_INSERT_ERROR);
 		} catch (Exception e) {
@@ -126,18 +128,18 @@ public class InventoryDaoJdbc implements InventoryDao {
 	public List<Inventory> findAll() throws InventoryDaoException, SQLException {
 		ResultSet inventoryResultSet = null;
 		List<Inventory> inventoryResultList = new ArrayList<>();
-		
+
 		try (PreparedStatement findInventories = conn.prepareStatement(Queries.FIND_ALL_INVENTORY.getQuery())) {
-			
+
 			inventoryResultSet = findInventories.executeQuery();
-			
+
 			while (inventoryResultSet.next()) {
 				Inventory inventory = instanciateInventory(inventoryResultSet);
 				inventoryResultList.add(inventory);
 			}
-			
+
 			return inventoryResultList;
-			
+
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new InventoryDaoException(ErrorMessages.INVENTORY_FIND_ALL_ERROR);
@@ -150,17 +152,16 @@ public class InventoryDaoJdbc implements InventoryDao {
 	}
 
 	@Override
-	public boolean findAtDatabase(Integer productId, Integer storeId, String productName) throws InventoryDaoException, SQLException {
+	public boolean findAtDatabase(Integer productSerie, Integer storeId) throws InventoryDaoException, SQLException {
 		ResultSet inventoryResultSet = null;
-		
-		try (PreparedStatement findStoreProduct = conn.prepareStatement(Queries.FIND_INVENTORY.getQuery())) {
-			
-			findStoreProduct.setInt(1, productId);
+
+		try (PreparedStatement findStoreProduct = conn.prepareStatement(Queries.FIND_INVENTORY_BY_SERIE.getQuery())) {
+
+			findStoreProduct.setInt(1, productSerie);
 			findStoreProduct.setInt(2, storeId);
-			findStoreProduct.setString(3, productName);
-			
+
 			inventoryResultSet = findStoreProduct.executeQuery();
-			
+
 			if (inventoryResultSet.next()) {
 				return true;
 			}
@@ -175,15 +176,16 @@ public class InventoryDaoJdbc implements InventoryDao {
 			inventoryResultSet.close();
 		}
 	}
-	
+
 	private Inventory instanciateInventory(ResultSet inventoryResultSet) throws SQLException {
 		Inventory inventory = new Inventory();
 		inventory.setId(inventoryResultSet.getInt("id"));
+		inventory.setProductSerie(inventoryResultSet.getInt("product_serie"));
 		inventory.setProductId(inventoryResultSet.getInt("product_id"));
 		inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
 		inventory.setAmount(inventoryResultSet.getInt("amount"));
 		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
-		
+
 		return inventory;
 	}
 }

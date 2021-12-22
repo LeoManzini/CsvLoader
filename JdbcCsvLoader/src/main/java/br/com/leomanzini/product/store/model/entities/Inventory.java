@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Inventory {
 
 	private Integer id;
+	private Integer productSerie;
 	private Integer productId;
 	private Integer storeDocument;
 	private Integer amount;
@@ -13,8 +14,16 @@ public class Inventory {
 	public Inventory() {
 	}
 
-	public Inventory(Integer productId, Integer storeId, Integer amount, BigDecimal price) {
+	public Inventory(Integer productSerie, Integer productId, Integer storeId, Integer amount, BigDecimal price) {
+		this.productSerie = productSerie;
 		this.productId = productId;
+		this.storeDocument = storeId;
+		this.amount = amount;
+		this.price = price;
+	}
+	
+	public Inventory(Integer productSerie, Integer storeId, Integer amount, BigDecimal price) {
+		this.productSerie = productSerie;
 		this.storeDocument = storeId;
 		this.amount = amount;
 		this.price = price;
@@ -26,6 +35,14 @@ public class Inventory {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getProductSerie() {
+		return productSerie;
+	}
+
+	public void setProductSerie(Integer productSerie) {
+		this.productSerie = productSerie;
 	}
 
 	public Integer getProductId() {
@@ -40,8 +57,8 @@ public class Inventory {
 		return storeDocument;
 	}
 
-	public void setStoreDocument(Integer storeId) {
-		this.storeDocument = storeId;
+	public void setStoreDocument(Integer storeDocument) {
+		this.storeDocument = storeDocument;
 	}
 
 	public Integer getAmount() {
@@ -87,6 +104,7 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "product id: " + productId + ", store id: " + storeDocument + ", product amount: " + amount + ", product price: " + price;
+		return "Inventory id: " + id + ", productSerie: " + productSerie + ", productId: " + productId
+				+ ", storeDocument: " + storeDocument + ", amount: " + amount + ", price: " + price;
 	}
 }

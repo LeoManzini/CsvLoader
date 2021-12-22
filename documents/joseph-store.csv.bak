@@ -1,0 +1,13 @@
+STORE_NAME,STORE_DOCUMENT,PRODUCT_ID,PRODUCT_NAME,PRODUCT_PRICE,INVENTORY_AMOUNT
+Joseph,00000002,1,Wristwatch,90.00,20
+Joseph,00000002,2,Smarth Watch,150.00,8
+Joseph,00000002,3,Smarth TV,1200.00,50
+Joseph,00000002,4,Samsung notebook,3500.00,12
+Joseph,00000002,5,Dell notebook,3200.00,17
+Joseph,00000002,6,Bluetooth Speaker,500.00,10
+Joseph,00000002,7,Bluetooth Headphones,80.00,90
+Joseph,00000002,8,Xiaomi smartphone,1000.00,70
+Joseph,00000002,9,Apple smartphone,13000.00,30
+Joseph,00000002,10,Samsung smartphone,8000.00,2
+Joseph,00000002,11,144hz monitor,1100.00,15
+Joseph,00000002,12,Game Computer,5000.00,14

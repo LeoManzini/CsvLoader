@@ -17,7 +17,7 @@ import br.com.leomanzini.product.store.model.dao.ProductDao;
 import br.com.leomanzini.product.store.model.entities.Product;
 
 public class ProductDaoJdbc implements ProductDao {
-	
+
 	private static final Logger log = LogManager.getLogger(ProductDaoJdbc.class);
 
 	private Connection con;
@@ -43,7 +43,6 @@ public class ProductDaoJdbc implements ProductDao {
 			} else {
 				throw new Exception("Product insert operation failed");
 			}
-
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new ProductDaoException(ErrorMessages.PRODUCT_INSERT_ERROR);
@@ -96,7 +95,7 @@ public class ProductDaoJdbc implements ProductDao {
 	public Product findById(Integer productId) throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 
-		try (PreparedStatement findProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery())) {
+		try (PreparedStatement findProductId = con.prepareStatement(Queries.FIND_PRODUCT_BY_ID.getQuery())) {
 
 			findProductId.setInt(1, productId);
 
@@ -123,7 +122,7 @@ public class ProductDaoJdbc implements ProductDao {
 	public List<Product> findAll() throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 		List<Product> resultList = new ArrayList<>();
-		
+
 		try (PreparedStatement findProducts = con.prepareStatement(Queries.FIND_ALL_PRODUCTS.getQuery())) {
 
 			productResultSet = findProducts.executeQuery();
@@ -148,15 +147,15 @@ public class ProductDaoJdbc implements ProductDao {
 	public boolean findAtDatabase(Product product) throws ProductDaoException, SQLException {
 		ResultSet productResultSet = null;
 
-		try (PreparedStatement preparedStatementFindProductId = con.prepareStatement(Queries.FIND_PRODUCT.getQuery(),
-				new String[] { "id" })) {
+		try (PreparedStatement preparedStatementFindProductId = con
+				.prepareStatement(Queries.FIND_PRODUCT_BY_NAME.getQuery())) {
 
 			preparedStatementFindProductId.setString(1, product.getName());
 
 			productResultSet = preparedStatementFindProductId.executeQuery();
 
 			if (productResultSet.next()) {
-				product.setId(productResultSet.getInt(1));
+				product.setId(productResultSet.getInt("id"));
 				product.getInventory().setProductId(product.getId());
 
 				return true;
@@ -172,7 +171,7 @@ public class ProductDaoJdbc implements ProductDao {
 			productResultSet.close();
 		}
 	}
-	
+
 	private Product instanciateProduct(ResultSet productResultSet) throws SQLException {
 		Product product = new Product();
 		product.setId(productResultSet.getInt("id"));

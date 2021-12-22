@@ -68,7 +68,7 @@ public class StoreCsvReader {
 	}
 
 	private Product instanciateProduct(String[] data, Inventory inventory) {
-		Product product = new Product(Integer.parseInt(data[2]), data[3], inventory);
+		Product product = new Product(data[3], inventory);
 
 		return product;
 	}
