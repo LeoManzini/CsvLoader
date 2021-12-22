@@ -168,14 +168,54 @@ public class StoreDaoJdbc implements StoreDao {
 	
 	@Override
 	public Store findStoreWithProducts(Integer storeId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet storeResultSet = null;
+
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE_BY_ID.getQuery())) {
+
+			findStoreById.setInt(1, storeId);
+
+			storeResultSet = findStoreById.executeQuery();
+
+			if (storeResultSet.next()) {
+				Store store = instanciateFullStore(storeResultSet);
+				return store;
+			} else {
+				throw new Exception("Find store operation failed");
+			}
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ERROR);
+		} finally {
+			storeResultSet.close();
+		}
 	}
-	
+
 	@Override
 	public List<Store> findAllStoresWithProducts() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet storeResultSet = null;
+		List<Store> storeResultList = new ArrayList<>();
+
+		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_ALL_STORE.getQuery())) {
+
+			storeResultSet = findAllStore.executeQuery();
+
+			while (storeResultSet.next()) {
+				Store store = instanciateFullStore(storeResultSet);
+				storeResultList.add(store);
+			}
+			return storeResultList;
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ALL_ERROR);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new StoreDaoException(ErrorMessages.STORE_FIND_ALL_ERROR);
+		} finally {
+			storeResultSet.close();
+		}
 	}
 
 	private Store instanciateStore(ResultSet storeResultSet) throws SQLException {
@@ -185,6 +225,11 @@ public class StoreDaoJdbc implements StoreDao {
 		store.setDocument(storeResultSet.getInt("document"));
 
 		return store;
+	}
+	
+	private Store instanciateFullStore(ResultSet storeResultSet) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
