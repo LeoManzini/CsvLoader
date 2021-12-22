@@ -38,19 +38,19 @@ public class PersistenceExecutor implements Executor {
 		try {
 			if (store.findAtDatabase(storeItens.getDocument())) {
 				log.info("Store found at database, checking the products list for " + storeItens.getName());
-				storeItens.getProducts().forEach(products -> {
+				storeItens.getProducts().forEach(producto -> {
 					try {
-						if (inventory.findAtDatabase(products.getInventory().getProductSerie(), storeItens.getDocument())) {
-							log.info("Product " + products.getName() + " found at this store, increasing inventory");
-							inventory.update(products.getInventory());
+						if (inventory.findAtDatabase(producto.getInventory().getProductSerie(), storeItens.getDocument())) {
+							log.info("Product " + producto.getName() + " found at this store, increasing inventory");
+							inventory.update(producto.getInventory());
 							log.info("Inventory increased");
 						} else {
-							log.info("Product not found at this store, registering new product " + products.getName());
-							if (product.findAtDatabase(products)) {
-								inventory.insert(products.getInventory());
+							log.info("Product not found at this store, registering new product " + producto.getName());
+							if (product.findAtDatabase(producto)) {
+								inventory.insert(producto.getInventory());
 							} else {
-								product.insert(products);
-								inventory.insert(products.getInventory());
+								product.insert(producto);
+								inventory.insert(producto.getInventory());
 							}
 							log.info("Product registered successfully");
 						}
@@ -59,16 +59,16 @@ public class PersistenceExecutor implements Executor {
 					}
 				});
 			} else {
-				log.info("Registering new store");
+				log.info("Registering new store " + storeItens.getName());
 				store.insert(storeItens);
-				storeItens.getProducts().forEach(products -> {
+				storeItens.getProducts().forEach(producto -> {
 					try {
-						log.info("Registering new product for this store");
-						if (product.findAtDatabase(products)) {
-							inventory.insert(products.getInventory());
+						log.info("Registering new product " + producto.getName() + " for the store inventory");
+						if (product.findAtDatabase(producto)) {
+							inventory.insert(producto.getInventory());
 						} else {
-							product.insert(products);
-							inventory.insert(products.getInventory());
+							product.insert(producto);
+							inventory.insert(producto.getInventory());
 						}
 						log.info("Product registered successfully");
 					} catch (Exception e) {
