@@ -26,8 +26,6 @@ public class StoreDaoJdbc implements StoreDao {
 		this.conn = conn;
 	}
 
-	// TODO adicionar instância dos produtos de cada loja, mudar query e consulta
-
 	@Override
 	public void insert(Store store) throws StoreDaoException {
 		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery(),
@@ -166,6 +164,18 @@ public class StoreDaoJdbc implements StoreDao {
 		} finally {
 			storeResultSet.close();
 		}
+	}
+	
+	@Override
+	public Store findStoreWithProducts(Integer storeId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Store> findAllStoresWithProducts() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Store instanciateStore(ResultSet storeResultSet) throws SQLException {

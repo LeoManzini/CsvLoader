@@ -13,4 +13,6 @@ public interface StoreDao {
 	List<Store> findAll() throws Exception;
 	
 	boolean findAtDatabase(Integer storeId) throws Exception;
+	Store findStoreWithProducts(Integer storeId) throws Exception;
+	List<Store> findAllStoresWithProducts() throws Exception;
 }
