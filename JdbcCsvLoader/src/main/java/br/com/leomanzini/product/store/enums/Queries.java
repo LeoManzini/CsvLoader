@@ -24,6 +24,17 @@ public enum Queries {
 	FIND_STORE_BY_DOCUMENT(" SELECT *            "
 	   					 + " FROM stores         "
 	   					 + " WHERE document = ?  "),
+	
+	FIND_FULL_STORE_BY_DOCUMENT(" SELECT *             "
+							  + " FROM inventory i,    "
+							  + " stores s             "
+							  + " WHERE s.document = ? "),
+	
+	FIND_FULL_STORES(" SELECT *              "
+				   + " FROM inventory i      "
+				   + " JOIN stores s         "
+				   + " ON i.store_document = "
+				   + " s.document            "),
 
 	INSERT_PRODUCT(" INSERT INTO     "
 	       		 + " products (nome) "

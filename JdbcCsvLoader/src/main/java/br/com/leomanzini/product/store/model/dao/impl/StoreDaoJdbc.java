@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +16,8 @@ import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.enums.Queries;
 import br.com.leomanzini.product.store.exceptions.StoreDaoException;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
+import br.com.leomanzini.product.store.model.entities.Inventory;
+import br.com.leomanzini.product.store.model.entities.Product;
 import br.com.leomanzini.product.store.model.entities.Store;
 
 public class StoreDaoJdbc implements StoreDao {
@@ -165,12 +169,12 @@ public class StoreDaoJdbc implements StoreDao {
 			storeResultSet.close();
 		}
 	}
-	
+
 	@Override
 	public Store findStoreWithProducts(Integer storeId) throws Exception {
 		ResultSet storeResultSet = null;
 
-		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_STORE_BY_ID.getQuery())) {
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_FULL_STORE_BY_DOCUMENT.getQuery())) {
 
 			findStoreById.setInt(1, storeId);
 
@@ -198,13 +202,20 @@ public class StoreDaoJdbc implements StoreDao {
 		ResultSet storeResultSet = null;
 		List<Store> storeResultList = new ArrayList<>();
 
-		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_ALL_STORE.getQuery())) {
+		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_FULL_STORES.getQuery())) {
 
 			storeResultSet = findAllStore.executeQuery();
 
+			Map<Integer, Store> mapStores = new HashMap<>();
+
 			while (storeResultSet.next()) {
-				Store store = instanciateFullStore(storeResultSet);
-				storeResultList.add(store);
+				Store store = mapStores.get(storeResultSet.getInt("store_document"));
+
+				if (store == null) {
+					store = instanciateFullStore(storeResultSet);
+					mapStores.put(storeResultSet.getInt("store_document"), store);
+					storeResultList.add(store);
+				}
 			}
 			return storeResultList;
 		} catch (SQLException e) {
@@ -223,13 +234,40 @@ public class StoreDaoJdbc implements StoreDao {
 		store.setId(storeResultSet.getInt("id"));
 		store.setName(storeResultSet.getString("nome"));
 		store.setDocument(storeResultSet.getInt("document"));
+		store.setProducts(new ArrayList<>());
 
 		return store;
 	}
-	
-	private Store instanciateFullStore(ResultSet storeResultSet) {
-		// TODO Auto-generated method stub
-		return null;
+
+	private Inventory instanciateInventory(ResultSet inventoryResultSet) throws SQLException {
+		Inventory inventory = new Inventory();
+		inventory.setId(inventoryResultSet.getInt("id"));
+		inventory.setProductSerie(inventoryResultSet.getInt("product_serie"));
+		inventory.setProductId(inventoryResultSet.getInt("product_id"));
+		inventory.setStoreDocument(inventoryResultSet.getInt("store_document"));
+		inventory.setAmount(inventoryResultSet.getInt("amount"));
+		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
+
+		return inventory;
+	}
+
+	private Product instanciateProduct(ResultSet productResultSet, Inventory inventory) throws SQLException {
+		Product product = new Product();
+		product.setId(productResultSet.getInt("id"));
+		product.setName(productResultSet.getString("name"));
+		product.setInventory(inventory);
+		return product;
+	}
+
+	private Store instanciateFullStore(ResultSet storeResultSet) throws SQLException {
+		Store store = instanciateStore(storeResultSet);
+
+		while (storeResultSet.next()) {
+			Inventory inventory = instanciateInventory(storeResultSet);
+			Product product = instanciateProduct(storeResultSet, inventory);
+			store.getProducts().add(product);
+		}
+		return store;
 	}
 
 	/**

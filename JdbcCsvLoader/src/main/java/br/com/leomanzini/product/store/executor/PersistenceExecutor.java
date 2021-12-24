@@ -30,61 +30,64 @@ public class PersistenceExecutor implements Executor {
 	@Override
 	public void execute(String propertiesPath) throws Exception {
 		DaoFactory jdbcFactory = new DaoFactory(propertiesPath);
-		
-		InventoryDao inventory = jdbcFactory.createInventoryDao();
-		ProductDao product = jdbcFactory.createProductDao();
+//		
+//		InventoryDao inventory = jdbcFactory.createInventoryDao();
+//		ProductDao product = jdbcFactory.createProductDao();
 		StoreDao store = jdbcFactory.createStoreDao();
 		
 		try {
-			if (store.findAtDatabase(storeItens.getDocument())) {
-				log.info("Store found at database, checking the products list for " + storeItens.getName());
-				storeItens.getProducts().forEach(producto -> {
-					try {
-						if (inventory.findAtDatabase(producto.getInventory().getProductSerie(), storeItens.getDocument())) {
-							log.info("Product " + producto.getName() + " found at this store, increasing inventory");
-							inventory.update(producto.getInventory());
-							log.info("Inventory increased");
-						} else {
-							log.info("Product not found at this store, registering new product " + producto.getName());
-							if (product.findAtDatabase(producto)) {
-								inventory.insert(producto.getInventory());
-							} else {
-								product.insert(producto);
-								inventory.insert(producto.getInventory());
-							}
-							log.info("Product registered successfully");
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
-			} else {
-				log.info("Registering new store " + storeItens.getName());
-				store.insert(storeItens);
-				storeItens.getProducts().forEach(producto -> {
-					try {
-						log.info("Registering new product " + producto.getName() + " for the store inventory");
-						if (product.findAtDatabase(producto)) {
-							inventory.insert(producto.getInventory());
-						} else {
-							product.insert(producto);
-							inventory.insert(producto.getInventory());
-						}
-						log.info("Product registered successfully");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
-			}
-		} catch (StoreDaoException e) {
-			log.error(e.getMessage(), e);
-			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_STORE_ERROR);
-		} catch (ProductDaoException e) {
-			log.error(e.getMessage(), e);
-			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_PRODUCT_ERROR);
-		} catch (InventoryDaoException e) {
-			log.error(e.getMessage(), e);
-			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_INVENTORY_ERROR);
+			Store foundStore = store.findStoreWithProducts(1);
+			
+			log.info(foundStore);
+//			if (store.findAtDatabase(storeItens.getDocument())) {
+//				log.info("Store found at database, checking the products list for " + storeItens.getName());
+//				storeItens.getProducts().forEach(producto -> {
+//					try {
+//						if (inventory.findAtDatabase(producto.getInventory().getProductSerie(), storeItens.getDocument())) {
+//							log.info("Product " + producto.getName() + " found at this store, increasing inventory");
+//							inventory.update(producto.getInventory());
+//							log.info("Inventory increased");
+//						} else {
+//							log.info("Product not found at this store, registering new product " + producto.getName());
+//							if (product.findAtDatabase(producto)) {
+//								inventory.insert(producto.getInventory());
+//							} else {
+//								product.insert(producto);
+//								inventory.insert(producto.getInventory());
+//							}
+//							log.info("Product registered successfully");
+//						}
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				});
+//			} else {
+//				log.info("Registering new store " + storeItens.getName());
+//				store.insert(storeItens);
+//				storeItens.getProducts().forEach(producto -> {
+//					try {
+//						log.info("Registering new product " + producto.getName() + " for the store inventory");
+//						if (product.findAtDatabase(producto)) {
+//							inventory.insert(producto.getInventory());
+//						} else {
+//							product.insert(producto);
+//							inventory.insert(producto.getInventory());
+//						}
+//						log.info("Product registered successfully");
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				});
+//			}
+//		} catch (StoreDaoException e) {
+//			log.error(e.getMessage(), e);
+//			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_STORE_ERROR);
+//		} catch (ProductDaoException e) {
+//			log.error(e.getMessage(), e);
+//			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_PRODUCT_ERROR);
+//		} catch (InventoryDaoException e) {
+//			log.error(e.getMessage(), e);
+//			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_INVENTORY_ERROR);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw new PersistenceExecutorException(ErrorMessages.PERSISTENCE_EXECUTOR_PRODUCT_ERROR);
