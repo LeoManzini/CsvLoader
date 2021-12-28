@@ -1,16 +1,13 @@
 package br.com.leomanzini.product.store.executor;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.leomanzini.product.store.enums.ErrorMessages;
-import br.com.leomanzini.product.store.exceptions.InventoryDaoException;
 import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
-import br.com.leomanzini.product.store.exceptions.ProductDaoException;
-import br.com.leomanzini.product.store.exceptions.StoreDaoException;
 import br.com.leomanzini.product.store.model.dao.DaoFactory;
-import br.com.leomanzini.product.store.model.dao.InventoryDao;
-import br.com.leomanzini.product.store.model.dao.ProductDao;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
 import br.com.leomanzini.product.store.model.entities.Store;
 
@@ -39,6 +36,10 @@ public class PersistenceExecutor implements Executor {
 			Store foundStore = store.findStoreWithProducts(1);
 			
 			log.info(foundStore);
+			
+			List<Store> foundStores = store.findAllStoresWithProducts();
+			
+			foundStores.forEach(stores -> log.info(stores));
 //			if (store.findAtDatabase(storeItens.getDocument())) {
 //				log.info("Store found at database, checking the products list for " + storeItens.getName());
 //				storeItens.getProducts().forEach(producto -> {

@@ -25,16 +25,32 @@ public enum Queries {
 	   					 + " FROM stores         "
 	   					 + " WHERE document = ?  "),
 	
-	FIND_FULL_STORE_BY_DOCUMENT(" SELECT *             "
-							  + " FROM inventory i,    "
-							  + " stores s             "
+	FIND_FULL_STORE_BY_DOCUMENT(" SELECT i.id AS inventory_id, "
+							  + " i.product_serie AS product_serial, "
+							  + " i.product_id AS product_id, "
+							  + " prod.nome AS product_name, "
+							  + " i.amount AS amount, "
+							  + " i.price AS price, "
+							  + " i.store_document AS store_document, "
+							  + " s.id AS store_id, "
+							  + " s.nome AS store_name "
+							  + " FROM inventory i "
+							  + " LEFT JOIN stores s ON i.store_document = s.document "
+							  + " LEFT JOIN products prod ON i.product_id = prod.id "
 							  + " WHERE s.document = ? "),
 	
-	FIND_FULL_STORES(" SELECT *              "
-				   + " FROM inventory i      "
-				   + " JOIN stores s         "
-				   + " ON i.store_document = "
-				   + " s.document            "),
+	FIND_FULL_STORES(" SELECT i.id AS inventory_id, "
+			  	   + " i.product_serie AS product_serial, "
+			  	   + " i.product_id AS product_id, "
+			  	   + " prod.nome AS product_name, "
+			  	   + " i.amount AS amount, "
+			  	   + " i.price AS price, "
+			  	   + " i.store_document AS store_document, "
+			  	   + " s.id AS store_id, "
+			  	   + " s.nome AS store_name "
+			  	   + " FROM inventory i "
+			  	   + " LEFT JOIN stores s ON i.store_document = s.document "
+			  	   + " LEFT JOIN products prod ON i.product_id = prod.id "),
 
 	INSERT_PRODUCT(" INSERT INTO     "
 	       		 + " products (nome) "

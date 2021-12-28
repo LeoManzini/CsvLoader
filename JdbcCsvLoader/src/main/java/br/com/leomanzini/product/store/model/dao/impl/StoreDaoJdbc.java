@@ -171,12 +171,13 @@ public class StoreDaoJdbc implements StoreDao {
 	}
 
 	@Override
-	public Store findStoreWithProducts(Integer storeId) throws Exception {
+	public Store findStoreWithProducts(Integer storeDocument) throws Exception {
 		ResultSet storeResultSet = null;
 
-		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_FULL_STORE_BY_DOCUMENT.getQuery())) {
+		try (PreparedStatement findStoreById = conn.prepareStatement(Queries.FIND_FULL_STORE_BY_DOCUMENT.getQuery(),
+				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
-			findStoreById.setInt(1, storeId);
+			findStoreById.setInt(1, storeDocument);
 
 			storeResultSet = findStoreById.executeQuery();
 
@@ -200,24 +201,13 @@ public class StoreDaoJdbc implements StoreDao {
 	@Override
 	public List<Store> findAllStoresWithProducts() throws Exception {
 		ResultSet storeResultSet = null;
-		List<Store> storeResultList = new ArrayList<>();
 
-		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_FULL_STORES.getQuery())) {
+		try (PreparedStatement findAllStore = conn.prepareStatement(Queries.FIND_FULL_STORES.getQuery(),
+				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
 			storeResultSet = findAllStore.executeQuery();
 
-			Map<Integer, Store> mapStores = new HashMap<>();
-
-			while (storeResultSet.next()) {
-				Store store = mapStores.get(storeResultSet.getInt("store_document"));
-
-				if (store == null) {
-					store = instanciateFullStore(storeResultSet);
-					mapStores.put(storeResultSet.getInt("store_document"), store);
-					storeResultList.add(store);
-				}
-			}
-			return storeResultList;
+			return instanciateFullStores(storeResultSet);
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 			throw new StoreDaoException(ErrorMessages.STORE_FIND_ALL_ERROR);
@@ -231,9 +221,9 @@ public class StoreDaoJdbc implements StoreDao {
 
 	private Store instanciateStore(ResultSet storeResultSet) throws SQLException {
 		Store store = new Store();
-		store.setId(storeResultSet.getInt("id"));
-		store.setName(storeResultSet.getString("nome"));
-		store.setDocument(storeResultSet.getInt("document"));
+		store.setId(storeResultSet.getInt("store_id"));
+		store.setName(storeResultSet.getString("store_name"));
+		store.setDocument(storeResultSet.getInt("store_document"));
 		store.setProducts(new ArrayList<>());
 
 		return store;
@@ -241,8 +231,8 @@ public class StoreDaoJdbc implements StoreDao {
 
 	private Inventory instanciateInventory(ResultSet inventoryResultSet) throws SQLException {
 		Inventory inventory = new Inventory();
-		inventory.setId(inventoryResultSet.getInt("id"));
-		inventory.setProductSerie(inventoryResultSet.getInt("product_serie"));
+		inventory.setId(inventoryResultSet.getInt("inventory_id"));
+		inventory.setProductSerie(inventoryResultSet.getInt("product_serial"));
 		inventory.setProductId(inventoryResultSet.getInt("product_id"));
 		inventory.setStoreDocument(inventoryResultSet.getInt("store_document"));
 		inventory.setAmount(inventoryResultSet.getInt("amount"));
@@ -253,8 +243,8 @@ public class StoreDaoJdbc implements StoreDao {
 
 	private Product instanciateProduct(ResultSet productResultSet, Inventory inventory) throws SQLException {
 		Product product = new Product();
-		product.setId(productResultSet.getInt("id"));
-		product.setName(productResultSet.getString("name"));
+		product.setId(productResultSet.getInt("product_id"));
+		product.setName(productResultSet.getString("product_name"));
 		product.setInventory(inventory);
 		return product;
 	}
@@ -262,12 +252,38 @@ public class StoreDaoJdbc implements StoreDao {
 	private Store instanciateFullStore(ResultSet storeResultSet) throws SQLException {
 		Store store = instanciateStore(storeResultSet);
 
+		storeResultSet.beforeFirst();
+
 		while (storeResultSet.next()) {
 			Inventory inventory = instanciateInventory(storeResultSet);
 			Product product = instanciateProduct(storeResultSet, inventory);
 			store.getProducts().add(product);
 		}
 		return store;
+	}
+
+	private List<Store> instanciateFullStores(ResultSet storeResultSet) throws SQLException {
+		List<Store> storeResultList = new ArrayList<>();
+		Map<Integer, Store> mapStores = new HashMap<>();
+
+		while (storeResultSet.next()) {
+			Store store = mapStores.get(storeResultSet.getInt("store_document"));
+
+			if (store == null) {
+				store = instanciateStore(storeResultSet);
+				Inventory inventory = instanciateInventory(storeResultSet);
+				Product product = instanciateProduct(storeResultSet, inventory);
+				store.getProducts().add(product);
+
+				mapStores.put(storeResultSet.getInt("store_document"), store);
+				storeResultList.add(store);
+			} else {
+				Inventory inventory = instanciateInventory(storeResultSet);
+				Product product = instanciateProduct(storeResultSet, inventory);
+				store.getProducts().add(product);
+			}
+		}
+		return storeResultList;
 	}
 
 	/**
