@@ -1,2 +1,7 @@
 # CsvLoader
-An API that upload some csv and persist the same at different database
+
+Created for study purposes in order to consolidate knowledge about database operations with Java. Three projects were created to deal with this role, the first was 
+```JdbcCsvLoader```.
+
+## JdbcCsvLoader
+
