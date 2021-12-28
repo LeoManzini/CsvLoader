@@ -8,9 +8,10 @@ import org.apache.logging.log4j.Logger;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
 import br.com.leomanzini.product.store.model.dao.DaoFactory;
+import br.com.leomanzini.product.store.model.dao.InventoryDao;
 import br.com.leomanzini.product.store.model.dao.ProductDao;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
-import br.com.leomanzini.product.store.model.entities.Product;
+import br.com.leomanzini.product.store.model.entities.Inventory;
 import br.com.leomanzini.product.store.model.entities.Store;
 
 public class PersistenceExecutor implements Executor {
@@ -29,16 +30,14 @@ public class PersistenceExecutor implements Executor {
 	@Override
 	public void execute(String propertiesPath) throws Exception {
 		DaoFactory jdbcFactory = new DaoFactory(propertiesPath);
-//		
-//		InventoryDao inventory = jdbcFactory.createInventoryDao();
+		
+		InventoryDao inventory = jdbcFactory.createInventoryDao();
 		ProductDao product = jdbcFactory.createProductDao();
 		StoreDao store = jdbcFactory.createStoreDao();
 		
 		try {
-			List<Store> stores = store.findAllStoresWithProducts();
-			stores.forEach(stori -> log.info(stori));
-			List<Product> producto = product.findAll();
-			producto.forEach(prod -> log.info(prod));
+			List<Inventory> inv = inventory.findAll();
+			inv.forEach(invent -> log.info(invent));
 //			if (store.findAtDatabase(storeItens.getDocument())) {
 //				log.info("Store found at database, checking the products list for " + storeItens.getName());
 //				storeItens.getProducts().forEach(producto -> {

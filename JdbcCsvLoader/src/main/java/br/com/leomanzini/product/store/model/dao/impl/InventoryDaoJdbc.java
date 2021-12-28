@@ -182,7 +182,7 @@ public class InventoryDaoJdbc implements InventoryDao {
 		inventory.setId(inventoryResultSet.getInt("id"));
 		inventory.setProductSerie(inventoryResultSet.getInt("product_serie"));
 		inventory.setProductId(inventoryResultSet.getInt("product_id"));
-		inventory.setStoreDocument(inventoryResultSet.getInt("store_id"));
+		inventory.setStoreDocument(inventoryResultSet.getInt("store_document"));
 		inventory.setAmount(inventoryResultSet.getInt("amount"));
 		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));
 
