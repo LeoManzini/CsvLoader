@@ -14,12 +14,16 @@ public enum Queries {
 			   + " FROM stores   "
 	     	   + " WHERE id = ?  "),
 	
-	FIND_STORE_BY_ID(" SELECT *      "
+	FIND_STORE_BY_ID(" SELECT document AS store_document, "
+				   + " id AS store_id, "
+				   + " nome AS store_name "
 			 	   + " FROM stores   "
 			 	   + " WHERE id = ?  "),
 	
-	FIND_ALL_STORE(" SELECT *    "
-				 + " FROM stores "),
+	FIND_ALL_STORE(" SELECT document AS store_document, "
+			     + " id AS store_id, "
+			     + " nome AS store_name "
+		 	     + " FROM stores   "),
 	
 	FIND_STORE_BY_DOCUMENT(" SELECT *            "
 	   					 + " FROM stores         "
