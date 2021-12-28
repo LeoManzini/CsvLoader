@@ -54,7 +54,8 @@ public enum Queries {
 			  	   + " s.nome AS store_name "
 			  	   + " FROM inventory i "
 			  	   + " LEFT JOIN stores s ON i.store_document = s.document "
-			  	   + " LEFT JOIN products prod ON i.product_id = prod.id "),
+			  	   + " LEFT JOIN products prod ON i.product_id = prod.id "
+			  	   + " ORDER BY inventory_id "),
 
 	INSERT_PRODUCT(" INSERT INTO     "
 	       		 + " products (nome) "
@@ -73,7 +74,8 @@ public enum Queries {
 			         + " WHERE id = ?  "),
 	
 	FIND_ALL_PRODUCTS(" SELECT *      "
-					+ " FROM products "),
+					+ " FROM products "
+					+ " ORDER BY id   "),
 	
 	FIND_PRODUCT_BY_NAME(" SELECT *       "
 					   + " FROM products  "
@@ -101,7 +103,8 @@ public enum Queries {
 			           + " AND store_document = ? "),
 	
 	FIND_ALL_INVENTORY(" SELECT *       "
-		             + " FROM inventory "),
+		             + " FROM inventory "
+		             + " ORDER BY id    "),
 	
 	FIND_INVENTORY_BY_SERIE(" SELECT *                "
 						  + " FROM inventory          "

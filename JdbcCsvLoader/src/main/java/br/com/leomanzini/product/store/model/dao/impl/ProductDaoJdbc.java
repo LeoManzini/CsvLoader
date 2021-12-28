@@ -175,7 +175,7 @@ public class ProductDaoJdbc implements ProductDao {
 	private Product instanciateProduct(ResultSet productResultSet) throws SQLException {
 		Product product = new Product();
 		product.setId(productResultSet.getInt("id"));
-		product.setName(productResultSet.getString("name"));
+		product.setName(productResultSet.getString("nome"));
 		return product;
 	}
 }

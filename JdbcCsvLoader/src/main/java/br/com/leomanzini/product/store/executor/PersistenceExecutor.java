@@ -8,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 import br.com.leomanzini.product.store.enums.ErrorMessages;
 import br.com.leomanzini.product.store.exceptions.PersistenceExecutorException;
 import br.com.leomanzini.product.store.model.dao.DaoFactory;
+import br.com.leomanzini.product.store.model.dao.ProductDao;
 import br.com.leomanzini.product.store.model.dao.StoreDao;
+import br.com.leomanzini.product.store.model.entities.Product;
 import br.com.leomanzini.product.store.model.entities.Store;
 
 public class PersistenceExecutor implements Executor {
@@ -29,12 +31,14 @@ public class PersistenceExecutor implements Executor {
 		DaoFactory jdbcFactory = new DaoFactory(propertiesPath);
 //		
 //		InventoryDao inventory = jdbcFactory.createInventoryDao();
-//		ProductDao product = jdbcFactory.createProductDao();
+		ProductDao product = jdbcFactory.createProductDao();
 		StoreDao store = jdbcFactory.createStoreDao();
 		
 		try {
-			List<Store> stores = store.findAll();
+			List<Store> stores = store.findAllStoresWithProducts();
 			stores.forEach(stori -> log.info(stori));
+			List<Product> producto = product.findAll();
+			producto.forEach(prod -> log.info(prod));
 //			if (store.findAtDatabase(storeItens.getDocument())) {
 //				log.info("Store found at database, checking the products list for " + storeItens.getName());
 //				storeItens.getProducts().forEach(producto -> {
