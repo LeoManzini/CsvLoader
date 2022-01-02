@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
+	private static Scene mainScene;
+	
 	@Override
 	public void start(Stage stage) {
 		try {
@@ -19,7 +21,7 @@ public class App extends Application {
 			scrollPane.setFitToHeight(true);
 			scrollPane.setFitToWidth(true);
 			
-			Scene mainScene = new Scene(scrollPane);
+			mainScene = new Scene(scrollPane);
 			// Add stylesheet later, when the app is running
 			//mainScene.getStylesheets().add(getClass().getResource("/src/main/resources/MainStylesheet.css").toExternalForm());
 			stage.setScene(mainScene);
@@ -28,6 +30,10 @@ public class App extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Scene getMainScene() {
+		return mainScene;
 	}
 
 	public static void main(String[] args) throws Exception {
