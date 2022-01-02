@@ -13,9 +13,13 @@ public class App extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			Parent parent = FXMLLoader.load(getClass().getResource("/br/com/leomanzini/product/store/gui/View.fxml"));
-			Scene scene = new Scene(parent);
-			stage.setScene(scene);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/com/leomanzini/product/store/gui/MainView.fxml"));
+			Parent parent = loader.load();
+			Scene mainScene = new Scene(parent);
+			// Add stylesheet later, when the app is running
+			//mainScene.getStylesheets().add(getClass().getResource("/src/main/resources/MainStylesheet.css").toExternalForm());
+			stage.setScene(mainScene);
+			stage.setTitle("Store Inventory Management");
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
