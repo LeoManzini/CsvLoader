@@ -43,17 +43,17 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemStoreAction() {
-		System.out.println("Store Page Action");
+		loadView("/br/com/leomanzini/product/store/gui/StoreView.fxml");
 	}
 
 	@FXML
 	public void onMenuItemProductAction() {
-		System.out.println("Products Page Action");
+		loadView("/br/com/leomanzini/product/store/gui/ProductView.fxml");
 	}
 
 	@FXML
 	public void onMenuItemInventoryAction() {
-		System.out.println("Inventory Page Action");
+		loadView("/br/com/leomanzini/product/store/gui/InventoryView.fxml");
 	}
 
 	@FXML
