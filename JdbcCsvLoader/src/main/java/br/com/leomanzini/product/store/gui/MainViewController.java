@@ -3,49 +3,64 @@ package br.com.leomanzini.product.store.gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import br.com.leomanzini.product.store.gui.utils.Alerts;
-import br.com.leomanzini.product.store.gui.utils.Constraints;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
 
 public class MainViewController implements Initializable {
 
 	@FXML
-	private TextField firstNumber;
+	private MenuItem menuItemHomePage;
 	
 	@FXML
-	private TextField secondNumber;
+	private MenuItem menuItemStore;
 	
 	@FXML
-	private Label result;
+	private MenuItem menuItemProduct;
 	
 	@FXML
-	private Button sumButton;
-
+	private MenuItem menuItemInventory;
+	
 	@FXML
-	public void onSumButtonAction() {
-		try {
-			double numberOne = Double.parseDouble(firstNumber.getText());
-			double numberTwo = Double.parseDouble(secondNumber.getText());
-			
-			Double sum = numberOne + numberTwo;
-			
-			result.setText(String.format("%.2f", sum));
-		} catch (NumberFormatException e) {
-			Alerts.showAlert("ERROR", null, e.getMessage(), AlertType.ERROR);
-		}
+	private MenuItem menuItemAbout;
+	
+	@FXML
+	private MenuItem menuItemExit;
+	
+	@FXML
+	public void onMenuItemHomePageAction() {
+		System.out.println("Home Page Action");
 	}
-
-	@Override
-	public void initialize(URL url, ResourceBundle resource) {
-		Constraints.setTextFieldDouble(firstNumber);
-		Constraints.setTextFieldMaxLength(firstNumber, 12);
+	
+	@FXML
+	public void onMenuItemStoreAction() {
+		System.out.println("Store Page Action");
+	}
+	
+	@FXML
+	public void onMenuItemProductAction() {
+		System.out.println("Products Page Action");
+	}
+	
+	@FXML
+	public void onMenuItemInventoryAction() {
+		System.out.println("Inventory Page Action");
+	}
+	
+	@FXML
+	public void onMenuItemAboutAction() {
+		System.out.println("About Page Action");
+	}
+	
+	@FXML
+	public void onMenuItemExitAction() {
+		System.out.println("Exit Action");
 		
-		Constraints.setTextFieldDouble(secondNumber);
-		Constraints.setTextFieldMaxLength(secondNumber, 12);
+		System.exit(0);
+	}
+	
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		
 	}
 }
