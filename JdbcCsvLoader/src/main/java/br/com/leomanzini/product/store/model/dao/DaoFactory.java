@@ -7,24 +7,24 @@ import br.com.leomanzini.product.store.model.dao.impl.InventoryDaoJdbc;
 import br.com.leomanzini.product.store.model.dao.impl.ProductDaoJdbc;
 import br.com.leomanzini.product.store.model.dao.impl.StoreDaoJdbc;
 
-public class DaoFactory {
+public abstract class DaoFactory {
 	
-	private Connection databaseConnection;
-	
-	@SuppressWarnings("resource")
-	public DaoFactory (String propertiesPath) {
-		databaseConnection = new PostgresConnector().startDatabaseConnection(propertiesPath);
-	}
+	private static Connection databaseConnection;
 
-	public StoreDao createStoreDao() {
+	public static StoreDao createStoreDao() {
 		return new StoreDaoJdbc(databaseConnection);
 	}
 
-	public ProductDao createProductDao() {
+	public static ProductDao createProductDao() {
 		return new ProductDaoJdbc(databaseConnection);
 	}
 
-	public InventoryDao createInventoryDao() {
+	public static InventoryDao createInventoryDao() {
 		return new InventoryDaoJdbc(databaseConnection);
+	}
+	
+	@SuppressWarnings("resource")
+	public static void startConnection (String propertiesPath) {
+		databaseConnection = new PostgresConnector().startDatabaseConnection(propertiesPath);
 	}
 }
