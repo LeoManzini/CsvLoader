@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class ViewController implements Initializable {
+public class MainViewController implements Initializable {
 
 	@FXML
 	private TextField firstNumber;
