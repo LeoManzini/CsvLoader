@@ -2,34 +2,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<groupId>br.com.leomanzini</groupId>
-	<artifactId>jpa.rest.csv.loader</artifactId>
+	<artifactId>JpaRestCsvLoader</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>JpaRestCsvLoader</name>
-	<description>JpaRestCsvLoader load csv from upload file to database</description>
+	<name>CsvLoader</name>
+	<description>A REST API that load some data to our storage</description>
 
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.finalName>RestCsvLoader</project.build.finalName>
+		<project.build.finalName>CsvLoader</project.build.finalName>
 	</properties>
-
-	<dependencies>
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
-
+	
 	<build>
 		<finalName>${project.build.finalName}</finalName>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
@@ -41,33 +32,10 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.3</version>
 			</plugin>
-			<plugin> <!-- Usar esse plugin especificando a main class do projeto -->
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>br.com.leomanzini.product.store.Application</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<appendAssemblyId>false</appendAssemblyId>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>package</phase> <!-- bind to the packaging phase -->
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-
-	<inceptionYear>2021</inceptionYear>
+	
+	<inceptionYear>2022</inceptionYear>
 
 	<developers>
 		<developer>
