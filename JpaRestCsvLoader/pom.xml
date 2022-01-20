@@ -4,48 +4,25 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.com.leomanzini</groupId>
-	<artifactId>csv.loader</artifactId>
+	<artifactId>jpa.rest.csv.loader</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>CsvLoader</name>
-	<description>A desktop software that load some data to our storage</description>
+	<packaging>war</packaging>
+	<name>JpaRestCsvLoader</name>
+	<description>JpaRestCsvLoader load csv from upload file to database</description>
 
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.finalName>CsvLoader</project.build.finalName>
+		<project.build.finalName>RestCsvLoader</project.build.finalName>
 	</properties>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.2.20</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.17.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.17.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-			<version>18-ea+8</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>18-ea+8</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -53,13 +30,16 @@
 		<finalName>${project.build.finalName}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
 			</plugin>
 			<plugin> <!-- Usar esse plugin especificando a main class do projeto -->
 				<artifactId>maven-assembly-plugin</artifactId>
