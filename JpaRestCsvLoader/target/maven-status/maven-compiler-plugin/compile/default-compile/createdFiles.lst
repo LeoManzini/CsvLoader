@@ -1,0 +1,8 @@
+br\com\leomanzini\products\store\resources\HelloWorldResource.class
+br\com\leomanzini\products\store\model\entities\Inventory.class
+br\com\leomanzini\products\store\model\entities\Product.class
+br\com\leomanzini\products\store\model\entities\Store.class
+br\com\leomanzini\products\store\model\entities\Store$StoreBuilder.class
+br\com\leomanzini\products\store\model\entities\Product$ProductBuilder.class
+br\com\leomanzini\products\store\model\entities\Inventory$InventoryBuilder.class
+br\com\leomanzini\products\store\utils\PropertiesLoader.class
