@@ -98,14 +98,5 @@
 				<role>Developer</role>
 			</roles>
 		</developer>
-
-		<developer>
-			<name>Rafael Maia</name>
-			<email>rafaelmaiarios@gmail.com</email>
-			<organization>DXC</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
 	</developers>
 </project>
