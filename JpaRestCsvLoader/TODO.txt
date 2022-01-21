@@ -1,0 +1,18 @@
+Colocar arquivo de propriedades no servidor de deploy (dev, prod vai usar o heroku);
+
+Ler configurações do arquivo de propriedades para a persistence unity;
+
+Conectar no banco local;
+
+Mapear as entities;
+
+Criar classes para lidar com database (DAO, interface e impl);
+
+Criar classes de serviço para armazenar regras de negócio;
+
+Criar crud na base com classes controller e JAX-RS;
+https://www.youtube.com/watch?v=-_VPzhKJPfE&t=611s
+
+Fazer upload de listas a partir do controller com método POST;
+
+Ler arquivos e escrever também;
