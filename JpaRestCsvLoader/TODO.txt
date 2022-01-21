@@ -1,5 +1,3 @@
-Colocar arquivo de propriedades no servidor de deploy (dev, prod vai usar o heroku);
-
 Ler configurações do arquivo de propriedades para a persistence unity;
 
 Conectar no banco local;
