@@ -5,7 +5,7 @@ import java.io.Closeable;
 import br.com.leomanzini.products.store.utils.PropertiesLoader;
 import jakarta.persistence.EntityManager;
 
-public abstract class PostgresConnector implements DatabaseConnector, Closeable {
+public class PostgresConnector implements DatabaseConnector, Closeable {
 	
 	private EntityManager entityManager;
 
@@ -25,7 +25,7 @@ public abstract class PostgresConnector implements DatabaseConnector, Closeable 
 	}
 	
 	private boolean isEntityManagerNull() {
-		if (entityManager.equals(null)) {
+		if (entityManager == null) {
 			return true;
 		}
 		return false;
