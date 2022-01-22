@@ -1,6 +1,8 @@
-Testar as entities mapeadas;
+Criar classe connector retornsndo factory e afins para a DAO;
 
 Conectar no banco local;
+
+Testar as entities mapeadas;
 
 Criar classes para lidar com database (DAO, interface e impl);
 
