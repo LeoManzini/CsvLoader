@@ -1,4 +1,4 @@
-Mapear as entities;
+Testar as entities mapeadas;
 
 Conectar no banco local;
 
