@@ -1,6 +1,6 @@
-Conectar no banco local;
-
 Mapear as entities;
+
+Conectar no banco local;
 
 Criar classes para lidar com database (DAO, interface e impl);
 
