@@ -1,5 +1,6 @@
 package br.com.leomanzini.products.store.model.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -7,9 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,18 +33,10 @@ public class Store {
 	@Column(name = "nome")
 	private String name;
 	
-	@Column(unique = true, nullable = false)
+	@Column(name = "store_document", unique = true, nullable = false)
 	private Integer document;
 	
-	@ManyToMany
-	@JoinTable(name = "inventory",
-			   joinColumns = @JoinColumn(name = "store_document"),
-			   inverseJoinColumns = @JoinColumn(name = "product_serial"))
-	private List<Product> products;
-	
-	public Store(String name, Integer document, List<Product> products) {
-		this.name = name;
-		this.document = document;
-		this.products = products;
-	}
+	@Builder.Default
+	@OneToMany(mappedBy = "store")
+	private List<Inventory> inventory = new ArrayList<>();
 }
