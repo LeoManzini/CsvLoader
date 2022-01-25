@@ -1,6 +1,4 @@
-Criar classe connector retornsndo factory e afins para a DAO;
-
-Criar classes para lidar com database (DAO, interface e impl);
+MODELAR e criar classes para lidar com database (DAO, interface e impl);
 
 Criar classes de serviço para armazenar regras de negócio;
 
