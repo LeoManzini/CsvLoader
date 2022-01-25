@@ -33,7 +33,7 @@ public class Store {
 	@Column(name = "nome")
 	private String name;
 	
-	@Column(name = "store_document", unique = true, nullable = false)
+	@Column(name = "document", unique = true, nullable = false)
 	private Integer document;
 	
 	@Builder.Default

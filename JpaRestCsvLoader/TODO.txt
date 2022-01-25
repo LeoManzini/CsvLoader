@@ -1,9 +1,5 @@
 Criar classe connector retornsndo factory e afins para a DAO;
 
-Conectar no banco local;
-
-Testar as entities mapeadas;
-
 Criar classes para lidar com database (DAO, interface e impl);
 
 Criar classes de serviço para armazenar regras de negócio;

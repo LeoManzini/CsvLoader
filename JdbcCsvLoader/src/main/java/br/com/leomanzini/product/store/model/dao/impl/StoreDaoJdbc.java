@@ -233,7 +233,6 @@ public class StoreDaoJdbc implements StoreDao {
 		Inventory inventory = new Inventory();
 		inventory.setId(inventoryResultSet.getInt("inventory_id"));
 		inventory.setProductSerie(inventoryResultSet.getInt("product_serial"));
-		inventory.setProductId(inventoryResultSet.getInt("product_id"));
 		inventory.setStoreDocument(inventoryResultSet.getInt("store_document"));
 		inventory.setAmount(inventoryResultSet.getInt("amount"));
 		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));

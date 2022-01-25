@@ -30,8 +30,7 @@ public enum Queries {
 	   					 + " WHERE document = ?  "),
 	
 	FIND_FULL_STORE_BY_DOCUMENT(" SELECT i.id AS inventory_id, "
-							  + " i.product_serie AS product_serial, "
-							  + " i.product_id AS product_id, "
+							  + " i.product_serial AS product_serial, "
 							  + " prod.nome AS product_name, "
 							  + " i.amount AS amount, "
 							  + " i.price AS price, "
@@ -40,12 +39,11 @@ public enum Queries {
 							  + " s.nome AS store_name "
 							  + " FROM inventory i "
 							  + " LEFT JOIN stores s ON i.store_document = s.document "
-							  + " LEFT JOIN products prod ON i.product_id = prod.id "
+							  + " LEFT JOIN products prod ON i.product_serial = prod.serial "
 							  + " WHERE s.document = ? "),
 	
 	FIND_FULL_STORES(" SELECT i.id AS inventory_id, "
-			  	   + " i.product_serie AS product_serial, "
-			  	   + " i.product_id AS product_id, "
+			  	   + " i.product_serial AS product_serial, "
 			  	   + " prod.nome AS product_name, "
 			  	   + " i.amount AS amount, "
 			  	   + " i.price AS price, "
@@ -54,12 +52,12 @@ public enum Queries {
 			  	   + " s.nome AS store_name "
 			  	   + " FROM inventory i "
 			  	   + " LEFT JOIN stores s ON i.store_document = s.document "
-			  	   + " LEFT JOIN products prod ON i.product_id = prod.id "
+			  	   + " LEFT JOIN products prod ON i.product_serial = prod.serial "
 			  	   + " ORDER BY inventory_id "),
 
 	INSERT_PRODUCT(" INSERT INTO     "
-	       		 + " products (nome) "
-	       		 + " VALUES (?)      "),
+	       		 + " products (nome, serial) "
+	       		 + " VALUES (?, ?)      "),
 	
 	UPDATE_PRODUCT(" UPDATE products "
 		     	 + " SET nome = ?    "
@@ -77,30 +75,25 @@ public enum Queries {
 					+ " FROM products "
 					+ " ORDER BY id   "),
 	
-	FIND_PRODUCT_BY_NAME(" SELECT *       "
+	FIND_PRODUCT_BY_SERIAL(" SELECT *       "
 					   + " FROM products  "
-					   + " WHERE nome = ? "),
+					   + " WHERE serial = ? "),
 	
-	INSERT_INVENTORY(" INSERT INTO inventory          "
-			       + " (product_serie, product_id,    "
-			       + " store_document, amount, price) "
-			       + " VALUES (?, ?, ?, ?, ?)         "),
+	INSERT_INVENTORY(" INSERT INTO inventory            "
+			       + " (amount, price,                  "
+			       + " serial, store_document)  "
+			       + " VALUES (?, ?, ?, ?)           "),
 
 	UPDATE_INVENTORY(" UPDATE inventory          "
 			       + " SET amount = amount + ? , "
 			       + " price = ?                 "
-			       + " WHERE product_serie = ?   "
+			       + " WHERE serial = ?   "
 			       + " AND store_document = ?    "),
 	
 	DELETE_INVENTORY(" DELETE                  " 
 			       + " FROM inventory          "
-			       + " WHERE product_serie = ? "
+			       + " WHERE serial = ? "
 			       + " AND store_document = ?  "),
-	
-	FIND_INVENTORY_BY_ID(" SELECT *               "
-			           + " FROM inventory         "
-			           + " WHERE product_id = ?   "
-			           + " AND store_document = ? "),
 	
 	FIND_ALL_INVENTORY(" SELECT *       "
 		             + " FROM inventory "
@@ -108,7 +101,7 @@ public enum Queries {
 	
 	FIND_INVENTORY_BY_SERIE(" SELECT *                "
 						  + " FROM inventory          "
-						  + " WHERE product_serie = ? "
+						  + " WHERE serial = ? "
 						  + " AND store_document = ?  ");
 	
 	private String query;

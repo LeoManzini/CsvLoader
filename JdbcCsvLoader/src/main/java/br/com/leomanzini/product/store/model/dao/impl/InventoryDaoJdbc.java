@@ -36,11 +36,10 @@ public class InventoryDaoJdbc implements InventoryDao {
 				log.info("Fixing document error and updating inventory for this product");
 				update(inventory);
 			} else {
-				insertInventory.setInt(1, inventory.getProductSerie());
-				insertInventory.setInt(2, inventory.getProductId());
-				insertInventory.setInt(3, inventory.getStoreDocument());
-				insertInventory.setInt(4, inventory.getAmount());
-				insertInventory.setBigDecimal(5, inventory.getPrice());
+				insertInventory.setInt(1, inventory.getAmount());
+				insertInventory.setBigDecimal(2, inventory.getPrice());
+				insertInventory.setInt(3, inventory.getProductSerie());
+				insertInventory.setInt(4, inventory.getStoreDocument());
 
 				if (!(insertInventory.executeUpdate() > 0)) {
 					throw new Exception("Inventory insert operation error");
@@ -101,7 +100,7 @@ public class InventoryDaoJdbc implements InventoryDao {
 	public Inventory findById(Integer productId, Integer storeId) throws InventoryDaoException {
 		ResultSet inventoryResultSet = null;
 
-		try (PreparedStatement findInventoryById = conn.prepareStatement(Queries.FIND_INVENTORY_BY_ID.getQuery())) {
+		try (PreparedStatement findInventoryById = conn.prepareStatement(Queries.FIND_INVENTORY_BY_SERIE.getQuery())) {
 
 			findInventoryById.setInt(1, productId);
 			findInventoryById.setInt(2, storeId);
@@ -180,8 +179,7 @@ public class InventoryDaoJdbc implements InventoryDao {
 	private Inventory instanciateInventory(ResultSet inventoryResultSet) throws SQLException {
 		Inventory inventory = new Inventory();
 		inventory.setId(inventoryResultSet.getInt("id"));
-		inventory.setProductSerie(inventoryResultSet.getInt("product_serie"));
-		inventory.setProductId(inventoryResultSet.getInt("product_id"));
+		inventory.setProductSerie(inventoryResultSet.getInt("product_serial"));
 		inventory.setStoreDocument(inventoryResultSet.getInt("store_document"));
 		inventory.setAmount(inventoryResultSet.getInt("amount"));
 		inventory.setPrice(inventoryResultSet.getBigDecimal("price"));

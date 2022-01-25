@@ -33,8 +33,8 @@ public class Product {
 	@Column(name = "nome")
 	private String name;
 	
-	@Column(name = "product_serial", unique = true, nullable = false)
-	private Long productSerial;
+	@Column(name = "serial", unique = true, nullable = false)
+	private Long serial;
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "product")

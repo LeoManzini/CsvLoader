@@ -32,13 +32,13 @@ public class ProductDaoJdbc implements ProductDao {
 				new String[] { "id" })) {
 
 			insertProduct.setString(1, product.getName());
+			insertProduct.setInt(2, product.getInventory().getProductSerie());
 
 			if (insertProduct.executeUpdate() > 0) {
 				ResultSet productIndex = insertProduct.getGeneratedKeys();
 
 				if (productIndex.next()) {
 					product.setId(productIndex.getInt(1));
-					product.getInventory().setProductId(product.getId());
 				}
 			} else {
 				throw new Exception("Product insert operation failed");
@@ -148,15 +148,14 @@ public class ProductDaoJdbc implements ProductDao {
 		ResultSet productResultSet = null;
 
 		try (PreparedStatement preparedStatementFindProductId = con
-				.prepareStatement(Queries.FIND_PRODUCT_BY_NAME.getQuery())) {
+				.prepareStatement(Queries.FIND_PRODUCT_BY_SERIAL.getQuery())) {
 
-			preparedStatementFindProductId.setString(1, product.getName());
+			preparedStatementFindProductId.setInt(1, product.getInventory().getProductSerie());
 
 			productResultSet = preparedStatementFindProductId.executeQuery();
 
 			if (productResultSet.next()) {
 				product.setId(productResultSet.getInt("id"));
-				product.getInventory().setProductId(product.getId());
 
 				return true;
 			}
