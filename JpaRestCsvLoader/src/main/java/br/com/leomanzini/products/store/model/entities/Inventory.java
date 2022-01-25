@@ -28,7 +28,7 @@ public class Inventory {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "serial")
+	@JoinColumn(name = "serial", referencedColumnName = "serial")
 	private Product product;
 	
 	@ManyToOne
