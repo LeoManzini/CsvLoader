@@ -2,11 +2,11 @@ package br.com.leomanzini.products.store.dao.impl;
 
 import java.util.List;
 
-import br.com.leomanzini.products.store.dao.ProductDao;
+import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.model.entities.Product;
 
-public class ProductDaoImpl implements ProductDao {
+public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 
 	@Override
 	public List<Product> findAll() {

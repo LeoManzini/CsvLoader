@@ -2,7 +2,7 @@ package br.com.leomanzini.products.store.utils;
 
 public enum Queries {
 
-	FIND_ALL_ABSTRACT("select t from T");
+	STORE_FIND_ALL("select st from Store st");
 	
 	private String query;
 	

@@ -2,11 +2,11 @@ package br.com.leomanzini.products.store.dao.impl;
 
 import java.util.List;
 
-import br.com.leomanzini.products.store.dao.InventoryDao;
+import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
 
-public class InventoryDaoImpl implements InventoryDao {
+public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 
 	@Override
 	public List<Inventory> findAll() {
