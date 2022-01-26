@@ -1,5 +1,15 @@
 package br.com.leomanzini.products.store.dto;
 
-public class ResponseObjectDto {
+import lombok.Builder;
+import lombok.Data;
 
+@Data
+@Builder
+public class ResponseObjectDto {
+	
+	private String message;
+	
+	public ResponseObjectDto(String message) {
+		this.message = message;
+	}
 }
