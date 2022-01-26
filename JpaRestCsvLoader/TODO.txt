@@ -1,4 +1,4 @@
-MODELAR e criar classes para lidar com database (DAO, interface e impl);
+Trocar os retornos das classes DAO por DTO
 
 Criar classes de serviço para armazenar regras de negócio;
 

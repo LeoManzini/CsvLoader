@@ -15,6 +15,7 @@ public class HelloWorldResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String helloWorld() {
 		GenericDaoInterface<Store> storeDao = new StoreDaoImpl();
-		return "Hello World! " + storeDao.insert(Store.builder().name("Adidas").document(7845).build());
+		storeDao.insert(Store.builder().name("Adidas").document(7845).build());
+		return "Hello World! " + storeDao.delete(1L);
 	}
 }

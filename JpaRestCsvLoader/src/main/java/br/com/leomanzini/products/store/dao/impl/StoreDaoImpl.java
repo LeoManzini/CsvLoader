@@ -21,7 +21,8 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
 	public Store findById(Long id) {
-		TypedQuery<Store> findStoreById = super.getEntityManager().createQuery(Queries.STORE_FIND_BY_ID.getQuery(), Store.class);
+		TypedQuery<Store> findStoreById = super.getEntityManager().createQuery(Queries.STORE_FIND_BY_ID.getQuery(),
+				Store.class);
 		findStoreById.setParameter("storeId", id);
 		return findStoreById.getSingleResult();
 	}
@@ -30,13 +31,13 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 	@Transactional
 	public ResponseObjectDto insert(Store insertObject) {
 		Query insertStore = super.getEntityManager().createNativeQuery(Queries.STORE_INSERT.getQuery());
-		
+
 		super.getEntityManager().getTransaction().begin();
-		
+
 		insertStore.setParameter("name", insertObject.getName());
 		insertStore.setParameter("document", insertObject.getDocument());
-		
-		if(insertStore.executeUpdate() >= 1) {
+
+		if (insertStore.executeUpdate() != 1) {
 			return ResponseObjectDto.builder().message("Deu errado...").build();
 		} else {
 			super.getEntityManager().getTransaction().commit();
@@ -45,14 +46,38 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 	}
 
 	@Override
+	@Transactional
 	public ResponseObjectDto update(Store updatableObject) {
-		// TODO Auto-generated method stub
-		return null;
+		Query updateStore = super.getEntityManager().createNativeQuery(Queries.STORE_UPDATE.getQuery());
+
+		super.getEntityManager().getTransaction().begin();
+
+		updateStore.setParameter("name", updatableObject.getName());
+		updateStore.setParameter("document", updatableObject.getDocument());
+		updateStore.setParameter("id", updatableObject.getId());
+
+		if (updateStore.executeUpdate() != 1) {
+			return ResponseObjectDto.builder().message("Deu errado...").build();
+		} else {
+			super.getEntityManager().getTransaction().commit();
+			return ResponseObjectDto.builder().message("Deu certo!").build();
+		}
 	}
 
 	@Override
+	@Transactional
 	public ResponseObjectDto delete(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE.getQuery());
+
+		super.getEntityManager().getTransaction().begin();
+
+		deleteStore.setParameter("id", id);
+
+		if (deleteStore.executeUpdate() != 1) {
+			return ResponseObjectDto.builder().message("Deu errado...").build();
+		} else {
+			super.getEntityManager().getTransaction().commit();
+			return ResponseObjectDto.builder().message("Deu certo!").build();
+		}
 	}
 }
