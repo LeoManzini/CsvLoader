@@ -12,7 +12,13 @@ public enum Queries {
 	PRODUCT_FIND_BY_ID("select pd from Product pd where pd.id = :productId"),
 	PRODUCT_INSERT("insert into products (nome, serial) values (:name, :serial)"),
 	PRODUCT_UPDATE("update products set nome = :name where id = :id"),
-	PRODUCT_DELETE("delete from Product pd where pd.id = :id");
+	PRODUCT_DELETE("delete from Product pd where pd.id = :id"),
+	
+	INVENTORY_FIND_ALL("select ivn from Inventory ivn"),
+	INVENTORY_FIND_BY_ID("select ivn from Inventory ivn where ivn.id = :inventoryId"),
+	INVENTORY_INSERT("insert into inventory (amount, price, serial, store_document) values (:amount, :price, :serial, :storeDocument)"),
+	INVENTORY_UPDATE("update inventory set amount = :amount, price = :price where id = :id"),
+	INVENTORY_DELETE("delete from Inventory ivn where ivn.id = :id");
 	
 	private String query;
 	
