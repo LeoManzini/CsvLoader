@@ -1,4 +1,4 @@
-Trocar os retornos das classes DAO por DTO
+Arrumar métodos CRUD, trocar os retornos das classes DAO por DTO
 
 Criar classes de serviço para armazenar regras de negócio;
 
