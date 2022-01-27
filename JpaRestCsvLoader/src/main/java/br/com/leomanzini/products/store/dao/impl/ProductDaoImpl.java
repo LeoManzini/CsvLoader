@@ -25,7 +25,7 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 	public Product findById(Long id) {
 		TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_ID.getQuery(),
 				Product.class);
-		findProductsById.setParameter("product", id);
+		findProductsById.setParameter("productId", id);
 		return findProductsById.getSingleResult();
 	}
 
