@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
+	@Transactional
 	public List<Store> findAll() {
 		TypedQuery<Store> findAllStoresQuery = super.getEntityManager().createQuery(Queries.STORE_FIND_ALL.getQuery(),
 				Store.class);
@@ -20,6 +21,7 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 	}
 
 	@Override
+	@Transactional
 	public Store findById(Long id) {
 		TypedQuery<Store> findStoreById = super.getEntityManager().createQuery(Queries.STORE_FIND_BY_ID.getQuery(),
 				Store.class);
