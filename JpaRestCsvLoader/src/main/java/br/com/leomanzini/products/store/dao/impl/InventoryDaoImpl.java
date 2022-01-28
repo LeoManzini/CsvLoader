@@ -81,6 +81,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	public List<Inventory> findByDocument(Integer storeDocument) {
 		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
 				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
+		inventoryQuery.setParameter("storeDocument", storeDocument);
 		return inventoryQuery.getResultList();
 	}
 }

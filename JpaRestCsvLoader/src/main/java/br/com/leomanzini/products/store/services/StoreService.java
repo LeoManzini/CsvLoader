@@ -1,5 +1,7 @@
 package br.com.leomanzini.products.store.services;
 
+import java.util.List;
+
 import org.jvnet.hk2.annotations.Service;
 
 import br.com.leomanzini.products.store.dao.impl.InventoryDaoImpl;
@@ -8,6 +10,7 @@ import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
+import br.com.leomanzini.products.store.model.entities.Inventory;
 import br.com.leomanzini.products.store.model.entities.Store;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,10 +29,16 @@ public class StoreService {
 		inventoryDao = new InventoryDaoImpl();
 	}
 
-	public StoreDto getStoreProducts(Integer storeId) {
-		Store storeResponse = storeDao.findById(storeId);
-		return StoreDto.builder().storeId(storeResponse.getId()).storeName(storeResponse.getName())
-				.storeDocument(storeResponse.getDocument()).build();
+	public StoreDto getStoreProducts(Integer storeDocument) {
+		List<Inventory> storeInventory = inventoryDao.findByDocument(storeDocument);
+		StoreDto storeResponse = null;
+
+		for (Inventory inventory : storeInventory) {
+			storeResponse = (storeResponse == null) ? new StoreDto(inventory.getStore()) : storeResponse;
+			ProductDto product = new ProductDto(inventory);
+			storeResponse.getProducts().add(product);
+		}
+		return storeResponse;
 	}
 
 	public ProductDto getStoreProduct(Integer id) {
