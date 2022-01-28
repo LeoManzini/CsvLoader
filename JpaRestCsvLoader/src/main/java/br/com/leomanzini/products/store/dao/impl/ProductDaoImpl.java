@@ -21,7 +21,7 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 
 	@Override
 	@Transactional
-	public Product findById(Long id) {
+	public Product findById(Integer id) {
 		TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_ID.getQuery(),
 				Product.class);
 		findProductsById.setParameter("productId", id);
@@ -66,7 +66,7 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 
 	@Override
 	@Transactional
-	public boolean delete(Long id) {
+	public boolean delete(Integer id) {
 		Query deleteProduct = super.getEntityManager().createQuery(Queries.PRODUCT_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();

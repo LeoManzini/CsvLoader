@@ -18,7 +18,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
-	public Inventory findById(Long id) {
+	public Inventory findById(Integer id) {
 		TypedQuery<Inventory> findInventoriesById = super.getEntityManager()
 				.createQuery(Queries.INVENTORY_FIND_BY_ID.getQuery(), Inventory.class);
 		findInventoriesById.setParameter("productId", id);
@@ -63,7 +63,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
-	public boolean delete(Long id) {
+	public boolean delete(Integer id) {
 		Query deleteInventory = super.getEntityManager().createQuery(Queries.INVENTORY_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();

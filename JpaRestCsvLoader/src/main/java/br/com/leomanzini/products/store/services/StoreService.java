@@ -8,6 +8,7 @@ import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
+import br.com.leomanzini.products.store.model.entities.Store;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -26,7 +27,9 @@ public class StoreService {
 	}
 
 	public StoreDto getStoreProducts(Integer storeId) {
-		return StoreDto.builder().storeName("Biladinha").build();
+		Store storeResponse = storeDao.findById(storeId);
+		return StoreDto.builder().storeId(storeResponse.getId()).storeName(storeResponse.getName())
+				.storeDocument(storeResponse.getDocument()).build();
 	}
 
 	public ProductDto getStoreProduct(Integer id) {
@@ -52,7 +55,7 @@ public class StoreService {
 	public Response updateProduct(ProductDto productToUpdate) {
 		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
 	}
-	
+
 	public Response deleteStore(Integer id) {
 		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
 	}

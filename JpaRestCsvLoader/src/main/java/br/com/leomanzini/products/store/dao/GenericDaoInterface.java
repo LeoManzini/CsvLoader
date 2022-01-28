@@ -5,8 +5,8 @@ import java.util.List;
 public interface GenericDaoInterface<T> {
 
 	List<T> findAll();
-	T findById(Long id);
+	T findById(Integer id);
 	boolean insert(T insertObject);
 	boolean update(T updatableObject);
-	boolean delete(Long id);
+	boolean delete(Integer id);
 }

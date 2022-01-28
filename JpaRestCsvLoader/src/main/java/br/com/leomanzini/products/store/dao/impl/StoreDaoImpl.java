@@ -21,10 +21,10 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
 	@Transactional
-	public Store findById(Long id) {
+	public Store findById(Integer storeId) {
 		TypedQuery<Store> findStoreById = super.getEntityManager().createQuery(Queries.STORE_FIND_BY_ID.getQuery(),
 				Store.class);
-		findStoreById.setParameter("storeId", id);
+		findStoreById.setParameter("storeId", storeId);
 		return findStoreById.getSingleResult();
 	}
 
@@ -67,7 +67,7 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
 	@Transactional
-	public boolean delete(Long id) {
+	public boolean delete(Integer id) {
 		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
