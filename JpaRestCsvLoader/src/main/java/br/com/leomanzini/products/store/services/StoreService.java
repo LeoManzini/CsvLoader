@@ -2,25 +2,22 @@ package br.com.leomanzini.products.store.services;
 
 import org.jvnet.hk2.annotations.Service;
 
-import br.com.leomanzini.products.store.dao.GenericDaoInterface;
 import br.com.leomanzini.products.store.dao.impl.InventoryDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.ProductDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
-import br.com.leomanzini.products.store.model.entities.Inventory;
-import br.com.leomanzini.products.store.model.entities.Product;
-import br.com.leomanzini.products.store.model.entities.Store;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Service
+@SuppressWarnings("unused")
 public class StoreService {
 
-	private final GenericDaoInterface<Store> storeDao;
-	private final GenericDaoInterface<Product> productDao;
-	private final GenericDaoInterface<Inventory> inventoryDao;
+	private final StoreDaoImpl storeDao;
+	private final ProductDaoImpl productDao;
+	private final InventoryDaoImpl inventoryDao;
 
 	public StoreService() {
 		storeDao = new StoreDaoImpl();
@@ -28,7 +25,7 @@ public class StoreService {
 		inventoryDao = new InventoryDaoImpl();
 	}
 
-	public StoreDto getStoreProducts() {
+	public StoreDto getStoreProducts(Integer storeId) {
 		return null;
 	}
 

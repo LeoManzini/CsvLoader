@@ -12,15 +12,15 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 
 	@Override
 	public List<Inventory> findAll() {
-		TypedQuery<Inventory> findAllInventories = super.getEntityManager().createQuery(Queries.INVENTORY_FIND_ALL.getQuery(),
-				Inventory.class);
+		TypedQuery<Inventory> findAllInventories = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_ALL.getQuery(), Inventory.class);
 		return findAllInventories.getResultList();
 	}
 
 	@Override
 	public Inventory findById(Long id) {
-		TypedQuery<Inventory> findInventoriesById = super.getEntityManager().createQuery(Queries.INVENTORY_FIND_BY_ID.getQuery(),
-				Inventory.class);
+		TypedQuery<Inventory> findInventoriesById = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_BY_ID.getQuery(), Inventory.class);
 		findInventoriesById.setParameter("productId", id);
 		return findInventoriesById.getSingleResult();
 	}
@@ -76,5 +76,11 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 			super.getEntityManager().getTransaction().commit();
 			return true;
 		}
+	}
+
+	public List<Inventory> findByDocument(Integer storeDocument) {
+		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
+		return inventoryQuery.getResultList();
 	}
 }
