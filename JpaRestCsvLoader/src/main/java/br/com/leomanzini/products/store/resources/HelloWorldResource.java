@@ -12,7 +12,7 @@ public class HelloWorldResource {
 	StoreService service = new StoreService();
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String helloWorld() {
 		return "Hello World!" + service.getStoreProducts(1);
 	}
