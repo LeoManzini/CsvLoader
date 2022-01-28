@@ -26,7 +26,7 @@ public class StoreService {
 	}
 
 	public StoreDto getStoreProducts(Integer storeId) {
-		return null;
+		return StoreDto.builder().storeName("Biladinha").build();
 	}
 
 	public ProductDto getStoreProduct(Integer id) {
