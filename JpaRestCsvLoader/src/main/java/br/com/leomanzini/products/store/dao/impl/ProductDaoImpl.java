@@ -3,7 +3,6 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
-import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.model.entities.Product;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.Query;
@@ -31,7 +30,7 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 
 	@Override
 	@Transactional
-	public ResponseObjectDto insert(Product insertObject) {
+	public boolean insert(Product insertObject) {
 		Query insertProducts = super.getEntityManager().createNativeQuery(Queries.PRODUCT_INSERT.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -40,16 +39,16 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 		insertProducts.setParameter("serial", insertObject.getSerial());
 
 		if (insertProducts.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
 	@Transactional
-	public ResponseObjectDto update(Product updatableObject) {
+	public boolean update(Product updatableObject) {
 		Query updateProduct = super.getEntityManager().createNativeQuery(Queries.PRODUCT_UPDATE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -58,16 +57,16 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 		updateProduct.setParameter("id", updatableObject.getId());
 
 		if (updateProduct.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
 	@Transactional
-	public ResponseObjectDto delete(Long id) {
+	public boolean delete(Long id) {
 		Query deleteProduct = super.getEntityManager().createQuery(Queries.PRODUCT_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -75,10 +74,10 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 		deleteProduct.setParameter("id", id);
 
 		if (deleteProduct.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return true;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return false;
 		}
 	}
 }

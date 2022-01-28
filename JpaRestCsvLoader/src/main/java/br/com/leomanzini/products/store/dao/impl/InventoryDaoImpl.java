@@ -3,7 +3,6 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
-import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.Query;
@@ -27,7 +26,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
-	public ResponseObjectDto insert(Inventory insertObject) {
+	public boolean insert(Inventory insertObject) {
 		Query insertInventory = super.getEntityManager().createNativeQuery(Queries.INVENTORY_INSERT.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -38,15 +37,15 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		insertInventory.setParameter("storeDocument", insertObject.getStore().getDocument());
 
 		if (insertInventory.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
-	public ResponseObjectDto update(Inventory updatableObject) {
+	public boolean update(Inventory updatableObject) {
 		Query updateInventory = super.getEntityManager().createNativeQuery(Queries.INVENTORY_UPDATE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -56,15 +55,15 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		updateInventory.setParameter("id", updatableObject.getId());
 
 		if (updateInventory.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
-	public ResponseObjectDto delete(Long id) {
+	public boolean delete(Long id) {
 		Query deleteInventory = super.getEntityManager().createQuery(Queries.INVENTORY_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -72,10 +71,10 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		deleteInventory.setParameter("id", id);
 
 		if (deleteInventory.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 }

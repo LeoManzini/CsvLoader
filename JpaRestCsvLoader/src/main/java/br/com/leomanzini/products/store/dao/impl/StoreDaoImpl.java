@@ -3,7 +3,6 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
-import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.model.entities.Store;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.Query;
@@ -31,7 +30,7 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
 	@Transactional
-	public ResponseObjectDto insert(Store insertObject) {
+	public boolean insert(Store insertObject) {
 		Query insertStore = super.getEntityManager().createNativeQuery(Queries.STORE_INSERT.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -40,16 +39,16 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 		insertStore.setParameter("document", insertObject.getDocument());
 
 		if (insertStore.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
 	@Transactional
-	public ResponseObjectDto update(Store updatableObject) {
+	public boolean update(Store updatableObject) {
 		Query updateStore = super.getEntityManager().createNativeQuery(Queries.STORE_UPDATE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -59,16 +58,16 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 		updateStore.setParameter("id", updatableObject.getId());
 
 		if (updateStore.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 
 	@Override
 	@Transactional
-	public ResponseObjectDto delete(Long id) {
+	public boolean delete(Long id) {
 		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
@@ -76,10 +75,10 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 		deleteStore.setParameter("id", id);
 
 		if (deleteStore.executeUpdate() != 1) {
-			return ResponseObjectDto.builder().message("Deu errado...").build();
+			return false;
 		} else {
 			super.getEntityManager().getTransaction().commit();
-			return ResponseObjectDto.builder().message("Deu certo!").build();
+			return true;
 		}
 	}
 }
