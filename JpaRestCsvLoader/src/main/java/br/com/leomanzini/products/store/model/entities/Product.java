@@ -34,7 +34,7 @@ public class Product {
 	private String name;
 	
 	@Column(name = "serial", unique = true, nullable = false)
-	private Long serial;
+	private Integer serial;
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "product")

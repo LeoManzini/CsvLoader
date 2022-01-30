@@ -88,11 +88,17 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 
 	@Transactional
 	public Inventory findStoreProduct(Integer storeDocument, Integer productSerial) {
-		Query findProductQuery = super.getEntityManager()
-				.createNativeQuery(Queries.INVENTORY_FIND_PRODUCT_STORE.getQuery());
-		findProductQuery.setParameter("storeDocument", storeDocument);
-		findProductQuery.setParameter("serial", productSerial);
-		
-		return (Inventory) findProductQuery.getSingleResult();
+		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
+		inventoryQuery.setParameter("storeDocument", storeDocument);
+
+		List<Inventory> productList = inventoryQuery.getResultList();
+
+		for (Inventory inventoryReturn : productList) {
+			if (inventoryReturn.getProduct().getSerial().intValue() == productSerial) {
+				return inventoryReturn;
+			}
+		}
+		return null;
 	}
 }

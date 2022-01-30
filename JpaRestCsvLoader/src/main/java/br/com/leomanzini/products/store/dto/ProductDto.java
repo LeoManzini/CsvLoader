@@ -14,7 +14,7 @@ public class ProductDto {
 
 	private Integer productId;
 	private String productName;
-	private Long productSerial;
+	private Integer productSerial;
 	private Integer amount;
 	private BigDecimal price;
 	
