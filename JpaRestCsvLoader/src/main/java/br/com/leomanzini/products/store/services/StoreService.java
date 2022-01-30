@@ -1,5 +1,8 @@
 package br.com.leomanzini.products.store.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jvnet.hk2.annotations.Service;
@@ -29,16 +32,23 @@ public class StoreService {
 		inventoryDao = new InventoryDaoImpl();
 	}
 
-	public StoreDto getStoreProducts(Integer storeDocument) {
+	public Response getStoreProducts(Integer storeDocument) {
 		List<Inventory> storeInventory = inventoryDao.findByDocument(storeDocument);
-		StoreDto storeResponse = null;
 
-		for (Inventory inventory : storeInventory) {
-			storeResponse = (storeResponse == null) ? new StoreDto(inventory.getStore()) : storeResponse;
-			ProductDto product = new ProductDto(inventory);
-			storeResponse.getProducts().add(product);
+		if (storeInventory.isEmpty()) {
+			return Response.status(Response.Status.NOT_FOUND).entity(ResponseObjectDto.builder()
+					.message("Store not found")
+					.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
+					.build();
+		} else {
+			StoreDto storeResponse = null;
+			for (Inventory inventory : storeInventory) {
+				storeResponse = (storeResponse == null) ? new StoreDto(inventory.getStore()) : storeResponse;
+				ProductDto product = new ProductDto(inventory);
+				storeResponse.getProducts().add(product);
+			}
+			return Response.ok(storeResponse, MediaType.APPLICATION_JSON).build();
 		}
-		return storeResponse;
 	}
 
 	public ProductDto getStoreProduct(Integer id) {

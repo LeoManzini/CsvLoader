@@ -1,11 +1,11 @@
 package br.com.leomanzini.products.store.resources;
 
-import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.services.StoreService;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/hello")
 public class HelloWorldResource {
@@ -14,7 +14,7 @@ public class HelloWorldResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public StoreDto helloWorld() {
-		return service.getStoreProducts(1);
+	public Response helloWorld() {
+		return service.getStoreProducts(10);
 	}
 }
