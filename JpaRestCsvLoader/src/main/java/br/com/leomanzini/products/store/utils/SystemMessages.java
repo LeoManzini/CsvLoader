@@ -2,7 +2,7 @@ package br.com.leomanzini.products.store.utils;
 
 public enum SystemMessages {
 	
-	STORE_NOT_FOUND("");
+	STORE_NOT_FOUND("Store not found");
 	
 	private String message;
 	
