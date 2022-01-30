@@ -55,30 +55,30 @@ public class StoreService {
 	}
 
 	public Response insertStore(StoreDto storeToInsert) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response insertProductIntoStore(ProductDto productToInsert) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response insertNewProductToDatabase(ProductDto productToInsert) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response updateStore(StoreDto storeToUpdate) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response updateProduct(ProductDto productToUpdate) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response deleteStore(Integer id) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 
 	public Response deleteProduct(Long serial) {
-		return Response.ok(ResponseObjectDto.builder().build().toString(), MediaType.APPLICATION_JSON).build();
+		return null;
 	}
 }
