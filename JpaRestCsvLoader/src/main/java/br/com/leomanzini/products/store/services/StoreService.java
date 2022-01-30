@@ -13,6 +13,7 @@ import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
+import br.com.leomanzini.products.store.utils.SystemMessages;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -35,7 +36,7 @@ public class StoreService {
 
 		if (storeInventory.isEmpty()) {
 			return Response.status(Response.Status.NOT_FOUND)
-					.entity(ResponseObjectDto.builder().message("Store not found")
+					.entity(ResponseObjectDto.builder().message(SystemMessages.STORE_NOT_FOUND.getMessage())
 							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
 					.build();
 		} else {
