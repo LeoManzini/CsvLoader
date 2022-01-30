@@ -2,7 +2,6 @@ package br.com.leomanzini.products.store.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jvnet.hk2.annotations.Service;
@@ -14,7 +13,6 @@ import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
-import br.com.leomanzini.products.store.model.entities.Store;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -36,9 +34,9 @@ public class StoreService {
 		List<Inventory> storeInventory = inventoryDao.findByDocument(storeDocument);
 
 		if (storeInventory.isEmpty()) {
-			return Response.status(Response.Status.NOT_FOUND).entity(ResponseObjectDto.builder()
-					.message("Store not found")
-					.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
+			return Response.status(Response.Status.NOT_FOUND)
+					.entity(ResponseObjectDto.builder().message("Store not found")
+							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
 					.build();
 		} else {
 			StoreDto storeResponse = null;
@@ -51,7 +49,7 @@ public class StoreService {
 		}
 	}
 
-	public ProductDto getStoreProduct(Integer id) {
+	public Response getStoreProduct(Integer id) {
 		return null;
 	}
 
