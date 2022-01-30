@@ -13,6 +13,7 @@ import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
+import br.com.leomanzini.products.store.model.entities.Product;
 import br.com.leomanzini.products.store.utils.SystemMessages;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -50,8 +51,20 @@ public class StoreService {
 		}
 	}
 
-	public Response getStoreProduct(Integer id) {
-		return null;
+	public Response getStoreProduct(Integer storeDocument, Integer productSerial) {
+		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
+		
+		if (productInventory == null) {
+			return Response.status(Response.Status.NOT_FOUND)
+					.entity(ResponseObjectDto.builder().message(SystemMessages.PRODUCT_STORE_NOT_FOUND.getMessage())
+							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
+					.build();
+		} else {
+			StoreDto storeResponse = new StoreDto(productInventory.getStore());
+			ProductDto product = new ProductDto(productInventory);
+			storeResponse.getProducts().add(product);
+			return Response.ok(storeResponse).build();
+		}
 	}
 
 	public Response insertStore(StoreDto storeToInsert) {

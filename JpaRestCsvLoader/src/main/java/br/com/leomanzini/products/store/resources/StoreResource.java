@@ -8,15 +8,21 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/store")
+@Path("/store/{document}")
 public class StoreResource {
-	
+
 	StoreService service = new StoreService();
 
 	@GET
-	@Path("{document}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStoreProducts(@PathParam("document") Integer document) {
 		return service.getStoreProducts(document);
+	}
+
+	@GET
+	@Path("{serial}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getStoreProduct(@PathParam("document") Integer document, @PathParam("serial") Integer productSerial) {
+		return service.getStoreProduct(document, productSerial);
 	}
 }

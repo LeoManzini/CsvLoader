@@ -7,6 +7,7 @@ import br.com.leomanzini.products.store.model.entities.Inventory;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 
@@ -83,5 +84,15 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
 		inventoryQuery.setParameter("storeDocument", storeDocument);
 		return inventoryQuery.getResultList();
+	}
+
+	@Transactional
+	public Inventory findStoreProduct(Integer storeDocument, Integer productSerial) {
+		Query findProductQuery = super.getEntityManager()
+				.createNativeQuery(Queries.INVENTORY_FIND_PRODUCT_STORE.getQuery());
+		findProductQuery.setParameter("storeDocument", storeDocument);
+		findProductQuery.setParameter("serial", productSerial);
+		
+		return (Inventory) findProductQuery.getSingleResult();
 	}
 }
