@@ -55,10 +55,25 @@ public class StoreResource {
 		return service.deleteStore(document);
 	}
 	
+	@DELETE
+	@Path("{document}/{serial}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteProduct(@PathParam("document") Integer document, @PathParam("serial") Integer productSerial) {
+		return service.deleteProduct(document, productSerial);
+	}
+	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateStore(StoreDto storeToUpdate) {
 		return service.updateStore(storeToUpdate);
+	}
+	
+	@PUT
+	@Path("{document}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateProduct(@PathParam("document") Integer document, ProductDto productToUpdate) {
+		return service.updateProduct(document, productToUpdate);
 	}
 }

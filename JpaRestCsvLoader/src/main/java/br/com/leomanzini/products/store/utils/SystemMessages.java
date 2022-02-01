@@ -14,7 +14,9 @@ public enum SystemMessages {
 	PRODUCT_NOT_FOUND("Product not found at database, please verify the database first"), 
 	PRODUCT_ALREADY_AT_DATABASE("Product already at database"), 
 	PRODUCT_INSERTED("Product inserted at database successfully"),
-	PRODUCT_NOT_INSERTED("Product not inserted at database");
+	PRODUCT_NOT_INSERTED("Product not inserted at database"), 
+	PRODUCT_DELETED("Product deleted from store"),
+	PRODUCT_UPDATED("Product updated");
 	
 	private String message;
 	

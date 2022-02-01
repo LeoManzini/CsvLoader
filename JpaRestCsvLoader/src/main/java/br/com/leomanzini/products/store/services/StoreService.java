@@ -49,7 +49,6 @@ public class StoreService {
 
 	public Response getStoreProduct(Integer storeDocument, Integer productSerial) {
 		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
-
 		if (productInventory == null) {
 			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.PRODUCT_STORE_NOT_FOUND);
 		} else {
@@ -92,19 +91,6 @@ public class StoreService {
 		return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_INSERTED);
 	}
 
-	public Response insertNewProductToDatabase(ProductDto productToInsert) {
-		Product productAtDatabase = productDao.findBySerial(productToInsert.getProductSerial());
-		if (productAtDatabase == null) {
-			if (productDao.insert(new Product(productToInsert))) {
-				return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_INSERTED);
-			} else {
-				return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_NOT_INSERTED);
-			}
-		} else {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_ALREADY_AT_DATABASE);
-		}
-	}
-
 	public Response updateStore(StoreDto storeToUpdate) {
 		Store storeUpdatable = storeDao.findByDocument(storeToUpdate.getStoreDocument());
 		if (storeUpdatable == null) {
@@ -115,8 +101,15 @@ public class StoreService {
 		return returnMessage(Response.Status.OK, SystemMessages.STORE_UPDATED);
 	}
 
-	public Response updateProduct(ProductDto productToUpdate) {
-		return null;
+	public Response updateProduct(Integer storeDocument, ProductDto productToUpdate) {
+		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productToUpdate.getProductSerial());
+		if (productInventory == null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_FOUND);
+		}
+		productInventory.setAmount(productToUpdate.getAmount());
+		productInventory.setPrice(productToUpdate.getPrice());
+		inventoryDao.update(productInventory);
+		return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_UPDATED);
 	}
 
 	public Response deleteStore(Integer document) {
@@ -128,8 +121,13 @@ public class StoreService {
 		return returnMessage(Response.Status.OK, SystemMessages.STORE_DELETED);
 	}
 
-	public Response deleteProduct(Integer serial) {
-		return null;
+	public Response deleteProduct(Integer storeDocument, Integer productSerial) {
+		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
+		if (productInventory == null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_FOUND);
+		}
+		inventoryDao.delete(productInventory.getId());
+		return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_DELETED);
 	}
 
 	private Response returnMessage(Response.Status status, SystemMessages message) {
