@@ -80,4 +80,15 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 			return false;
 		}
 	}
+
+	public Product findBySerial(Integer productSerial) {
+		try {
+			TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_DOCUMENT.getQuery(),
+					Product.class);
+			findProductsById.setParameter("serial", productSerial);
+			return findProductsById.getSingleResult();			
+		} catch(Exception e) {
+			return null;
+		}
+	}
 }

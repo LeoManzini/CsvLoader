@@ -13,13 +13,12 @@ import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.model.entities.Inventory;
+import br.com.leomanzini.products.store.model.entities.Product;
 import br.com.leomanzini.products.store.model.entities.Store;
 import br.com.leomanzini.products.store.utils.SystemMessages;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Service
-@SuppressWarnings("unused")
 public class StoreService {
 
 	private final StoreDaoImpl storeDao;
@@ -71,8 +70,26 @@ public class StoreService {
 		return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_PERSISTED);
 	}
 
-	public Response insertProductIntoStore(ProductDto productToInsert) {
-		return null;
+	public Response insertProductIntoStore(Integer storeDocument, ProductDto productToInsert) {
+		Store storeUpdatable = storeDao.findByDocument(storeDocument);
+		if (storeUpdatable == null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
+		}
+		Inventory inventoryUpdatable = inventoryDao.findStoreProduct(storeDocument, productToInsert.getProductSerial());
+		if (inventoryUpdatable != null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_FOUND);
+		} else {
+			Product productAtDatabase = productDao.findBySerial(productToInsert.getProductSerial());
+			if (productAtDatabase != null) {				
+				Inventory inventoryToInsert = instanciateInventory(storeUpdatable, productToInsert);
+				if (inventoryDao.insert(inventoryToInsert)) {
+					return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_STORE_INSERTED);
+				}
+			} else {
+				return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_NOT_FOUND);
+			}
+		}
+		return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_INSERTED);
 	}
 
 	public Response insertNewProductToDatabase(ProductDto productToInsert) {
@@ -102,12 +119,18 @@ public class StoreService {
 		return returnMessage(Response.Status.OK, SystemMessages.STORE_DELETED);
 	}
 
-	public Response deleteProduct(Long serial) {
+	public Response deleteProduct(Integer serial) {
 		return null;
 	}
 
 	private Response returnMessage(Response.Status status, SystemMessages message) {
 		return Response.status(status).entity(ResponseObjectDto.builder().message(message.getMessage())
 				.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build()).build();
+	}
+
+	private Inventory instanciateInventory(Store storeUpdatable, ProductDto productToInsert) {
+		return Inventory.builder().product(Product.builder().name(productToInsert.getProductName())
+						.serial(productToInsert.getProductSerial()).build())
+				.store(storeUpdatable).amount(productToInsert.getAmount()).price(productToInsert.getPrice()).build();
 	}
 }

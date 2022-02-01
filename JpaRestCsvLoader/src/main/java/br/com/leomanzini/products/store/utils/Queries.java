@@ -12,6 +12,7 @@ public enum Queries {
 	
 	PRODUCT_FIND_ALL("select pd from Product pd"),
 	PRODUCT_FIND_BY_ID("select pd from Product pd where pd.id = :productId"),
+	PRODUCT_FIND_BY_DOCUMENT("select pd from Product pd where pd.serial = :serial"),
 	PRODUCT_INSERT("insert into products (nome, serial) values (:name, :serial)"),
 	PRODUCT_UPDATE("update products set nome = :name where id = :id"),
 	PRODUCT_DELETE("delete from Product pd where pd.id = :id"),
