@@ -3,6 +3,7 @@ package br.com.leomanzini.products.store.model.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.leomanzini.products.store.dto.StoreDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,14 +30,20 @@ public class Store {
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "nome")
 	private String name;
-	
+
 	@Column(name = "document", unique = true, nullable = false)
 	private Integer document;
-	
+
 	@Builder.Default
 	@OneToMany(mappedBy = "store")
 	private List<Inventory> inventory = new ArrayList<>();
+
+	public Store(StoreDto storeToInsert) {
+		this.id = storeToInsert.getStoreId();
+		this.name = storeToInsert.getStoreName();
+		this.document = storeToInsert.getStoreDocument();
+	}
 }

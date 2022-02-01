@@ -81,4 +81,16 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 			return true;
 		}
 	}
+
+	@Transactional
+	public Store findByDocument(Integer storeDocument) {
+		try {
+			TypedQuery<Store> findStoreByDocument = super.getEntityManager()
+					.createQuery(Queries.STORE_FIND_BY_DOCUMENT.getQuery(), Store.class);
+			findStoreByDocument.setParameter("storeDocument", storeDocument);
+			return findStoreByDocument.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
