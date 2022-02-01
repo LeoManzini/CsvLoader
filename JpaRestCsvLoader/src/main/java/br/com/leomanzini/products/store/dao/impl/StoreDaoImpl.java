@@ -55,7 +55,6 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 		updateStore.setParameter("name", updatableObject.getName());
 		updateStore.setParameter("document", updatableObject.getDocument());
-		updateStore.setParameter("id", updatableObject.getId());
 
 		if (updateStore.executeUpdate() != 1) {
 			return false;

@@ -6,25 +6,27 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/store/{document}")
+@Path("/store")
 public class StoreResource {
 
 	StoreService service = new StoreService();
 
 	@GET
+	@Path("{document}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStoreProducts(@PathParam("document") Integer document) {
 		return service.getStoreProducts(document);
 	}
 
 	@GET
-	@Path("{serial}")
+	@Path("{document}/{serial}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStoreProduct(@PathParam("document") Integer document, @PathParam("serial") Integer productSerial) {
 		return service.getStoreProduct(document, productSerial);
@@ -38,8 +40,16 @@ public class StoreResource {
 	}
 	
 	@DELETE
+	@Path("{document}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteStore(@PathParam("document") Integer document) {
 		return service.deleteStore(document);
+	}
+	
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateStore(StoreDto storeToUpdate) {
+		return service.updateStore(storeToUpdate);
 	}
 }

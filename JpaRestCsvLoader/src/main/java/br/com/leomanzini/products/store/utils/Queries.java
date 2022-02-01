@@ -6,7 +6,7 @@ public enum Queries {
 	STORE_FIND_BY_ID("select st from Store st where st.id = :storeId"),
 	STORE_FIND_BY_DOCUMENT("select st from Store st where st.document = :storeDocument"),
 	STORE_INSERT("insert into stores (nome, document) values (:name, :document)"),
-	STORE_UPDATE("update stores set nome = :name, document = :document where id = :id"),
+	STORE_UPDATE("update stores set nome = :name where document = :document"),
 	STORE_DELETE("delete from Store s where s.id = :id"),
 	STORE_DELETE_BY_DOCUMENT("delete from Store s where s.document = :document"),
 	

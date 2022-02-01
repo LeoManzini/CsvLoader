@@ -36,10 +36,7 @@ public class StoreService {
 		List<Inventory> storeInventory = inventoryDao.findByDocument(storeDocument);
 
 		if (storeInventory.isEmpty()) {
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity(ResponseObjectDto.builder().message(SystemMessages.STORE_NOT_FOUND.getMessage())
-							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
-					.build();
+			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.STORE_NOT_FOUND);
 		} else {
 			StoreDto storeResponse = null;
 			for (Inventory inventory : storeInventory) {
@@ -47,7 +44,7 @@ public class StoreService {
 				ProductDto product = new ProductDto(inventory);
 				storeResponse.getProducts().add(product);
 			}
-			return Response.ok(storeResponse, MediaType.APPLICATION_JSON).build();
+			return Response.ok(storeResponse).build();
 		}
 	}
 
@@ -55,10 +52,7 @@ public class StoreService {
 		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
 
 		if (productInventory == null) {
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity(ResponseObjectDto.builder().message(SystemMessages.PRODUCT_STORE_NOT_FOUND.getMessage())
-							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
-					.build();
+			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.PRODUCT_STORE_NOT_FOUND);
 		} else {
 			StoreDto storeResponse = new StoreDto(productInventory.getStore());
 			ProductDto product = new ProductDto(productInventory);
@@ -71,14 +65,10 @@ public class StoreService {
 		Store storeExists = storeDao.findByDocument(storeToInsert.getStoreDocument());
 		if (storeExists == null) {
 			if (storeDao.insert(new Store(storeToInsert))) {
-				return Response.ok(ResponseObjectDto.builder().message(SystemMessages.STORE_INSERTED.getMessage())
-						.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build()).build();
+				return returnMessage(Response.Status.OK, SystemMessages.STORE_INSERTED);
 			}
 		}
-		return Response.status(Response.Status.BAD_REQUEST)
-				.entity(ResponseObjectDto.builder().message(SystemMessages.STORE_NOT_PERSISTED.getMessage())
-						.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
-				.build();
+		return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_PERSISTED);
 	}
 
 	public Response insertProductIntoStore(ProductDto productToInsert) {
@@ -90,7 +80,13 @@ public class StoreService {
 	}
 
 	public Response updateStore(StoreDto storeToUpdate) {
-		return null;
+		Store storeUpdatable = storeDao.findByDocument(storeToUpdate.getStoreDocument());
+		if (storeUpdatable == null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
+		}
+		storeUpdatable.setName(storeToUpdate.getStoreName());
+		storeDao.update(storeUpdatable);
+		return returnMessage(Response.Status.OK, SystemMessages.STORE_UPDATED);
 	}
 
 	public Response updateProduct(ProductDto productToUpdate) {
@@ -98,19 +94,20 @@ public class StoreService {
 	}
 
 	public Response deleteStore(Integer document) {
-		Store storeExists = storeDao.findByDocument(document);
-		if (storeExists == null) {
-			return Response.status(Response.Status.BAD_REQUEST)
-					.entity(ResponseObjectDto.builder().message(SystemMessages.STORE_NOT_DELETED.getMessage())
-							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
-					.build();
+		Store storeExisting = storeDao.findByDocument(document);
+		if (storeExisting == null) {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
 		}
 		storeDao.deleteByDocument(document);
-		return Response.ok(ResponseObjectDto.builder().message(SystemMessages.STORE_DELETED.getMessage())
-				.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build()).build();
+		return returnMessage(Response.Status.OK, SystemMessages.STORE_DELETED);
 	}
 
 	public Response deleteProduct(Long serial) {
 		return null;
+	}
+
+	private Response returnMessage(Response.Status status, SystemMessages message) {
+		return Response.status(status).entity(ResponseObjectDto.builder().message(message.getMessage())
+				.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build()).build();
 	}
 }
