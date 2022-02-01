@@ -1,7 +1,3 @@
-Arrumar métodos CRUD, trocar os retornos das classes DAO por DTO
-
-Criar classes de serviço para armazenar regras de negócio;
-
 Criar crud na base com classes controller e JAX-RS;
 https://www.youtube.com/watch?v=-_VPzhKJPfE&t=611s
 
