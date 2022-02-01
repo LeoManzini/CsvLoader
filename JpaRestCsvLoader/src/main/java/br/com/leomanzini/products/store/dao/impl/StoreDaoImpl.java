@@ -93,4 +93,20 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 			return null;
 		}
 	}
+	
+	@Transactional
+	public boolean deleteByDocument(Integer storeDocument) {
+		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE_BY_DOCUMENT.getQuery());
+
+		super.getEntityManager().getTransaction().begin();
+
+		deleteStore.setParameter("document", storeDocument);
+
+		if (deleteStore.executeUpdate() != 1) {
+			return false;
+		} else {
+			super.getEntityManager().getTransaction().commit();
+			return true;
+		}
+	}
 }

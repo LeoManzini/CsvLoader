@@ -3,6 +3,7 @@ package br.com.leomanzini.products.store.resources;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.services.StoreService;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -34,5 +35,11 @@ public class StoreResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertNewStore(StoreDto storeToInsert) {
 		return service.insertStore(storeToInsert);
+	}
+	
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteStore(@PathParam("document") Integer document) {
+		return service.deleteStore(document);
 	}
 }

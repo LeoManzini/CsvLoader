@@ -8,6 +8,7 @@ public enum Queries {
 	STORE_INSERT("insert into stores (nome, document) values (:name, :document)"),
 	STORE_UPDATE("update stores set nome = :name, document = :document where id = :id"),
 	STORE_DELETE("delete from Store s where s.id = :id"),
+	STORE_DELETE_BY_DOCUMENT("delete from Store s where s.document = :document"),
 	
 	PRODUCT_FIND_ALL("select pd from Product pd"),
 	PRODUCT_FIND_BY_ID("select pd from Product pd where pd.id = :productId"),

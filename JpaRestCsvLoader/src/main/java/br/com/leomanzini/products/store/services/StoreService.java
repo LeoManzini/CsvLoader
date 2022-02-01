@@ -97,8 +97,17 @@ public class StoreService {
 		return null;
 	}
 
-	public Response deleteStore(Integer id) {
-		return null;
+	public Response deleteStore(Integer document) {
+		Store storeExists = storeDao.findByDocument(document);
+		if (storeExists == null) {
+			return Response.status(Response.Status.BAD_REQUEST)
+					.entity(ResponseObjectDto.builder().message(SystemMessages.STORE_NOT_DELETED.getMessage())
+							.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build())
+					.build();
+		}
+		storeDao.deleteByDocument(document);
+		return Response.ok(ResponseObjectDto.builder().message(SystemMessages.STORE_DELETED.getMessage())
+				.time(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())).build()).build();
 	}
 
 	public Response deleteProduct(Long serial) {
