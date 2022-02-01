@@ -93,7 +93,16 @@ public class StoreService {
 	}
 
 	public Response insertNewProductToDatabase(ProductDto productToInsert) {
-		return null;
+		Product productAtDatabase = productDao.findBySerial(productToInsert.getProductSerial());
+		if (productAtDatabase == null) {
+			if (productDao.insert(new Product(productToInsert))) {
+				return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_INSERTED);
+			} else {
+				return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_NOT_INSERTED);
+			}
+		} else {
+			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_ALREADY_AT_DATABASE);
+		}
 	}
 
 	public Response updateStore(StoreDto storeToUpdate) {
