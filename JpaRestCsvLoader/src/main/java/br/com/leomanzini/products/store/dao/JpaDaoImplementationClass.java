@@ -6,11 +6,13 @@ import lombok.Getter;
 @Getter
 public abstract class JpaDaoImplementationClass<T> implements GenericDaoInterface<T> {
 
-	private EntityManager entityManager;
+	private static EntityManager entityManager;
 
-	public JpaDaoImplementationClass(EntityManager entityManager) {
-		if (entityManager == null) {
-			this.entityManager = entityManager;
-		}
+	public JpaDaoImplementationClass(EntityManager entityManagerReceived) {
+		entityManager = entityManagerReceived;
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 }
