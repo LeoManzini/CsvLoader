@@ -6,29 +6,33 @@ import java.util.List;
 
 import org.jvnet.hk2.annotations.Service;
 
+import br.com.leomanzini.products.store.dao.DaoFactory;
 import br.com.leomanzini.products.store.dao.impl.InventoryDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.ProductDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
-import br.com.leomanzini.products.store.model.entities.Inventory;
-import br.com.leomanzini.products.store.model.entities.Product;
-import br.com.leomanzini.products.store.model.entities.Store;
+import br.com.leomanzini.products.store.entities.Inventory;
+import br.com.leomanzini.products.store.entities.Product;
+import br.com.leomanzini.products.store.entities.Store;
 import br.com.leomanzini.products.store.utils.SystemMessages;
 import jakarta.ws.rs.core.Response;
 
 @Service
 public class StoreService {
+	
+	private static StoreService storeServiceImplementation;
 
-	private final StoreDaoImpl storeDao;
-	private final ProductDaoImpl productDao;
-	private final InventoryDaoImpl inventoryDao;
+	private final StoreDaoImpl storeDao = DaoFactory.getStoreDaoImplementation();
+	private final ProductDaoImpl productDao = DaoFactory.getProductDaoImplementation();
+	private final InventoryDaoImpl inventoryDao = DaoFactory.getInventoryDaoImplementation();
 
-	public StoreService() {
-		storeDao = new StoreDaoImpl();
-		productDao = new ProductDaoImpl();
-		inventoryDao = new InventoryDaoImpl();
+	public static StoreService getStoreServiceImplementation() {
+		if (storeServiceImplementation == null) {
+			storeServiceImplementation = new StoreService();
+		}
+		return storeServiceImplementation;
 	}
 
 	public Response getStoreProducts(Integer storeDocument) {

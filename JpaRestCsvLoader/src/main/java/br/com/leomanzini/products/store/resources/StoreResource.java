@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/store")
 public class StoreResource {
 
-	StoreService service = new StoreService();
+	StoreService service = StoreService.getStoreServiceImplementation();
 
 	@GET
 	@Path("{document}")

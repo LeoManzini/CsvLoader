@@ -1,6 +1,5 @@
 package br.com.leomanzini.products.store.dao;
 
-import br.com.leomanzini.products.store.utils.PropertiesLoader;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 
@@ -9,9 +8,9 @@ public abstract class JpaDaoImplementationClass<T> implements GenericDaoInterfac
 
 	private EntityManager entityManager;
 
-	public JpaDaoImplementationClass() {
+	public JpaDaoImplementationClass(EntityManager entityManager) {
 		if (entityManager == null) {
-			entityManager = PropertiesLoader.createEntityManagerFactoryConfigured().createEntityManager();
+			this.entityManager = entityManager;
 		}
 	}
 }

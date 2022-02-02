@@ -1,9 +1,9 @@
-package br.com.leomanzini.products.store.model.entities;
+package br.com.leomanzini.products.store.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.leomanzini.products.store.dto.ProductDto;
+import br.com.leomanzini.products.store.dto.StoreDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,27 +22,28 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
+@Table(name = "stores")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Product {
+public class Store {
 
 	@Id
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "nome")
 	private String name;
-	
-	@Column(name = "serial", unique = true, nullable = false)
-	private Integer serial;
-	
+
+	@Column(name = "document", unique = true, nullable = false)
+	private Integer document;
+
 	@Builder.Default
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "store")
 	private List<Inventory> inventory = new ArrayList<>();
 
-	public Product(ProductDto productToInsert) {
-		this.name = productToInsert.getProductName();
-		this.serial = productToInsert.getProductSerial();
+	public Store(StoreDto storeToInsert) {
+		this.id = storeToInsert.getStoreId();
+		this.name = storeToInsert.getStoreName();
+		this.document = storeToInsert.getStoreDocument();
 	}
 }

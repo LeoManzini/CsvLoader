@@ -1,4 +1,4 @@
-package br.com.leomanzini.products.store.model.entities;
+package br.com.leomanzini.products.store.entities;
 
 import java.math.BigDecimal;
 
@@ -28,11 +28,11 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "serial", referencedColumnName = "serial")
 	private Product product;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_document")
 	private Store store;
 	

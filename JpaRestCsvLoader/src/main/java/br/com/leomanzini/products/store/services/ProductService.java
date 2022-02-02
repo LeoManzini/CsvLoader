@@ -3,19 +3,25 @@ package br.com.leomanzini.products.store.services;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import br.com.leomanzini.products.store.dao.DaoFactory;
 import br.com.leomanzini.products.store.dao.impl.ProductDaoImpl;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
-import br.com.leomanzini.products.store.model.entities.Product;
+import br.com.leomanzini.products.store.entities.Product;
 import br.com.leomanzini.products.store.utils.SystemMessages;
 import jakarta.ws.rs.core.Response;
 
 public class ProductService {
 	
-	private final ProductDaoImpl productDao;
+	private static ProductService productServiceImplementation;
 	
-	public ProductService() {
-		this.productDao = new ProductDaoImpl();
+	private final ProductDaoImpl productDao = DaoFactory.getProductDaoImplementation();
+	
+	public static ProductService getStoreServiceImplementation() {
+		if (productServiceImplementation == null) {
+			productServiceImplementation = new ProductService();
+		}
+		return productServiceImplementation;
 	}
 	
 	public Response insertNewProductToDatabase(ProductDto productToInsert) {

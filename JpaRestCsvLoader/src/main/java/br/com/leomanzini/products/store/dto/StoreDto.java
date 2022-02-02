@@ -3,7 +3,7 @@ package br.com.leomanzini.products.store.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.leomanzini.products.store.model.entities.Store;
+import br.com.leomanzini.products.store.entities.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

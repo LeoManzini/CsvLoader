@@ -3,13 +3,18 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
-import br.com.leomanzini.products.store.model.entities.Store;
+import br.com.leomanzini.products.store.entities.Store;
 import br.com.leomanzini.products.store.utils.Queries;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
+	
+	public StoreDaoImpl(EntityManager entityManager) {
+		super(entityManager);
+	}
 
 	@Override
 	@Transactional

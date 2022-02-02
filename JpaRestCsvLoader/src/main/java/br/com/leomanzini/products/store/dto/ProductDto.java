@@ -2,7 +2,7 @@ package br.com.leomanzini.products.store.dto;
 
 import java.math.BigDecimal;
 
-import br.com.leomanzini.products.store.model.entities.Inventory;
+import br.com.leomanzini.products.store.entities.Inventory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
