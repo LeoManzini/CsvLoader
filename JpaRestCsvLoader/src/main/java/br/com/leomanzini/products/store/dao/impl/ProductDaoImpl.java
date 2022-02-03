@@ -59,7 +59,7 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 		super.getEntityManager().getTransaction().begin();
 
 		updateProduct.setParameter("name", updatableObject.getName());
-		updateProduct.setParameter("id", updatableObject.getId());
+		updateProduct.setParameter("id", updatableObject.getSerial());
 
 		if (updateProduct.executeUpdate() != 1) {
 			return false;

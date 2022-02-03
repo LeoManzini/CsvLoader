@@ -15,15 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StoreDto {
 
-	private Integer storeId;
-	private String storeName;
 	private Integer storeDocument;
+	private String storeName;
 	private List<ProductDto> products;
 	
 	public StoreDto(Store store) {
-		this.storeId = store.getId();
-		this.storeName = store.getName();
 		this.storeDocument = store.getDocument();
+		this.storeName = store.getName();
 		this.products = new ArrayList<>();
 	}
 }

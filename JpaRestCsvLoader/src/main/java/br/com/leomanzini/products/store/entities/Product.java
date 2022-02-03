@@ -7,8 +7,6 @@ import java.util.List;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,21 +28,17 @@ public class Product implements Serializable {
 
 	@Id
 	@EqualsAndHashCode.Include
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer serial;
 	
 	@Column(name = "nome")
 	private String name;
-	
-	@Column(nullable = false, unique = true)
-	private Integer serial;
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "product")
 	private List<Inventory> inventory = new ArrayList<>();
 
 	public Product(ProductDto productToInsert) {
-		this.name = productToInsert.getProductName();
 		this.serial = productToInsert.getProductSerial();
+		this.name = productToInsert.getProductName();
 	}
 }

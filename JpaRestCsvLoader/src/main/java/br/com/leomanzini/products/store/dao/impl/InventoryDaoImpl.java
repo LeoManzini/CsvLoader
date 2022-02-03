@@ -3,7 +3,6 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
-import br.com.leomanzini.products.store.dto.InventoryDto;
 import br.com.leomanzini.products.store.entities.Inventory;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.EntityManager;
@@ -85,9 +84,9 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		}
 	}
 
-	public List<InventoryDto> findByDocument(Integer storeDocument) {
-		TypedQuery<InventoryDto> inventoryQuery = super.getEntityManager()
-				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), InventoryDto.class);
+	public List<Inventory> findByDocument(Integer storeDocument) {
+		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
 		inventoryQuery.setParameter("storeDocument", storeDocument);
 		return inventoryQuery.getResultList();
 	}
@@ -95,16 +94,19 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	@Transactional
 	public Inventory findStoreProduct(Integer storeDocument, Integer productSerial) {
 		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
-				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
+				.createQuery(Queries.INVENTORY_FIND_PRODUCT_STORE.getQuery(), Inventory.class);
 		inventoryQuery.setParameter("storeDocument", storeDocument);
-
-		List<Inventory> productList = inventoryQuery.getResultList();
-
-		for (Inventory inventoryReturn : productList) {
-			if (inventoryReturn.getProduct().getSerial().intValue() == productSerial) {
-				return inventoryReturn;
-			}
-		}
-		return null;
+		inventoryQuery.setParameter("serial", productSerial);
+		
+		return inventoryQuery.getSingleResult();
+//
+//		List<Inventory> productList = inventoryQuery.getResultList();
+//
+//		for (Inventory inventoryReturn : productList) {
+//			if (inventoryReturn.getProduct().getSerial().intValue() == productSerial) {
+//				return inventoryReturn;
+//			}
+//		}
+//		return null;
 	}
 }

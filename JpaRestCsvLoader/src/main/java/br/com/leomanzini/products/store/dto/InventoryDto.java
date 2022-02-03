@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class InventoryDto {
 
 	private Integer id;
-	private Integer serial;
-	private Integer storeDocument;
+	private Integer product;
+	private Integer store;
 	private Integer amount;
 	private BigDecimal price;
 }

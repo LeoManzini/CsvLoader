@@ -4,13 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.NaturalId;
-
 import br.com.leomanzini.products.store.dto.StoreDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -32,22 +28,17 @@ public class Store implements Serializable {
 
 	@Id
 	@EqualsAndHashCode.Include
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer document;
 
 	@Column(name = "nome")
 	private String name;
-
-	@NaturalId
-	private Integer document;
 
 	@Builder.Default
 	@OneToMany(mappedBy = "store")
 	private List<Inventory> inventory = new ArrayList<>();
 
 	public Store(StoreDto storeToInsert) {
-		this.id = storeToInsert.getStoreId();
-		this.name = storeToInsert.getStoreName();
 		this.document = storeToInsert.getStoreDocument();
+		this.name = storeToInsert.getStoreName();
 	}
 }
