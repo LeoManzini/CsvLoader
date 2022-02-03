@@ -125,7 +125,11 @@ public class StoreService {
 		if (storeExisting == null) {
 			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
 		}
-		storeDao.deleteByDocument(document);
+		List<Inventory> storeInventory = inventoryDao.findByDocument(document);
+		if (!storeInventory.isEmpty()) {
+			storeInventory.forEach(item -> deleteProduct(item.getStore().getDocument(), item.getProduct().getSerial()));
+		}
+		storeDao.delete(document);
 		return returnMessage(Response.Status.OK, SystemMessages.STORE_DELETED);
 	}
 

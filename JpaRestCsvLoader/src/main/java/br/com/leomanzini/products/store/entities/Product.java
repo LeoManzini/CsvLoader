@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dto.ProductDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,12 +30,12 @@ public class Product implements Serializable {
 	@Id
 	@EqualsAndHashCode.Include
 	private Integer serial;
-	
+
 	@Column(name = "nome")
 	private String name;
-	
+
 	@Builder.Default
-	@OneToMany(mappedBy = "product")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
 	private List<Inventory> inventory = new ArrayList<>();
 
 	public Product(ProductDto productToInsert) {

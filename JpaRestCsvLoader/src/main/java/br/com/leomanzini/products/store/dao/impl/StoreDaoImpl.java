@@ -75,28 +75,12 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 
 	@Override
 	@Transactional
-	public boolean delete(Integer id) {
-		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE.getQuery());
-
-		super.getEntityManager().getTransaction().begin();
-
-		deleteStore.setParameter("id", id);
-
-		if (deleteStore.executeUpdate() != 1) {
-			return false;
-		} else {
-			super.getEntityManager().getTransaction().commit();
-			return true;
-		}
-	}
-	
-	@Transactional
-	public boolean deleteByDocument(Integer storeDocument) {
+	public boolean delete(Integer document) {
 		Query deleteStore = super.getEntityManager().createQuery(Queries.STORE_DELETE_BY_DOCUMENT.getQuery());
 
 		super.getEntityManager().getTransaction().begin();
 
-		deleteStore.setParameter("document", storeDocument);
+		deleteStore.setParameter("document", document);
 
 		if (deleteStore.executeUpdate() != 1) {
 			return false;
