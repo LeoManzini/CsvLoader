@@ -28,8 +28,7 @@ public class ProductDaoJdbc implements ProductDao {
 
 	@Override
 	public void insert(Product product) throws ProductDaoException {
-		try (PreparedStatement insertProduct = con.prepareStatement(Queries.INSERT_PRODUCT.getQuery(),
-				new String[] { "id" })) {
+		try (PreparedStatement insertProduct = con.prepareStatement(Queries.INSERT_PRODUCT.getQuery())) {
 
 			insertProduct.setString(1, product.getName());
 			insertProduct.setInt(2, product.getInventory().getProductSerie());

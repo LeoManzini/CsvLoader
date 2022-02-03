@@ -32,8 +32,7 @@ public class StoreDaoJdbc implements StoreDao {
 
 	@Override
 	public void insert(Store store) throws StoreDaoException {
-		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery(),
-				new String[] { "id" })) {
+		try (PreparedStatement insertStore = conn.prepareStatement(Queries.INSERT_STORE.getQuery())) {
 
 			insertStore.setString(1, store.getName());
 			insertStore.setInt(2, store.getDocument());
