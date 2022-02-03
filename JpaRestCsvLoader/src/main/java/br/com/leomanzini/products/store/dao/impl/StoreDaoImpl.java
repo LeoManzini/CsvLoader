@@ -27,10 +27,14 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 	@Override
 	@Transactional
 	public Store findById(Integer storeId) {
-		TypedQuery<Store> findStoreById = super.getEntityManager().createQuery(Queries.STORE_FIND_BY_ID.getQuery(),
-				Store.class);
-		findStoreById.setParameter("storeId", storeId);
-		return findStoreById.getSingleResult();
+		try {
+			TypedQuery<Store> findStoreByDocument = super.getEntityManager()
+					.createQuery(Queries.STORE_FIND_BY_DOCUMENT.getQuery(), Store.class);
+			findStoreByDocument.setParameter("storeDocument", storeId);
+			return findStoreByDocument.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -83,18 +87,6 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 		} else {
 			super.getEntityManager().getTransaction().commit();
 			return true;
-		}
-	}
-
-	@Transactional
-	public Store findByDocument(Integer storeDocument) {
-		try {
-			TypedQuery<Store> findStoreByDocument = super.getEntityManager()
-					.createQuery(Queries.STORE_FIND_BY_DOCUMENT.getQuery(), Store.class);
-			findStoreByDocument.setParameter("storeDocument", storeDocument);
-			return findStoreByDocument.getSingleResult();
-		} catch (Exception e) {
-			return null;
 		}
 	}
 	

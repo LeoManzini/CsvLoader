@@ -3,7 +3,6 @@ package br.com.leomanzini.products.store.utils;
 public enum Queries {
 
 	STORE_FIND_ALL("select st from Store st"),
-	STORE_FIND_BY_ID("select st from Store st where st.id = :storeId"),
 	STORE_FIND_BY_DOCUMENT("select st from Store st where st.document = :storeDocument"),
 	STORE_INSERT("insert into stores (nome, document) values (:name, :document)"),
 	STORE_UPDATE("update stores set nome = :name where document = :document"),

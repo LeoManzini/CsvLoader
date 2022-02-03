@@ -52,6 +52,10 @@ public class StoreService {
 	}
 
 	public Response getStoreProduct(Integer storeDocument, Integer productSerial) {
+		Store store = storeDao.findById(storeDocument);
+		if (store == null) {
+			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.STORE_NOT_FOUND);
+		}
 		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
 		if (productInventory == null) {
 			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.PRODUCT_STORE_NOT_FOUND);
@@ -64,7 +68,7 @@ public class StoreService {
 	}
 
 	public Response insertStore(StoreDto storeToInsert) {
-		Store storeExists = storeDao.findByDocument(storeToInsert.getStoreDocument());
+		Store storeExists = storeDao.findById(storeToInsert.getStoreDocument());
 		if (storeExists == null) {
 			if (storeDao.insert(new Store(storeToInsert))) {
 				return returnMessage(Response.Status.OK, SystemMessages.STORE_INSERTED);
@@ -74,7 +78,7 @@ public class StoreService {
 	}
 
 	public Response insertProductIntoStore(Integer storeDocument, ProductDto productToInsert) {
-		Store storeUpdatable = storeDao.findByDocument(storeDocument);
+		Store storeUpdatable = storeDao.findById(storeDocument);
 		if (storeUpdatable == null) {
 			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
 		}
@@ -96,7 +100,7 @@ public class StoreService {
 	}
 
 	public Response updateStore(StoreDto storeToUpdate) {
-		Store storeUpdatable = storeDao.findByDocument(storeToUpdate.getStoreDocument());
+		Store storeUpdatable = storeDao.findById(storeToUpdate.getStoreDocument());
 		if (storeUpdatable == null) {
 			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
 		}
@@ -117,7 +121,7 @@ public class StoreService {
 	}
 
 	public Response deleteStore(Integer document) {
-		Store storeExisting = storeDao.findByDocument(document);
+		Store storeExisting = storeDao.findById(document);
 		if (storeExisting == null) {
 			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
 		}
