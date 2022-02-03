@@ -1,6 +1,3 @@
-Criar crud na base com classes controller e JAX-RS;
-https://www.youtube.com/watch?v=-_VPzhKJPfE&t=611s
-
 Fazer upload de listas a partir do controller com método POST;
 
 Ler arquivos e escrever também;
