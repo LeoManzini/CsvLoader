@@ -1,3 +1,5 @@
+Corrigir apontamentos para a tabela de relação
+
 Criar crud na base com classes controller e JAX-RS;
 https://www.youtube.com/watch?v=-_VPzhKJPfE&t=611s
 

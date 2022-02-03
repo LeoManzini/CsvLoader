@@ -18,7 +18,7 @@ public enum Queries {
 	PRODUCT_DELETE("delete from Product pd where pd.id = :id"),
 	
 	INVENTORY_FIND_ALL("select ivn from Inventory ivn"),
-	INVENTORY_FIND_BY_DOCUMENT("select inv from Inventory inv join fetch inv.product where inv.store.document = :storeDocument"),
+	INVENTORY_FIND_BY_DOCUMENT("select inv from Inventory inv where inv.store.document = :storeDocument"),
 	INVENTORY_FIND_PRODUCT_STORE("select * from inventory where store_document = :storeDocument and serial = :serial"),
 	INVENTORY_FIND_BY_ID("select ivn from Inventory ivn where ivn.id = :inventoryId"),
 	INVENTORY_INSERT("insert into inventory (amount, price, serial, store_document) values (:amount, :price, :serial, :storeDocument)"),

@@ -6,7 +6,6 @@ import java.util.List;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,7 +38,7 @@ public class Product {
 	private Integer serial;
 	
 	@Builder.Default
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "product")
 	private List<Inventory> inventory = new ArrayList<>();
 
 	public Product(ProductDto productToInsert) {
