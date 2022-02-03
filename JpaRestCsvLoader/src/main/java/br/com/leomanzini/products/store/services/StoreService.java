@@ -80,11 +80,11 @@ public class StoreService {
 	public Response insertProductIntoStore(Integer storeDocument, ProductDto productToInsert) {
 		Store storeUpdatable = storeDao.findById(storeDocument);
 		if (storeUpdatable == null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
+			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.STORE_NOT_FOUND);
 		}
 		Inventory inventoryUpdatable = inventoryDao.findStoreProduct(storeDocument, productToInsert.getProductSerial());
 		if (inventoryUpdatable != null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_FOUND);
+			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.PRODUCT_STORE_FOUND);
 		} else {
 			Product productAtDatabase = productDao.findById(productToInsert.getProductSerial());
 			if (productAtDatabase != null) {				
@@ -102,7 +102,7 @@ public class StoreService {
 	public Response updateStore(StoreDto storeToUpdate) {
 		Store storeUpdatable = storeDao.findById(storeToUpdate.getStoreDocument());
 		if (storeUpdatable == null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
+			return returnMessage(Response.Status.NOT_MODIFIED, SystemMessages.STORE_NOT_FOUND);
 		}
 		storeUpdatable.setName(storeToUpdate.getStoreName());
 		storeDao.update(storeUpdatable);
@@ -112,7 +112,7 @@ public class StoreService {
 	public Response updateProduct(Integer storeDocument, ProductDto productToUpdate) {
 		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productToUpdate.getProductSerial());
 		if (productInventory == null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_FOUND);
+			return returnMessage(Response.Status.NOT_MODIFIED, SystemMessages.PRODUCT_STORE_NOT_FOUND);
 		}
 		productInventory.setAmount(productToUpdate.getAmount());
 		productInventory.setPrice(productToUpdate.getPrice());
@@ -123,7 +123,7 @@ public class StoreService {
 	public Response deleteStore(Integer document) {
 		Store storeExisting = storeDao.findById(document);
 		if (storeExisting == null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_FOUND);
+			return returnMessage(Response.Status.NOT_MODIFIED, SystemMessages.STORE_NOT_FOUND);
 		}
 		List<Inventory> storeInventory = inventoryDao.findByDocument(document);
 		if (!storeInventory.isEmpty()) {
@@ -136,7 +136,7 @@ public class StoreService {
 	public Response deleteProduct(Integer storeDocument, Integer productSerial) {
 		Inventory productInventory = inventoryDao.findStoreProduct(storeDocument, productSerial);
 		if (productInventory == null) {
-			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_NOT_FOUND);
+			return returnMessage(Response.Status.NOT_MODIFIED, SystemMessages.PRODUCT_STORE_NOT_FOUND);
 		}
 		inventoryDao.delete(productInventory.getId());
 		return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_DELETED);
