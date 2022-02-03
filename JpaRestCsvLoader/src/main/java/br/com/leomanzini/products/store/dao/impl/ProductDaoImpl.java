@@ -26,11 +26,15 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 
 	@Override
 	@Transactional
-	public Product findById(Integer id) {
-		TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_ID.getQuery(),
-				Product.class);
-		findProductsById.setParameter("productId", id);
-		return findProductsById.getSingleResult();
+	public Product findById(Integer productSerial) {
+		try {
+			TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_DOCUMENT.getQuery(),
+					Product.class);
+			findProductsById.setParameter("productSerial", productSerial);
+			return findProductsById.getSingleResult();			
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -83,17 +87,6 @@ public class ProductDaoImpl extends JpaDaoImplementationClass<Product> {
 		} else {
 			super.getEntityManager().getTransaction().commit();
 			return false;
-		}
-	}
-
-	public Product findBySerial(Integer productSerial) {
-		try {
-			TypedQuery<Product> findProductsById = super.getEntityManager().createQuery(Queries.PRODUCT_FIND_BY_DOCUMENT.getQuery(),
-					Product.class);
-			findProductsById.setParameter("serial", productSerial);
-			return findProductsById.getSingleResult();			
-		} catch(Exception e) {
-			return null;
 		}
 	}
 }

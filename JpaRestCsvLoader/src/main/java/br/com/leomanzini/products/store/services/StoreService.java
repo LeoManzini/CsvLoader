@@ -86,7 +86,7 @@ public class StoreService {
 		if (inventoryUpdatable != null) {
 			return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_STORE_FOUND);
 		} else {
-			Product productAtDatabase = productDao.findBySerial(productToInsert.getProductSerial());
+			Product productAtDatabase = productDao.findById(productToInsert.getProductSerial());
 			if (productAtDatabase != null) {				
 				Inventory inventoryToInsert = instanciateInventory(storeUpdatable, productToInsert);
 				if (inventoryDao.insert(inventoryToInsert)) {

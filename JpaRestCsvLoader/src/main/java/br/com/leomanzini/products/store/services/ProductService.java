@@ -25,7 +25,7 @@ public class ProductService {
 	}
 	
 	public Response insertNewProductToDatabase(ProductDto productToInsert) {
-		Product productAtDatabase = productDao.findBySerial(productToInsert.getProductSerial());
+		Product productAtDatabase = productDao.findById(productToInsert.getProductSerial());
 		if (productAtDatabase == null) {
 			if (productDao.insert(new Product(productToInsert))) {
 				return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_INSERTED);
