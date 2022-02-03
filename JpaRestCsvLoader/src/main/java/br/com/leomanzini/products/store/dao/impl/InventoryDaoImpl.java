@@ -17,6 +17,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
+	@Transactional
 	public List<Inventory> findAll() {
 		TypedQuery<Inventory> findAllInventories = super.getEntityManager()
 				.createQuery(Queries.INVENTORY_FIND_ALL.getQuery(), Inventory.class);
@@ -24,14 +25,16 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
+	@Transactional
 	public Inventory findById(Integer id) {
 		TypedQuery<Inventory> findInventoriesById = super.getEntityManager()
 				.createQuery(Queries.INVENTORY_FIND_BY_ID.getQuery(), Inventory.class);
-		findInventoriesById.setParameter("productId", id);
+		findInventoriesById.setParameter("inventoryId", id);
 		return findInventoriesById.getSingleResult();
 	}
 
 	@Override
+	@Transactional
 	public boolean insert(Inventory insertObject) {
 		Query insertInventory = super.getEntityManager().createNativeQuery(Queries.INVENTORY_INSERT.getQuery());
 
@@ -51,6 +54,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
+	@Transactional
 	public boolean update(Inventory updatableObject) {
 		Query updateInventory = super.getEntityManager().createNativeQuery(Queries.INVENTORY_UPDATE.getQuery());
 
@@ -69,6 +73,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 	}
 
 	@Override
+	@Transactional
 	public boolean delete(Integer id) {
 		Query deleteInventory = super.getEntityManager().createQuery(Queries.INVENTORY_DELETE.getQuery());
 
@@ -84,6 +89,7 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		}
 	}
 
+	@Transactional
 	public List<Inventory> findByDocument(Integer storeDocument) {
 		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
 				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);

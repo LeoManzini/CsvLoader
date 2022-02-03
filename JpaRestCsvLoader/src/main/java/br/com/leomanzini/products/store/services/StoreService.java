@@ -71,7 +71,7 @@ public class StoreService {
 		Store storeExists = storeDao.findById(storeToInsert.getStoreDocument());
 		if (storeExists == null) {
 			if (storeDao.insert(new Store(storeToInsert))) {
-				return returnMessage(Response.Status.OK, SystemMessages.STORE_INSERTED);
+				return returnMessage(Response.Status.CREATED, SystemMessages.STORE_INSERTED);
 			}
 		}
 		return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.STORE_NOT_PERSISTED);
@@ -90,7 +90,7 @@ public class StoreService {
 			if (productAtDatabase != null) {				
 				Inventory inventoryToInsert = instanciateInventory(storeUpdatable, productToInsert);
 				if (inventoryDao.insert(inventoryToInsert)) {
-					return returnMessage(Response.Status.OK, SystemMessages.PRODUCT_STORE_INSERTED);
+					return returnMessage(Response.Status.CREATED, SystemMessages.PRODUCT_STORE_INSERTED);
 				}
 			} else {
 				return returnMessage(Response.Status.BAD_REQUEST, SystemMessages.PRODUCT_NOT_FOUND);
