@@ -1,7 +1,10 @@
 package br.com.leomanzini.products.store.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.NaturalId;
 
 import br.com.leomanzini.products.store.dto.StoreDto;
 import jakarta.persistence.Column;
@@ -23,8 +26,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "stores")
+@SuppressWarnings("serial")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Store {
+public class Store implements Serializable {
 
 	@Id
 	@EqualsAndHashCode.Include
@@ -34,7 +38,7 @@ public class Store {
 	@Column(name = "nome")
 	private String name;
 
-	@Column(unique = true, nullable = false)
+	@NaturalId
 	private Integer document;
 
 	@Builder.Default

@@ -2,6 +2,7 @@ package br.com.leomanzini.products.store.entities;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,12 +29,12 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "serial", referencedColumnName = "serial")
 	private Product product;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "store_document")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "store_document", referencedColumnName = "document")
 	private Store store;
 	
 	private Integer amount;

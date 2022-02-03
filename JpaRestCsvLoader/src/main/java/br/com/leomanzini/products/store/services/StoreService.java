@@ -10,6 +10,7 @@ import br.com.leomanzini.products.store.dao.DaoFactory;
 import br.com.leomanzini.products.store.dao.impl.InventoryDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.ProductDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
+import br.com.leomanzini.products.store.dto.InventoryDto;
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.ResponseObjectDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
@@ -36,15 +37,15 @@ public class StoreService {
 	}
 
 	public Response getStoreProducts(Integer storeDocument) {
-		List<Inventory> storeInventory = inventoryDao.findByDocument(storeDocument);
+		List<InventoryDto> storeInventory = inventoryDao.findByDocument(storeDocument);
 
 		if (storeInventory.isEmpty()) {
 			return returnMessage(Response.Status.NOT_FOUND, SystemMessages.STORE_NOT_FOUND);
 		} else {
 			StoreDto storeResponse = null;
-			for (Inventory inventory : storeInventory) {
-				storeResponse = (storeResponse == null) ? new StoreDto(inventory.getStore()) : storeResponse;
-				ProductDto product = new ProductDto(inventory);
+			for (InventoryDto inventory : storeInventory) {
+				storeResponse = (storeResponse == null) ? instanciateStoreDto(inventory) : storeResponse;
+				ProductDto product = instanciateProductDto(inventory);
 				storeResponse.getProducts().add(product);
 			}
 			return Response.ok(storeResponse).build();
@@ -143,5 +144,13 @@ public class StoreService {
 		return Inventory.builder().product(Product.builder().name(productToInsert.getProductName())
 						.serial(productToInsert.getProductSerial()).build())
 				.store(storeUpdatable).amount(productToInsert.getAmount()).price(productToInsert.getPrice()).build();
+	}
+	
+	private StoreDto instanciateStoreDto(InventoryDto inventory) {
+		return StoreDto.builder().build();
+	}
+	
+	private ProductDto instanciateProductDto(InventoryDto inventory) {
+		return ProductDto.builder().build();
 	}
 }

@@ -1,5 +1,6 @@
 package br.com.leomanzini.products.store.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@SuppressWarnings("serial")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Product {
+public class Product implements Serializable {
 
 	@Id
 	@EqualsAndHashCode.Include
@@ -34,7 +36,7 @@ public class Product {
 	@Column(name = "nome")
 	private String name;
 	
-	@Column(name = "serial", unique = true, nullable = false)
+	@Column(nullable = false, unique = true)
 	private Integer serial;
 	
 	@Builder.Default

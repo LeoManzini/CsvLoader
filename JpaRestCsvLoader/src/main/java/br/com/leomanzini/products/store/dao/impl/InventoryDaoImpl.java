@@ -3,6 +3,7 @@ package br.com.leomanzini.products.store.dao.impl;
 import java.util.List;
 
 import br.com.leomanzini.products.store.dao.JpaDaoImplementationClass;
+import br.com.leomanzini.products.store.dto.InventoryDto;
 import br.com.leomanzini.products.store.entities.Inventory;
 import br.com.leomanzini.products.store.utils.Queries;
 import jakarta.persistence.EntityManager;
@@ -84,9 +85,9 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 		}
 	}
 
-	public List<Inventory> findByDocument(Integer storeDocument) {
-		TypedQuery<Inventory> inventoryQuery = super.getEntityManager()
-				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), Inventory.class);
+	public List<InventoryDto> findByDocument(Integer storeDocument) {
+		TypedQuery<InventoryDto> inventoryQuery = super.getEntityManager()
+				.createQuery(Queries.INVENTORY_FIND_BY_DOCUMENT.getQuery(), InventoryDto.class);
 		inventoryQuery.setParameter("storeDocument", storeDocument);
 		return inventoryQuery.getResultList();
 	}
