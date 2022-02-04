@@ -1,3 +1,1 @@
 Fazer upload de listas a partir do controller com método POST;
-
-Ler arquivos e escrever também;
