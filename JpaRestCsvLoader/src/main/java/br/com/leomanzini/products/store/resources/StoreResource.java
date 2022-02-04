@@ -2,6 +2,7 @@ package br.com.leomanzini.products.store.resources;
 
 import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
+import br.com.leomanzini.products.store.exceptions.CsvReaderException;
 import br.com.leomanzini.products.store.services.StoreService;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,7 +23,7 @@ public class StoreResource {
 	@GET
 	@Path("{document}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getStoreProducts(@PathParam("document") Integer document) {
+	public Response getStoreProducts(@PathParam("document") Integer document) throws CsvReaderException {
 		return service.getStoreProducts(document);
 	}
 

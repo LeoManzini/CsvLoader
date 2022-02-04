@@ -6,6 +6,7 @@ import br.com.leomanzini.products.store.entities.Inventory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductDto {
 
+	@EqualsAndHashCode.Include
 	private Integer productSerial;
 	private String productName;
 	private Integer amount;
