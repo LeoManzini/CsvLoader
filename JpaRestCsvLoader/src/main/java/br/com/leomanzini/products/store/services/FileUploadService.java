@@ -63,6 +63,7 @@ public class FileUploadService {
 						e.printStackTrace();
 					}
 				});
+				return true;
 			} else {
 				log.info("Registering new store " + storeToPersist.getStoreName());
 				storeDao.insert(instanciateStore(storeToPersist));
@@ -79,8 +80,8 @@ public class FileUploadService {
 						e.printStackTrace();
 					}
 				});
+				return true;
 			}
-			return true;
 		} catch (CsvReaderException e) {
 			e.printStackTrace();
 			return false;
