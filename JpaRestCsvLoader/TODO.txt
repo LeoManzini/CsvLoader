@@ -1,1 +1,1 @@
-Fazer upload de listas a partir do controller com método POST;
+Fazer integração da lista feita upload com o banco, mudando os métodos das DAO
