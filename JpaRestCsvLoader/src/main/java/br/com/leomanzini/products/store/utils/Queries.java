@@ -20,6 +20,7 @@ public enum Queries {
 	INVENTORY_FIND_BY_ID("select ivn from Inventory ivn where ivn.id = :inventoryId"),
 	INVENTORY_INSERT("insert into inventory (amount, price, serial, store_document) values (:amount, :price, :serial, :storeDocument)"),
 	INVENTORY_UPDATE("update inventory set amount = :amount, price = :price where id = :id"),
+	INVENTORY_UPDATE_SERIAL("update inventory set amount = :amount, price = :price where store_document = :storeDocument and serial = :serial"),
 	INVENTORY_DELETE("delete from Inventory ivn where ivn.id = :id");
 	
 	private String query;

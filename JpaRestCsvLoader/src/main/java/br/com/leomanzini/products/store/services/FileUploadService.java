@@ -10,11 +10,13 @@ import br.com.leomanzini.products.store.dao.DaoFactory;
 import br.com.leomanzini.products.store.dao.impl.InventoryDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.ProductDaoImpl;
 import br.com.leomanzini.products.store.dao.impl.StoreDaoImpl;
+import br.com.leomanzini.products.store.dto.ProductDto;
 import br.com.leomanzini.products.store.dto.StoreDto;
 import br.com.leomanzini.products.store.entities.Inventory;
+import br.com.leomanzini.products.store.entities.Product;
+import br.com.leomanzini.products.store.entities.Store;
 import br.com.leomanzini.products.store.exceptions.CsvReaderException;
 
-@SuppressWarnings("unused")
 public class FileUploadService {
 
 	private static FileUploadService fileUploadServiceImplementation;
@@ -36,25 +38,66 @@ public class FileUploadService {
 			CsvReader reader = new CsvReader();
 			StoreDto storeToPersist = reader.readCsv(inputStream);
 
-			if (storeDao.findById(storeToPersist.getStoreDocument()) != null) {
+			if (storeDao.findStore(storeToPersist.getStoreDocument())) {
 				log.info("Store found at database, checking the products list for " + storeToPersist.getStoreName());
 				storeToPersist.getProducts().forEach(product -> {
 					try {
-						if (inventoryDao.findStoreProduct(storeToPersist.getStoreDocument(), product.getProductSerial()) != null) {
-							log.info("Product " + product.getProductName() + " found at this store, increasing inventory");
-							inventoryDao.update(Inventory.builder().build());
+						if (inventoryDao.findStoreProduct(storeToPersist.getStoreDocument(),
+								product.getProductSerial()) != null) {
+							log.info("Product " + product.getProductName()
+									+ " found at this store, increasing inventory");
+							inventoryDao.updateProduct(instanciateInventory(product, storeToPersist));
 							log.info("Inventory increased");
+						} else {
+							log.info("Product not found at this store, registering new product "
+									+ product.getProductName());
+							if (productDao.findById(product.getProductSerial()) != null) {
+								inventoryDao.insert(instanciateInventory(product, storeToPersist));
+							} else {
+								productDao.insert(instanciateProduct(product));
+								inventoryDao.insert(instanciateInventory(product, storeToPersist));
+							}
+							log.info("Product registered successfully");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+			} else {
+				log.info("Registering new store " + storeToPersist.getStoreName());
+				storeDao.insert(instanciateStore(storeToPersist));
+				storeToPersist.getProducts().forEach(product -> {
+					try {
+						log.info("Registering new product " + product.getProductName() + " for the store inventory");
+						if (productDao.findById(product.getProductSerial()) != null) {
+							inventoryDao.insert(instanciateInventory(product, storeToPersist));
+						} else {
+							productDao.insert(instanciateProduct(product));
+							inventoryDao.insert(instanciateInventory(product, storeToPersist));
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				});
 			}
-
 			return true;
 		} catch (CsvReaderException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private Store instanciateStore(StoreDto storeToInsert) {
+		return Store.builder().document(storeToInsert.getStoreDocument()).name(storeToInsert.getStoreName()).build();
+	}
+
+	private Inventory instanciateInventory(ProductDto product, StoreDto storeToPersist) {
+		return Inventory.builder().amount(product.getAmount()).price(product.getPrice())
+				.product(Product.builder().serial(product.getProductSerial()).build())
+				.store(Store.builder().document(storeToPersist.getStoreDocument()).build()).build();
+	}
+
+	private Product instanciateProduct(ProductDto product) {
+		return Product.builder().name(product.getProductName()).serial(product.getProductSerial()).build();
 	}
 }

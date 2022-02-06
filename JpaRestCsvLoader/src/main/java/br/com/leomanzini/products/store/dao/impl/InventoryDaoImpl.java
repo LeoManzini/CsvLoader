@@ -110,4 +110,23 @@ public class InventoryDaoImpl extends JpaDaoImplementationClass<Inventory> {
 			return null;
 		}
 	}
+	
+	@Transactional
+	public boolean updateProduct(Inventory updatableObject) {
+		Query updateInventory = super.getEntityManager().createNativeQuery(Queries.INVENTORY_UPDATE_SERIAL.getQuery());
+
+		super.getEntityManager().getTransaction().begin();
+
+		updateInventory.setParameter("amount", updatableObject.getAmount());
+		updateInventory.setParameter("price", updatableObject.getPrice());
+		updateInventory.setParameter("storeDocument", updatableObject.getStore().getDocument());
+		updateInventory.setParameter("serial", updatableObject.getProduct().getSerial());
+
+		if (updateInventory.executeUpdate() != 1) {
+			return false;
+		} else {
+			super.getEntityManager().getTransaction().commit();
+			return true;
+		}
+	}
 }

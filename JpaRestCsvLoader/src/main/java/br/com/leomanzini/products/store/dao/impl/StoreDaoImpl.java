@@ -11,7 +11,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
-	
+
 	public StoreDaoImpl(EntityManager entityManager) {
 		super(entityManager);
 	}
@@ -87,6 +87,19 @@ public class StoreDaoImpl extends JpaDaoImplementationClass<Store> {
 		} else {
 			super.getEntityManager().getTransaction().commit();
 			return true;
+		}
+	}
+
+	@Transactional
+	public boolean findStore(Integer document) {
+		try {
+			TypedQuery<Store> findStoreByDocument = super.getEntityManager()
+					.createQuery(Queries.STORE_FIND_BY_DOCUMENT.getQuery(), Store.class);
+			findStoreByDocument.setParameter("storeDocument", document);
+			findStoreByDocument.getSingleResult();
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }
