@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/product")
 public class ProductResource {
 	
-	ProductService service = new ProductService();
+	private final ProductService service = new ProductService();
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

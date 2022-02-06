@@ -19,7 +19,8 @@ public enum SystemMessages {
 	PRODUCT_UPDATED("Product updated"), 
 	CSV_READER_ERROR("Error while reading csv"), 
 	FILE_UPLOAD_SUCCESS("File uploaded successfully"), 
-	FILE_UPLOAD_ERROR("Error trying to upload file");
+	FILE_UPLOAD_ERROR("Error trying to upload file"), 
+	DATABASE_ROUTINE_ERROR("Error executing database update routine for the store");
 	
 	private String message;
 	

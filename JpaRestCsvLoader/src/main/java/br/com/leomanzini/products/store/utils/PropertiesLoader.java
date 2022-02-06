@@ -12,7 +12,7 @@ import jakarta.persistence.Persistence;
 
 public abstract class PropertiesLoader {
 
-	private static final Logger LOG = LogManager.getLogger(PropertiesLoader.class);
+	private static final Logger log = LogManager.getLogger(PropertiesLoader.class);
 	
 	private static final String DATABASE_DRIVER = "javax.persistence.jdbc.driver";
 	private static final String DATABASE_URL = "javax.persistence.jdbc.url";
@@ -57,7 +57,7 @@ public abstract class PropertiesLoader {
 			hibernateFormatSql = props.getProperty(HIBERNATE_FORMAT_SQL);
 			
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 	}
 	
@@ -73,7 +73,7 @@ public abstract class PropertiesLoader {
 			
 			return Persistence.createEntityManagerFactory("development", props);
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			
 			// Substituir por throw new PropertiesLoaderException(Exception.CREATE_ENTITY_MANAGER);
 			return null;
