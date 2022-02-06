@@ -3,7 +3,10 @@ package br.com.leomanzini.products.store.csv;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,37 @@ public class CsvReader {
 	private static final Logger log = LogManager.getLogger(CsvReader.class);
 	
 	private StoreDto storeItens = null;
+	
+	public StoreDto readCsv(InputStream inputFile) throws CsvReaderException {
+		String row;
+
+		try (BufferedReader csvReader = new BufferedReader(new InputStreamReader(inputFile, StandardCharsets.UTF_8))) {
+
+			log.info("Reading csv file");
+
+			while ((row = csvReader.readLine()) != null) {
+
+				String[] data = row.split(",");
+
+				if (data[0].equals("STORE_NAME")) {
+					continue;
+				}
+
+				instanciateStore(data);
+				ProductDto product = instanciateProduct(data);
+
+				verifyProductsAndInsert(storeItens.getProducts(), product);
+			}
+
+			log.info("Csv read successfully");
+
+			return storeItens;
+
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+			throw new CsvReaderException(SystemMessages.CSV_READER_ERROR);
+		}
+	}
 
 	public StoreDto readCsv(String csvPath) throws CsvReaderException {
 		String row;
