@@ -17,7 +17,9 @@ public enum SystemMessages {
 	PRODUCT_NOT_INSERTED("Product not inserted at database"), 
 	PRODUCT_DELETED("Product deleted from store"),
 	PRODUCT_UPDATED("Product updated"), 
-	CSV_READER_ERROR("Error while reading csv");
+	CSV_READER_ERROR("Error while reading csv"), 
+	FILE_UPLOAD_SUCCESS("File uploaded successfully"), 
+	FILE_UPLOAD_ERROR("Error trying to upload file");
 	
 	private String message;
 	
