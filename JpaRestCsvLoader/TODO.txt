@@ -1,1 +1,0 @@
-Fazer integração da lista feita upload com o banco, mudando os métodos das DAO
