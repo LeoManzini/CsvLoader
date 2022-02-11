@@ -7,8 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +41,7 @@ public class CsvReader {
 				instanciateStore(data);
 				ProductDto product = instanciateProduct(data);
 
-				verifyProductsAndInsert(storeItens.getProducts(), product);
+				storeItens.getProducts().add(product);
 			}
 
 			log.info("Csv read successfully");
@@ -73,7 +72,7 @@ public class CsvReader {
 				instanciateStore(data);
 				ProductDto product = instanciateProduct(data);
 
-				verifyProductsAndInsert(storeItens.getProducts(), product);
+				storeItens.getProducts().add(product);
 			}
 
 			log.info("Csv read successfully");
@@ -89,18 +88,12 @@ public class CsvReader {
 	private void instanciateStore(String[] data) {
 		if (storeItens == null) {
 			storeItens = StoreDto.builder().storeName(data[0]).storeDocument(Integer.parseInt(data[1]))
-					.products(new ArrayList<>()).build();
+					.products(new HashSet<>()).build();
 		}
 	}
 
 	private ProductDto instanciateProduct(String[] data) {
 		return ProductDto.builder().productSerial(Integer.parseInt(data[2])).productName(data[3])
 				.amount(Integer.parseInt(data[5])).price(new BigDecimal(data[4])).build();
-	}
-
-	private void verifyProductsAndInsert(List<ProductDto> products, ProductDto product) {
-		if (!products.contains(product)) {
-			products.add(product);
-		}
 	}
 }
