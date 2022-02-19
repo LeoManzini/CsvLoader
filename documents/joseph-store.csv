@@ -1,13 +1,13 @@
 STORE_NAME,STORE_DOCUMENT,PRODUCT_SERIAL,PRODUCT_NAME,PRODUCT_PRICE,INVENTORY_AMOUNT
-Joseph,00000002,1101,Wristwatch,90.00,20
-Joseph,00000002,1102,Smarth Watch,150.00,8
-Joseph,00000002,1001,Smarth TV,1200.00,50
-Joseph,00000002,0901,Samsung notebook,3500.00,12
-Joseph,00000002,0902,Dell notebook,3200.00,17
-Joseph,00000002,0101,Bluetooth Speaker,500.00,10
-Joseph,00000002,0102,Bluetooth Headphones,80.00,90
-Joseph,00000002,0201,Xiaomi smartphone,1000.00,70
-Joseph,00000002,0202,Apple smartphone,13000.00,30
-Joseph,00000002,0203,Samsung smartphone,8000.00,2
-Joseph,00000002,1201,144hz monitor,1100.00,15
-Joseph,00000002,1301,Game Computer,5000.00,14
+Joseph,00000002,11011,Wristwatch,90.00,20
+Joseph,00000002,11021,Smarth Watch,150.00,8
+Joseph,00000002,10011,Smarth TV,1200.00,50
+Joseph,00000002,09011,Samsung notebook,3500.00,12
+Joseph,00000002,09021,Dell notebook,3200.00,17
+Joseph,00000002,01011,Bluetooth Speaker,500.00,10
+Joseph,00000002,01021,Bluetooth Headphones,80.00,90
+Joseph,00000002,02011,Xiaomi smartphone,1000.00,70
+Joseph,00000002,02021,Apple smartphone,13000.00,30
+Joseph,00000002,02031,Samsung smartphone,8000.00,2
+Joseph,00000002,12011,144hz monitor,1100.00,15
+Joseph,00000002,13011,Game Computer,5000.00,14

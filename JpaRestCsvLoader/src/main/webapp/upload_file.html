@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		input[name="file"] {
+			width: 50%;
+		    height: 50%;
+		    margin: auto;
+		    top: 0; left: 0; bottom: 0; right: 0;
+		}
+	</style>
+	<meta charset="UTF-8">
+	<title>Store Manager Csv Upload</title>
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		crossorigin="anonymous">
+</head>
+<body class="p-3 mb-2 bg-light text-dark">
+	<form action="upload_file" method="post" enctype="multipart/form-data"> 
+		<div class="form-group" align="center">
+			<h2>Rest API to manage store database</h2>
+			<label for="exampleFormControlFile1">Enter csv to manage the products in your stock</label>
+			<br><br> 
+			<input type="file" class="form-control-file" id="exampleFormControlFile1" name="file" required>
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+</body>
+</html>
